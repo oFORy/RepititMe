@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  repititme.api:
+    image: ${DOCKER_REGISTRY-}repititmeapi
+    build:
+      context: .
+      dockerfile: RepititMe.Api/Dockerfile
+    environment:
+        - DB_CS=host=localhost;port=5627;database=RepititMe;username=postgres;password=98GerodoT98;
+    ports:
+      - "23400:80"
+      - "23401:443"
+    networks:
+      - test-network
+
+
+networks:
+  test-network:
+    external: true
