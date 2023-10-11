@@ -8,7 +8,8 @@ namespace RepititMe.Infrastructure
         public BotDbContext(DbContextOptions<BotDbContext> options)
             : base(options)
         {
-
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
