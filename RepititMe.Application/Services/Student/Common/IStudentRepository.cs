@@ -1,4 +1,5 @@
-﻿using RepititMe.Domain.Object;
+﻿using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace RepititMe.Application.Services.Student.Common
     {
         Task<SignInStudentObject> SignInStudent(int telegramId);
         Task<bool> ChangeProfile(int telegramId, string image = null, string name = null);
+        Task<List<Teacher>> ShowTeachers(int lastNumber);
     }
 }

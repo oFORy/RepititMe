@@ -10,8 +10,8 @@ namespace RepititMe.Domain.Object
     public class SignInStudentObject
     {
         public string Name { get; set; }
-        public string Image { get; set; }
-        public List<string> UsefulLinks { get; set; }
-        public List<Teacher> Teachers { get; set; }
+        public string? Image { get; set; }
+        public List<string>? UsefulLinks { get; set; }
+        public List<Teacher>? Teachers { get; set; }
     }
 }
