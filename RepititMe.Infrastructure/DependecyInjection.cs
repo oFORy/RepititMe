@@ -23,7 +23,7 @@ namespace RepititMe.Infrastructure
 
 
             services
-                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CS"),
                 b => b.MigrationsAssembly("RepititMe.Api")));
 
             return services;

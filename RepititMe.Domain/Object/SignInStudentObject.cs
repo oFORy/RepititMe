@@ -1,17 +1,17 @@
-﻿using System;
+﻿using RepititMe.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Entities
+namespace RepititMe.Domain.Object
 {
-    public class Student
+    public class SignInStudentObject
     {
-        public int Id { get; set; }
-        public int TelegramId { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public List<string> UsefulLinks { get; set; }
+        public List<Teacher> Teachers { get; set; }
     }
 }

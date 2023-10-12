@@ -9,6 +9,6 @@ namespace RepititMe.Domain.Entities
     public class LessonTarget
     {
         public int Id { get; set; }
-        public string Target { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Entities
 {
-    public class Student
+    public class TeacherStatus
     {
         public int Id { get; set; }
-        public int TelegramId { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
-        public List<string> UsefulLinks { get; set; }
     }
 }
