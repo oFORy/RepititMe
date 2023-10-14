@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Common.ObjectRepository;
 using RepititMe.Application.Services.Student.Common;
 using RepititMe.Infrastructure.Persistence;
 using System;
@@ -17,7 +18,7 @@ namespace RepititMe.Infrastructure
         {
             services
                 .AddScoped<IStudentRepository, StudentRepository>()
-                //.AddScoped<IUnitTestsRepository, UnitTestsRepository>()
+                .AddScoped<IUserAccessRepository, UserAccessRepository>()
                 ;
 
 

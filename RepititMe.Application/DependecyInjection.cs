@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Common.ObjectRepository;
 using RepititMe.Application.Services.Student.Queries;
 
 namespace RepititMe.Application
@@ -15,7 +16,7 @@ namespace RepititMe.Application
         {
             services
                 .AddScoped<IStudentQueryService, StudentQueryService>()
-                //.AddScoped<IUserCommandService, UserCommandService>()
+                .AddScoped<IUserAccessQuery, UserAccessQuery>()
                 //.AddScoped<IUnitTestsCommandService, UnitTestsCommandService>()
                 //.AddScoped<IUnitTestsQueryService, UnitTestsQueryService>()
                 ;
