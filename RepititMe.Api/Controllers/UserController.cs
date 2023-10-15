@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using RepititMe.Application.Common.ObjectRepository;
 using RepititMe.Application.Services.Student.Commands;
 using RepititMe.Application.Services.Student.Queries;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 namespace RepititMe.Api.Controllers
 {
     [ApiController]
+    [EnableCors("enablecorspolicy")]
     public class UserController : Controller
     {
         private readonly IUserAccessQuery _userAccessQuery;
