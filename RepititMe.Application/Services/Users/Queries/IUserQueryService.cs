@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Application.Common.ObjectRepository
+namespace RepititMe.Application.Services.Users.Queries
 {
-    public interface IUserAccessQuery
+    public interface IUserQueryService
     {
         Task<int> UserAccessId(int telegramId);
     }

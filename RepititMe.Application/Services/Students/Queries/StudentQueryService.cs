@@ -1,5 +1,5 @@
-﻿using RepititMe.Application.Services.Student.Common;
-using RepititMe.Domain.Entities;
+﻿using RepititMe.Application.Services.Students.Common;
+using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Object;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Application.Services.Student.Queries
+namespace RepititMe.Application.Services.Students.Queries
 {
     public class StudentQueryService : IStudentQueryService
     {

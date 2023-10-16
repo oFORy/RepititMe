@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepititMe.Domain.Entities.Data;
 
-namespace RepititMe.Domain.Entities
+namespace RepititMe.Domain.Entities.Users
 {
     public class Teacher
     {
         public int Id { get; set; }
-        public int TelegramId { get; set; }
-        public string Name { get; set; }
-        public string? SecondName { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public string? Image { get; set; }
         public int StatusId { get; set; }
         public TeacherStatus Status { get; set; }
@@ -26,9 +26,9 @@ namespace RepititMe.Domain.Entities
         public int Price { get; set; }
         public string? VideoPresentation { get; set; }
         public string? Certificates { get; set; }
-        public List<string> UsefulLinks { get; set; }
         public bool Visibility { get; set; }
-
-
+        public bool Block { get; set; }
+        public double Rating { get; set; }
+        public double PaymentRating { get; set; }
     }
 }

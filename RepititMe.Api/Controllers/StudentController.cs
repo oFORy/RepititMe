@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RepititMe.Application.Services.Student.Commands;
-using RepititMe.Application.Services.Student.Queries;
+using RepititMe.Application.Services.Students.Commands;
+using RepititMe.Application.Services.Students.Queries;
+using RepititMe.Domain.Object;
 using System.ComponentModel;
 
 namespace RepititMe.Api.Controllers
@@ -17,5 +18,11 @@ namespace RepititMe.Api.Controllers
             _studentQueryService = studentQueryService;
         }
 
+
+        [HttpGet("Api/Student/SignIn")]
+        public async Task<SignInStudentObject> SignInStudent(int telegramId)
+        {
+            return await _studentQueryService.SignInStudent(telegramId);
+        }
     }
 }

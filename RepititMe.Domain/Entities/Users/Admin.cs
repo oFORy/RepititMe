@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Entities
+namespace RepititMe.Domain.Entities.Users
 {
-    public class Science
+    public class Admin
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int TelegramId { get; set;}
     }
 }

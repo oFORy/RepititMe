@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Entities
+namespace RepititMe.Domain.Entities.Weights
 {
     public class Order
     {

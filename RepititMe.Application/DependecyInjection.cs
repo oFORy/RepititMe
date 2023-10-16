@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using RepititMe.Application.Common.ObjectRepository;
-using RepititMe.Application.Services.Student.Queries;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Services.Students.Commands;
+using RepititMe.Application.Services.Students.Queries;
+using RepititMe.Application.Services.Users.Commands;
+using RepititMe.Application.Services.Users.Queries;
 
 namespace RepititMe.Application
 {
@@ -16,9 +12,9 @@ namespace RepititMe.Application
         {
             services
                 .AddScoped<IStudentQueryService, StudentQueryService>()
-                .AddScoped<IUserAccessQuery, UserAccessQuery>()
-                //.AddScoped<IUnitTestsCommandService, UnitTestsCommandService>()
-                //.AddScoped<IUnitTestsQueryService, UnitTestsQueryService>()
+                .AddScoped<IUserQueryService, UserQueryService>()
+                .AddScoped<IStudentCommandService, StudentCommandService>()
+                .AddScoped<IUserCommandService, UserCommandService>()
                 ;
             return services;
         }

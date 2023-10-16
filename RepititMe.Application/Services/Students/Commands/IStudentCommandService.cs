@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Application.Services.Student.Commands
+namespace RepititMe.Application.Services.Students.Commands
 {
     public interface IStudentCommandService
     {
