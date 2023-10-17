@@ -22,7 +22,7 @@ namespace RepititMe.Application.Services.Students.Queries
              return await _studentRepository.SearchCategories();
         }
 
-        public async Task<List<Teacher>> ShowTeachers(List<int> lastTeachers)
+        public async Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers)
         {
             return await _studentRepository.ShowTeachers(lastTeachers);
         }

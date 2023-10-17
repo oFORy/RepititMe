@@ -13,9 +13,8 @@ namespace RepititMe.Application.Services.Students.Common
         Task<SignInStudentObject> SignInStudent(int telegramId);
         Task<bool> ChangeProfile(int telegramId, string name);
         Task<bool> SignOutStudent(int telegramId);
-        Task<List<Teacher>> ShowTeachers(List<int> lastTeachers);
+        Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers);
         Task<SearchCategoriesObject> SearchCategories();
-
-        Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject);
+        Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject);
     }
 }

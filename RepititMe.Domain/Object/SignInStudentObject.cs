@@ -13,6 +13,6 @@ namespace RepititMe.Domain.Object
     {
         public string Name { get; set; }
         public List<StudentUseFulUrl>? UsefulLinks { get; set; }
-        public List<Teacher>? Teachers { get; set; }
+        public List<BriefTeacher>? Teachers { get; set; }
     }
 }

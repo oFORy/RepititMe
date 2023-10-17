@@ -41,13 +41,13 @@ namespace RepititMe.Api.Controllers
 
 
         [HttpPost("Api/Student/ShowTeachers")]
-        public async Task<List<Teacher>> ShowTeachers([FromBody] List<int> lastTeachers)
+        public async Task<List<BriefTeacher>> ShowTeachers([FromBody] List<int> lastTeachers)
         {
             return await _studentQueryService.ShowTeachers(lastTeachers);
         }
 
         [HttpPost("Api/Student/ResultSearch")]
-        public async Task<List<Teacher>> ResultSearchCategories([FromBody] SearchCategoriesResultObject searchCategoriesResultObject)
+        public async Task<List<BriefTeacher>> ResultSearchCategories([FromBody] SearchCategoriesResultObject searchCategoriesResultObject)
         {
             return await _studentCommandService.ResultSearchCategories(searchCategoriesResultObject);
         }

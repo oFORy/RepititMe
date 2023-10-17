@@ -11,7 +11,7 @@ namespace RepititMe.Application.Services.Students.Queries
     public interface IStudentQueryService
     {
         Task<SignInStudentObject> SignInStudent(int telegramId);
-        Task<List<Teacher>> ShowTeachers(List<int> lastTeachers);
+        Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers);
         Task<SearchCategoriesObject> SearchCategories();
     }
 }

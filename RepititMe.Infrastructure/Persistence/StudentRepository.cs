@@ -34,7 +34,7 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
-        public async Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
+        public async Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {
             var topTeachers = await _botDbContext.Teachers
                 .Include(u => u.User)
@@ -53,10 +53,25 @@ namespace RepititMe.Infrastructure.Persistence
                 .OrderByDescending(e => e.Rating)
                 .ThenByDescending(e => e.PaymentRating)
                 .Take(5)
+                .Select(t => new BriefTeacher
+                {
+                    User = t.User,
+                    Image = t.Image,
+                    Status = t.Status,
+                    Science = t.Science,
+                    LessonTarget = t.LessonTarget,
+                    AgeСategory = t.AgeСategory,
+                    Experience = t.Experience,
+                    Description = t.Description,
+                    Price = t.Price,
+                    Rating = t.Rating
+                })
                 .ToListAsync();
 
             return topTeachers;
         }
+
+
 
 
         public async Task<SearchCategoriesObject> SearchCategories()
@@ -72,9 +87,9 @@ namespace RepititMe.Infrastructure.Persistence
             return result;
         }
 
-        public async Task<List<Teacher>> ShowTeachers(List<int> lastTeachers)
+        public async Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers)
         {
-            var topTeachers = _botDbContext.Teachers
+            var topTeachers = await _botDbContext.Teachers
                     .Include(u => u.User)
                     .Include(u => u.Status)
                     .Include(u => u.Science)
@@ -84,7 +99,20 @@ namespace RepititMe.Infrastructure.Persistence
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
                     .Take(5)
-                    .ToList();
+                    .Select(t => new BriefTeacher
+                    {
+                        User = t.User,
+                        Image = t.Image,
+                        Status = t.Status,
+                        Science = t.Science,
+                        LessonTarget = t.LessonTarget,
+                        AgeСategory = t.AgeСategory,
+                        Experience = t.Experience,
+                        Description = t.Description,
+                        Price = t.Price,
+                        Rating = t.Rating
+                    })
+                    .ToListAsync();
 
             return topTeachers;
         }
@@ -102,7 +130,7 @@ namespace RepititMe.Infrastructure.Persistence
             }
 
 
-            var topTeachers = _botDbContext.Teachers
+            var topTeachers = await _botDbContext.Teachers
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
@@ -112,7 +140,20 @@ namespace RepititMe.Infrastructure.Persistence
                 .OrderByDescending(e => e.PaymentRating)
                 .ThenByDescending(e => e.Rating)
                 .Take(5)
-                .ToList();
+                .Select(t => new BriefTeacher
+                {
+                    User = t.User,
+                    Image = t.Image,
+                    Status = t.Status,
+                    Science = t.Science,
+                    LessonTarget = t.LessonTarget,
+                    AgeСategory = t.AgeСategory,
+                    Experience = t.Experience,
+                    Description = t.Description,
+                    Price = t.Price,
+                    Rating = t.Rating
+                })
+                    .ToListAsync();
 
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 

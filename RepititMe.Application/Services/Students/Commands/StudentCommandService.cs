@@ -22,7 +22,7 @@ namespace RepititMe.Application.Services.Students.Commands
             return await _studentRepository.ChangeProfile(telegramId, name);
         }
 
-        public async Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
+        public async Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {
             return await _studentRepository.ResultSearchCategories(searchCategoriesResultObject);
         }
