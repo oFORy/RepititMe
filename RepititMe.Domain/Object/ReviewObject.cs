@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Entities
+namespace RepititMe.Domain.Object
 {
-    public class Review
+    public class ReviewObject
     {
-        public int Id { get; set; }
-        public int IdTeacher { get; set; }
-        public int IdStudent { get; set; }
+        public int TeacherId { get; set; }
+        public int StudentId { get; set; }
         public DateTime DateTime { get; set; }
         public string? Description { get; set; }
         public int Rating { get; set; }

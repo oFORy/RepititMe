@@ -1,4 +1,5 @@
-﻿using RepititMe.Domain.Entities.Users;
+﻿using RepititMe.Domain.Entities;
+using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Object;
 using System;
 using System.Collections.Generic;

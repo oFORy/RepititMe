@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Common\ObjectRepository\" />
+    <Folder Include="Services\Admins\" />
   </ItemGroup>
 
 </Project>

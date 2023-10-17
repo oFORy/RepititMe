@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RepititMe.Application.Services.Users.Common;
+using RepititMe.Domain.Entities;
 
 namespace RepititMe.Application.Services.Users.Queries
 {

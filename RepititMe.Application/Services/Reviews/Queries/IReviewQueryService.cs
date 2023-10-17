@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Application.Services.Users.Queries
+namespace RepititMe.Application.Services.Reviews.Queries
 {
-    public interface IUserQueryService
+    public interface IReviewQueryService
     {
-        Task<int> UserAccessId(int telegramId);
+        Task<List<Review>> TeacherReview(int teacherId);
     }
 }

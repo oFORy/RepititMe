@@ -4,6 +4,7 @@ using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
 using RepititMe.Application.Services.Users.Commands;
 using RepititMe.Application.Services.Users.Queries;
+using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Object;
 using System.ComponentModel;
@@ -28,7 +29,7 @@ namespace RepititMe.Api.Controllers
         {
             return await _userAccessQuery.UserAccessId(telegramId);
         }
-
+        
 
         [HttpPost("Api/User/SignUpStudent")]
         public async Task<ActionResult<bool>> UserSignUpStudent([FromBody] UserSignUpObject userSignUpObject)

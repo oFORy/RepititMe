@@ -13,5 +13,6 @@ namespace RepititMe.Application.Services.Students.Queries
         Task<SignInStudentObject> SignInStudent(int telegramId);
         Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers);
         Task<SearchCategoriesObject> SearchCategories();
+        Task<Teacher> FullTeacher(int userId);
     }
 }

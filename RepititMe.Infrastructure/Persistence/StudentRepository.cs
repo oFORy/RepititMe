@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace RepititMe.Infrastructure.Persistence
 {
@@ -33,6 +34,12 @@ namespace RepititMe.Infrastructure.Persistence
 
             return false;
         }
+
+        public async Task<Teacher> FullTeacher(int userId)
+        {
+            return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
 
         public async Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {
@@ -62,7 +69,7 @@ namespace RepititMe.Infrastructure.Persistence
                     LessonTarget = t.LessonTarget,
                     AgeСategory = t.AgeСategory,
                     Experience = t.Experience,
-                    Description = t.Description,
+                    AboutMe = t.AboutMe,
                     Price = t.Price,
                     Rating = t.Rating
                 })
@@ -108,7 +115,7 @@ namespace RepititMe.Infrastructure.Persistence
                         LessonTarget = t.LessonTarget,
                         AgeСategory = t.AgeСategory,
                         Experience = t.Experience,
-                        Description = t.Description,
+                        AboutMe = t.AboutMe,
                         Price = t.Price,
                         Rating = t.Rating
                     })
@@ -121,12 +128,12 @@ namespace RepititMe.Infrastructure.Persistence
         {
 
 
-            var activityUpdate = _botDbContext.Users.FirstOrDefault(u => u.TelegramId == telegramId);
+            var activityUpdate = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
             if (activityUpdate != null)
             {
                 activityUpdate.LastActivity = 1;
-                _botDbContext.SaveChanges();
+                _botDbContext.SaveChangesAsync();
             }
 
 
@@ -141,19 +148,19 @@ namespace RepititMe.Infrastructure.Persistence
                 .ThenByDescending(e => e.Rating)
                 .Take(5)
                 .Select(t => new BriefTeacher
-                {
-                    User = t.User,
-                    Image = t.Image,
-                    Status = t.Status,
-                    Science = t.Science,
-                    LessonTarget = t.LessonTarget,
-                    AgeСategory = t.AgeСategory,
-                    Experience = t.Experience,
-                    Description = t.Description,
-                    Price = t.Price,
-                    Rating = t.Rating
-                })
-                    .ToListAsync();
+                    {
+                        User = t.User,
+                        Image = t.Image,
+                        Status = t.Status,
+                        Science = t.Science,
+                        LessonTarget = t.LessonTarget,
+                        AgeСategory = t.AgeСategory,
+                        Experience = t.Experience,
+                        AboutMe = t.AboutMe,
+                        Price = t.Price,
+                        Rating = t.Rating
+                    })
+                .ToListAsync();
 
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 

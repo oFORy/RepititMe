@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Users.Common;
+using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Object;
