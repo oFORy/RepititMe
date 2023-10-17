@@ -27,7 +27,7 @@ namespace RepititMe.Api.Controllers
         }
 
 
-        [HttpGet("Api/Reviews/NewReview")]
+        [HttpPost("Api/Reviews/NewReview")]
         public async Task<bool> NewReview([FromBody] ReviewObject reviewObject)
         {
             return await _reviewCommandService.NewReview(reviewObject);
