@@ -33,6 +33,12 @@ namespace RepititMe.Api.Controllers
             return await _studentCommandService.SignOutStudent(telegramId);
         }
 
+        [HttpGet("Api/Student/SearchCategories")]
+        public async Task<SearchCategoriesObject> SearchCategories()
+        {
+            return await _studentQueryService.SearchCategories();
+        }
+
 
         [HttpPost("Api/Student/ShowTeachers")]
         public async Task<List<Teacher>> ShowTeachers([FromBody] List<int> lastTeachers)

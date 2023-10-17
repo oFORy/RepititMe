@@ -86,7 +86,6 @@ namespace RepititMe.Infrastructure.Persistence
                     .Take(5)
                     .ToList();
 
-
             return topTeachers;
         }
 
