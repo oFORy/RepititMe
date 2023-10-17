@@ -17,9 +17,9 @@ namespace RepititMe.Application.Services.Students.Queries
             _studentRepository = studentRepository;
         }
 
-        public async Task<List<Teacher>> ShowTeachers(int lastNumber)
+        public async Task<List<Teacher>> ShowTeachers(List<int> lastTeachers)
         {
-            return await _studentRepository.ShowTeachers(lastNumber);
+            return await _studentRepository.ShowTeachers(lastTeachers);
         }
 
         public async Task<SignInStudentObject> SignInStudent(int telegramId)

@@ -11,7 +11,8 @@ namespace RepititMe.Application.Services.Students.Common
     public interface IStudentRepository
     {
         Task<SignInStudentObject> SignInStudent(int telegramId);
-        Task<bool> ChangeProfile(int telegramId, string image = null, string name = null);
-        Task<List<Teacher>> ShowTeachers(int lastNumber);
+        Task<bool> ChangeProfile(int telegramId, string name);
+        Task<bool> SignOutStudent(int telegramId);
+        Task<List<Teacher>> ShowTeachers(List<int> lastTeachers);
     }
 }

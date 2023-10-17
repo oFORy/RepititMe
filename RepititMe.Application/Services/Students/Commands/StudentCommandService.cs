@@ -15,9 +15,14 @@ namespace RepititMe.Application.Services.Students.Commands
             _studentRepository = studentRepository;
         }
 
-        public async Task<bool> ChangeProfile(int telegramId, string image = null, string name = null)
+        public async Task<bool> ChangeProfile(int telegramId, string name)
         {
-            return await _studentRepository.ChangeProfile(telegramId, image, name);
+            return await _studentRepository.ChangeProfile(telegramId, name);
+        }
+
+        public async Task<bool> SignOutStudent(int telegramId)
+        {
+            return await _studentRepository.SignOutStudent(telegramId);
         }
     }
 }

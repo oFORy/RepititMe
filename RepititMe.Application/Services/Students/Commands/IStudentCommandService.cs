@@ -8,6 +8,7 @@ namespace RepititMe.Application.Services.Students.Commands
 {
     public interface IStudentCommandService
     {
-        Task<bool> ChangeProfile(int telegramId, string image = null, string name = null);
+        Task<bool> ChangeProfile(int telegramId, string name);
+        Task<bool> SignOutStudent(int telegramId);
     }
 }
