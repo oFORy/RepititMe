@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +12,6 @@ namespace RepititMe.Application.Services.Students.Commands
     {
         Task<bool> ChangeProfile(int telegramId, string name);
         Task<bool> SignOutStudent(int telegramId);
+        Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject);
     }
 }

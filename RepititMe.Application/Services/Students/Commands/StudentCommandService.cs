@@ -1,4 +1,6 @@
 ﻿using RepititMe.Application.Services.Students.Common;
+using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,11 @@ namespace RepititMe.Application.Services.Students.Commands
         public async Task<bool> ChangeProfile(int telegramId, string name)
         {
             return await _studentRepository.ChangeProfile(telegramId, name);
+        }
+
+        public async Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
+        {
+            return await _studentRepository.ResultSearchCategories(searchCategoriesResultObject);
         }
 
         public async Task<bool> SignOutStudent(int telegramId)

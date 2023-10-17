@@ -17,6 +17,11 @@ namespace RepititMe.Application.Services.Students.Queries
             _studentRepository = studentRepository;
         }
 
+        public async Task<SearchCategoriesObject> SearchCategories()
+        {
+             return await _studentRepository.SearchCategories();
+        }
+
         public async Task<List<Teacher>> ShowTeachers(List<int> lastTeachers)
         {
             return await _studentRepository.ShowTeachers(lastTeachers);

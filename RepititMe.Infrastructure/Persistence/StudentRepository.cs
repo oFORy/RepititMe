@@ -34,6 +34,43 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
+        public async Task<List<Teacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
+        {
+            var topTeachers = await _botDbContext.Teachers
+                .Include(u => u.User)
+                .Include(u => u.Status)
+                .Include(u => u.Science)
+                .Include(u => u.LessonTarget)
+                .Include(u => u.AgeСategory)
+                .Where(t => t.Visibility != false
+                            && t.Block != true
+                            && t.ScienceId == searchCategoriesResultObject.ScienceId
+                            && t.LessonTargetId == searchCategoriesResultObject.LessonTargetId
+                            && t.AgeСategoryId == searchCategoriesResultObject.AgeСategoryId
+                            && t.StatusId == searchCategoriesResultObject.StatusId
+                            && t.Price >= searchCategoriesResultObject.LowPrice
+                            && t.Price <= searchCategoriesResultObject.HighPrice)
+                .OrderByDescending(e => e.Rating)
+                .ThenByDescending(e => e.PaymentRating)
+                .Take(5)
+                .ToListAsync();
+
+            return topTeachers;
+        }
+
+
+        public async Task<SearchCategoriesObject> SearchCategories()
+        {
+            var result = new SearchCategoriesObject()
+            {
+                AgeCategories = await _botDbContext.AgeСategories.ToListAsync(),
+                LessonTargets = await _botDbContext.LessonTargets.ToListAsync(),
+                Sciences = await _botDbContext.Sciences.ToListAsync(),
+                TeacherStatuses = await _botDbContext.TeacherStatuses.ToListAsync()
+            };
+
+            return result;
+        }
 
         public async Task<List<Teacher>> ShowTeachers(List<int> lastTeachers)
         {
