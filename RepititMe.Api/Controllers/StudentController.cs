@@ -39,13 +39,6 @@ namespace RepititMe.Api.Controllers
             return await _studentQueryService.SearchCategories();
         }
 
-        [HttpGet("Api/Student/FullTeacher")]
-        public async Task<Teacher> FullTeacher(int userId)
-        {
-            return await _studentQueryService.FullTeacher(userId);
-        }
-
-
         [HttpPost("Api/Student/ShowTeachers")]
         public async Task<List<BriefTeacher>> ShowTeachers([FromBody] List<int> lastTeachers)
         {

@@ -16,6 +16,6 @@ namespace RepititMe.Application.Services.Students.Common
         Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers);
         Task<SearchCategoriesObject> SearchCategories();
         Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject);
-        Task<Teacher> FullTeacher(int userId);
+        
     }
 }

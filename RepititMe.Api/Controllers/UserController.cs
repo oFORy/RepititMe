@@ -36,5 +36,11 @@ namespace RepititMe.Api.Controllers
         {
             return await _userCommandService.UserSignUpStudent(userSignUpObject);
         }
+
+        [HttpGet("Api/User/FullTeacher")]
+        public async Task<Teacher> FullTeacher(int userId)
+        {
+            return await _userAccessQuery.FullTeacher(userId);
+        }
     }
 }

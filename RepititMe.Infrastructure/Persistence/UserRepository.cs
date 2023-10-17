@@ -20,6 +20,11 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext = context;
         }
 
+        public async Task<Teacher> FullTeacher(int userId)
+        {
+            return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
         public async Task<int> UserAccessId(int telegramId)
         {
             var isUser = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);

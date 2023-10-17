@@ -35,11 +35,6 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
-        public async Task<Teacher> FullTeacher(int userId)
-        {
-            return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
-        }
-
 
         public async Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {

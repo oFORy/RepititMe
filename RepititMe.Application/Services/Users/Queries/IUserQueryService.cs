@@ -1,4 +1,5 @@
 ﻿using RepititMe.Domain.Entities;
+using RepititMe.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace RepititMe.Application.Services.Users.Queries
     public interface IUserQueryService
     {
         Task<int> UserAccessId(int telegramId);
+        Task<Teacher> FullTeacher(int userId);
     }
 }

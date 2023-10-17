@@ -13,5 +13,6 @@ namespace RepititMe.Application.Services.Users.Common
     {
         Task<int> UserAccessId(int telegramId);
         Task<bool> UserSignUpStudent(UserSignUpObject userSignUpObject);
+        Task<Teacher> FullTeacher(int userId);
     }
 }
