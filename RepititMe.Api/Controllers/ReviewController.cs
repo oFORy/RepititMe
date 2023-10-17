@@ -4,6 +4,7 @@ using RepititMe.Application.Services.Reviews.Commands;
 using RepititMe.Application.Services.Reviews.Queries;
 using RepititMe.Domain.Entities;
 using RepititMe.Domain.Object;
+using System.ComponentModel;
 
 namespace RepititMe.Api.Controllers
 {
@@ -20,13 +21,22 @@ namespace RepititMe.Api.Controllers
             _reviewQueryService = reviewQueryService;
         }
 
+        /// <summary>
+        /// Показать все отзывы учителя
+        /// </summary>
+        /// <param name="teacherId"></param>
+        /// <returns></returns>
         [HttpGet("Api/Reviews/ShowAll")]
         public async Task<List<Review>> TeacherReview(int teacherId)
         {
             return await _reviewQueryService.TeacherReview(teacherId);
         }
 
-
+        /// <summary>
+        /// Оставить отзыв
+        /// </summary>
+        /// <param name="reviewObject"></param>
+        /// <returns></returns>
         [HttpPost("Api/Reviews/NewReview")]
         public async Task<bool> NewReview([FromBody] ReviewObject reviewObject)
         {

@@ -24,19 +24,34 @@ namespace RepititMe.Api.Controllers
             _userCommandService = userCommandService;
         }
 
+        /// <summary>
+        /// Вернет последнюю активность или ноль (вышел из аккаунта/первый раз)
+        /// </summary>
+        /// <param name="telegramId"></param>
+        /// <returns></returns>
         [HttpGet("Api/User/Access")]
         public async Task<ActionResult<int>> UserAccessId(int telegramId)
         {
             return await _userAccessQuery.UserAccessId(telegramId);
         }
-        
 
+
+        /// <summary>
+        /// Регистрация для ученика
+        /// </summary>
+        /// <param name="userSignUpObject"></param>
+        /// <returns></returns>
         [HttpPost("Api/User/SignUpStudent")]
         public async Task<ActionResult<bool>> UserSignUpStudent([FromBody] UserSignUpObject userSignUpObject)
         {
             return await _userCommandService.UserSignUpStudent(userSignUpObject);
         }
 
+        /// <summary>
+        /// Показать полную информацию об учителе
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet("Api/User/FullTeacher")]
         public async Task<Teacher> FullTeacher(int userId)
         {
