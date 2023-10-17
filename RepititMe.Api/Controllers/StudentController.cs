@@ -46,6 +46,12 @@ namespace RepititMe.Api.Controllers
             return await _studentQueryService.ShowTeachers(lastTeachers);
         }
 
+        [HttpPost("Api/Student/ResultSearch")]
+        public async Task<List<Teacher>> ResultSearchCategories([FromBody] SearchCategoriesResultObject searchCategoriesResultObject)
+        {
+            return await _studentCommandService.ResultSearchCategories(searchCategoriesResultObject);
+        }
+
         [HttpPut("Api/Student/ChangeProfile")]
         public async Task<bool> ChangeProfile(int telegramId, string name)
         {
