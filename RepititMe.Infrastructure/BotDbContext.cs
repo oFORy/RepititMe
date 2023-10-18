@@ -140,17 +140,17 @@ namespace RepititMe.Infrastructure
             );
 
             modelBuilder.Entity<StudentUseFulUrl>().HasData(
-                new StudentUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "White" },
-                new StudentUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "Black" },
-                new StudentUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "White" },
-                new StudentUseFulUrl { Id = 4, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link4.com", Text = "Текст ссылки", ColorText = "White" },
-                new StudentUseFulUrl { Id = 5, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link5.com", Text = "Текст ссылки", ColorText = "Black" }
+                new StudentUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "#000000" },
+                new StudentUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 4, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link4.com", Text = "Текст ссылки", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 5, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link5.com", Text = "Текст ссылки", ColorText = "#000000" }
             );
 
             modelBuilder.Entity<TeacherUseFulUrl>().HasData(
-                new TeacherUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "Black" },
-                new TeacherUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "Black" },
-                new TeacherUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "Black" }
+                new TeacherUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "#000000" },
+                new TeacherUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "#000000" }
             );
 
             modelBuilder.Entity<Teacher>().HasData(
