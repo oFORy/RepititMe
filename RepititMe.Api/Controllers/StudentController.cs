@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
 using RepititMe.Domain.Entities.Users;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 namespace RepititMe.Api.Controllers
 {
     [ApiController]
+    [EnableCors("enablecorspolicy")]
     public class StudentController : Controller
     {
         private readonly IStudentQueryService _studentQueryService;

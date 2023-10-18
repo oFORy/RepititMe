@@ -38,7 +38,6 @@ namespace RepititMe.Infrastructure.Persistence
             }
             else
                 return false;
-
         }
 
         public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
