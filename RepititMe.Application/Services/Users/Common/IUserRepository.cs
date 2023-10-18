@@ -13,7 +13,8 @@ namespace RepititMe.Application.Services.Users.Common
     {
         Task<Dictionary<string, int>> UserAccessId(int telegramId);
         Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpObject);
-        Task<bool> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId);
+        Task<int> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId);
+        Task<bool> UpdateTeacherDataFolder(UpdateTeacherDataFolderObject updateTeacherDataFolderObject);
         Task<Teacher> FullTeacher(int userId);
     }
 }

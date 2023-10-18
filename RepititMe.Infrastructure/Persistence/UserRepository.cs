@@ -25,6 +25,22 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
+        public async Task<bool> UpdateTeacherDataFolder(UpdateTeacherDataFolderObject updateTeacherDataFolderObject)
+        {
+            var teacher = await _botDbContext.Teachers.FirstOrDefaultAsync(s => s.UserId == updateTeacherDataFolderObject.UserId);
+            if (teacher != null)
+            {
+                teacher.Image = updateTeacherDataFolderObject?.Image;
+                teacher.Certificates = updateTeacherDataFolderObject?.Certificates;
+                teacher.VideoPresentation = updateTeacherDataFolderObject?.VideoPresentation;
+                await _botDbContext.SaveChangesAsync();
+                return true;
+            }
+            else
+                return false;
+
+        }
+
         public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
         {
             var result = new Dictionary<string, int>
@@ -77,7 +93,7 @@ namespace RepititMe.Infrastructure.Persistence
                 return true;
         }
 
-        public async Task<bool> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId)
+        public async Task<int> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId)
         {
             var newUser = new User()
             {
@@ -87,12 +103,12 @@ namespace RepititMe.Infrastructure.Persistence
                 LastActivity = 2
             };
             _botDbContext.Users.Add(newUser);
-            _botDbContext.SaveChanges();
+            await _botDbContext.SaveChangesAsync();
 
+            teacher.UserId = newUser.Id;
             _botDbContext.Teachers.Add(teacher);
-
-            var isSaved = await _botDbContext.SaveChangesAsync();
-            return isSaved > 0;
+            await _botDbContext.SaveChangesAsync();
+            return newUser.Id;
         }
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RepititMe.Infrastructure;
 using RepititMe.Application;
-
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
         .AddInfrastructure(builder.Configuration);
     builder.Services.AddControllers();
 }
+
 
 
 builder.Configuration
@@ -46,7 +47,14 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
-
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/Api/User/SignUpTeacher"), appBuilder =>
+{
+    appBuilder.Use(async (context, next) =>
+    {
+        context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 500_000_000;
+        await next.Invoke();
+    });
+});
 
 app.UseRouting();
 

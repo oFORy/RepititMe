@@ -23,4 +23,8 @@
     <ProjectReference Include="..\RepititMe.Infrastructure\RepititMe.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="media\" />
+  </ItemGroup>
+
 </Project>

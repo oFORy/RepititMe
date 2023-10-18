@@ -30,27 +30,6 @@ namespace RepititMe.Application.Services.Users.Commands
             List<string> videoPaths = new List<string>();
             List<string> certificatePaths = new List<string>();
 
-            if (userSignUpTeacher.Image != null)
-            {
-                imagePath = await SaveFile(userSignUpTeacher.Image, "Images");
-            }
-            if (userSignUpTeacher.VideoPresentation != null)
-            {
-                foreach (var video in userSignUpTeacher.VideoPresentation)
-                {
-                    var videoPath = await SaveFile(video, "Presentations");
-                    videoPaths.Add(videoPath);
-                }
-            }
-            if (userSignUpTeacher.Certificates != null)
-            {
-                foreach (var certificate in userSignUpTeacher.Certificates)
-                {
-                    var certificatePath = await SaveFile(certificate, "Certificates");
-                    certificatePaths.Add(certificatePath);
-                }
-            }
-
             Teacher model = new Teacher
             {
                 Image = imagePath,
@@ -66,12 +45,61 @@ namespace RepititMe.Application.Services.Users.Commands
                 Visibility = userSignUpTeacher.Visibility
             };
 
-            return await _userRepository.UserSignUpTeacher(model, userSignUpTeacher.Name, userSignUpTeacher.SecondName, userSignUpTeacher.TelegramId);
+            int userId = await _userRepository.UserSignUpTeacher(model, userSignUpTeacher.Name, userSignUpTeacher.SecondName, userSignUpTeacher.TelegramId);
+
+
+            if (userId > 0)
+            {
+                string userFolderPath = $"media/{userId}/";
+                Directory.CreateDirectory(userFolderPath);
+
+                if (userSignUpTeacher.Image != null)
+                {
+                    imagePath = await SaveFile(userSignUpTeacher.Image, $"{userFolderPath}/images");
+                }
+                if (userSignUpTeacher.VideoPresentation != null)
+                {
+                    foreach (var video in userSignUpTeacher.VideoPresentation)
+                    {
+                        var videoPath = await SaveFile(video, $"{userFolderPath}/presentations");
+                        videoPaths.Add(videoPath);
+                    }
+                }
+                if (userSignUpTeacher.Certificates != null)
+                {
+                    foreach (var certificate in userSignUpTeacher.Certificates)
+                    {
+                        var certificatePath = await SaveFile(certificate, $"{userFolderPath}/certificates");
+                        certificatePaths.Add(certificatePath);
+                    }
+                }
+
+                UpdateTeacherDataFolderObject updateTeacherDataFolderObject = new UpdateTeacherDataFolderObject()
+                {
+                    UserId = userId,
+                    Image = imagePath,
+                    VideoPresentation = videoPaths,
+                    Certificates = certificatePaths
+                };
+
+                return await _userRepository.UpdateTeacherDataFolder(updateTeacherDataFolderObject); // не сработал, почему???
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private async Task<string> SaveFile(IFormFile formFile, string folderName)
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), folderName, formFile.FileName);
+            var userSpecificFolderPath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+            if (!Directory.Exists(userSpecificFolderPath))
+            {
+                Directory.CreateDirectory(userSpecificFolderPath);
+            }
+
+            var filePath = Path.Combine(userSpecificFolderPath, formFile.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await formFile.CopyToAsync(stream);
