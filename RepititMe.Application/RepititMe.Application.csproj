@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\ObjectRepository\" />
+    <Folder Include="Common\" />
     <Folder Include="Services\Admins\" />
   </ItemGroup>
 

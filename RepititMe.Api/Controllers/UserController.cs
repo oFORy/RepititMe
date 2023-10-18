@@ -15,12 +15,12 @@ namespace RepititMe.Api.Controllers
     [EnableCors("enablecorspolicy")]
     public class UserController : Controller
     {
-        private readonly IUserQueryService _userAccessQuery;
+        private readonly IUserQueryService _userQueryService;
         private readonly IUserCommandService _userCommandService;
 
-        public UserController(IUserQueryService userAccessQuery, IUserCommandService userCommandService)
+        public UserController(IUserQueryService userQueryService, IUserCommandService userCommandService)
         {
-            _userAccessQuery = userAccessQuery;
+            _userQueryService = userQueryService;
             _userCommandService = userCommandService;
         }
 
@@ -32,7 +32,7 @@ namespace RepititMe.Api.Controllers
         [HttpGet("Api/User/Access")]
         public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(int telegramId)
         {
-            return await _userAccessQuery.UserAccessId(telegramId);
+            return await _userQueryService.UserAccessId(telegramId);
         }
 
 
@@ -42,9 +42,24 @@ namespace RepititMe.Api.Controllers
         /// <param name="userSignUpObject"></param>
         /// <returns></returns>
         [HttpPost("Api/User/SignUpStudent")]
-        public async Task<ActionResult<bool>> UserSignUpStudent([FromBody] UserSignUpObject userSignUpObject)
+        public async Task<ActionResult<bool>> UserSignUpStudent([FromBody] UserSignUpStudentObject userSignUpObject)
         {
             return await _userCommandService.UserSignUpStudent(userSignUpObject);
+        }
+
+
+        [HttpPost("Api/User/SignUpTeacher")]
+        public async Task<IActionResult> UserSignUpTeacher([FromForm] UserSignUpTeacherObject teacher)
+        {
+            try
+            {
+                var result = await _userCommandService.UserSignUpTeacher(teacher);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         /// <summary>
@@ -55,7 +70,7 @@ namespace RepititMe.Api.Controllers
         [HttpGet("Api/User/FullTeacher")]
         public async Task<Teacher> FullTeacher(int userId)
         {
-            return await _userAccessQuery.FullTeacher(userId);
+            return await _userQueryService.FullTeacher(userId);
         }
     }
 }

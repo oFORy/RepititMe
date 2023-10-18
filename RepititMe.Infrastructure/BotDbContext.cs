@@ -140,22 +140,22 @@ namespace RepititMe.Infrastructure
             );
 
             modelBuilder.Entity<StudentUseFulUrl>().HasData(
-                new StudentUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com" },
-                new StudentUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com" },
-                new StudentUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com" },
-                new StudentUseFulUrl { Id = 4, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link4.com" },
-                new StudentUseFulUrl { Id = 5, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link5.com" }
+                new StudentUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "White" },
+                new StudentUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "Black" },
+                new StudentUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "White" },
+                new StudentUseFulUrl { Id = 4, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link4.com", Text = "Текст ссылки", ColorText = "White" },
+                new StudentUseFulUrl { Id = 5, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link5.com", Text = "Текст ссылки", ColorText = "Black" }
             );
 
             modelBuilder.Entity<TeacherUseFulUrl>().HasData(
-                new TeacherUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com" },
-                new TeacherUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com" },
-                new TeacherUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com" }
+                new TeacherUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com", Text = "Текст ссылки", ColorText = "Black" },
+                new TeacherUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com", Text = "Текст ссылки", ColorText = "Black" },
+                new TeacherUseFulUrl { Id = 3, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link3.com", Text = "Текст ссылки", ColorText = "Black" }
             );
 
             modelBuilder.Entity<Teacher>().HasData(
-                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeСategoryId  = 3, Experience = "2 Года", Price = 2500, Visibility = true, Block = false },
-                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeСategoryId = 4, Experience = "3 Года", Price = 1200, Visibility = false, Block = false }
+                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeСategoryId  = 3, Experience = 2, Price = 2500, Visibility = true, Block = false },
+                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeСategoryId = 4, Experience = 1, Price = 1200, Visibility = false, Block = false }
                 );
 
             modelBuilder.Entity<User>().HasData(

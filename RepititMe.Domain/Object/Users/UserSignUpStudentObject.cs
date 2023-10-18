@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Object.Users
 {
-    public class UserSignUpObject
+    public class UserSignUpStudentObject
     {
         public int TelegramId { get; set; }
         public string Name { get; set; }

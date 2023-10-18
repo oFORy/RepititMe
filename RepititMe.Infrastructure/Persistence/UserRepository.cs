@@ -51,12 +51,12 @@ namespace RepititMe.Infrastructure.Persistence
             return result;
         }
 
-        public async Task<bool> UserSignUpStudent(UserSignUpObject userSignUpObject)
+        public async Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpStudent)
         {
             var newUser = new User()
             {
-                TelegramId = userSignUpObject.TelegramId,
-                Name = userSignUpObject.Name,
+                TelegramId = userSignUpStudent.TelegramId,
+                Name = userSignUpStudent.Name,
                 LastActivity = 1
             };
             _botDbContext.Users.Add(newUser);
@@ -69,12 +69,30 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext.Students.Add(newStudent);
             _botDbContext.SaveChanges();
 
-            var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpObject.TelegramId);
+            var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpStudent.TelegramId);
 
             if (check == null)
                 return false;
             else
                 return true;
+        }
+
+        public async Task<bool> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId)
+        {
+            var newUser = new User()
+            {
+                TelegramId = telegramId,
+                Name = name,
+                SecondName = secondName,
+                LastActivity = 2
+            };
+            _botDbContext.Users.Add(newUser);
+            _botDbContext.SaveChanges();
+
+            _botDbContext.Teachers.Add(teacher);
+
+            var isSaved = await _botDbContext.SaveChangesAsync();
+            return isSaved > 0;
         }
     }
 }

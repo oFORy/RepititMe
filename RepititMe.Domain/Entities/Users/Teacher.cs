@@ -21,11 +21,11 @@ namespace RepititMe.Domain.Entities.Users
         public LessonTarget LessonTarget { get; set; }
         public int AgeСategoryId { get; set; }
         public AgeСategory AgeСategory { get; set; }
-        public string? Experience { get; set; }
+        public int? Experience { get; set; }
         public string? AboutMe { get; set; }
         public int Price { get; set; }
-        public string? VideoPresentation { get; set; }
-        public string? Certificates { get; set; }
+        public List<string>? VideoPresentation { get; set; }
+        public List<string>? Certificates { get; set; }
         public bool Visibility { get; set; }
         public bool Block { get; set; }
         public double Rating { get; set; }

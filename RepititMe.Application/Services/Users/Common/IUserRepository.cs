@@ -12,7 +12,8 @@ namespace RepititMe.Application.Services.Users.Common
     public interface IUserRepository
     {
         Task<Dictionary<string, int>> UserAccessId(int telegramId);
-        Task<bool> UserSignUpStudent(UserSignUpObject userSignUpObject);
+        Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpObject);
+        Task<bool> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId);
         Task<Teacher> FullTeacher(int userId);
     }
 }
