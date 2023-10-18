@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Domain.Entities;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +22,8 @@ namespace RepititMe.Infrastructure.Persistence
         {
             var review = new Review
             {
-                IdTeacher = reviewObject.TeacherId,
-                IdStudent = reviewObject.StudentId,
+                TeacherId = reviewObject.TeacherId,
+                StudentId = reviewObject.StudentId,
                 DateTime = reviewObject.DateTime,
                 Description = reviewObject.Description,
                 Rating = reviewObject.Rating
@@ -34,11 +34,20 @@ namespace RepititMe.Infrastructure.Persistence
             return saveResult > 0;
         }
 
-        public async Task<List<Review>> TeacherReview(int teacherId)
+        public async Task<List<ReviewData>> TeacherReview(int teacherId)
         {
             var reviews = await _botDbContext.Reviews
-                    .Where(r => r.IdTeacher == teacherId)
-                    .ToListAsync();
+                .Where(r => r.TeacherId == teacherId)
+                .Include(r => r.Student)
+                    .ThenInclude(s => s.User)
+                .Select(r => new ReviewData
+                {
+                    Student = r.Student,
+                    DateTime = r.DateTime,
+                    Description = r.Description,
+                    Rating = r.Rating
+                })
+                .ToListAsync();
 
             return reviews;
         }

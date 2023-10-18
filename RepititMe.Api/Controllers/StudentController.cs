@@ -2,7 +2,9 @@
 using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
 using RepititMe.Domain.Entities.Users;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.SearchCategory;
+using RepititMe.Domain.Object.Students;
+using RepititMe.Domain.Object.Teachers;
 using System.ComponentModel;
 
 namespace RepititMe.Api.Controllers

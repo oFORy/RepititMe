@@ -1,4 +1,5 @@
 ﻿using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace RepititMe.Application.Services.Reviews.Queries
 {
     public interface IReviewQueryService
     {
-        Task<List<Review>> TeacherReview(int teacherId);
+        Task<List<ReviewData>> TeacherReview(int teacherId);
     }
 }

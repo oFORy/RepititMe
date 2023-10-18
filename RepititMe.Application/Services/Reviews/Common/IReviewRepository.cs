@@ -1,5 +1,5 @@
 ﻿using RepititMe.Domain.Entities;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace RepititMe.Application.Services.Reviews.Common
 {
     public interface IReviewRepository
     {
-        Task<List<Review>> TeacherReview(int teacherId);
+        Task<List<ReviewData>> TeacherReview(int teacherId);
         Task<bool> NewReview(ReviewObject reviewObject);
     }
 }

@@ -1,10 +1,10 @@
-﻿using RepititMe.Domain.Object;
-using RepititMe.Domain.Entities.Users;
+﻿using RepititMe.Domain.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepititMe.Domain.Object.Users;
 
 namespace RepititMe.Application.Services.Users.Commands
 {

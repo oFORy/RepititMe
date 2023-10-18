@@ -37,7 +37,31 @@ namespace RepititMe.Infrastructure
                 .WithMany()
                 .HasForeignKey(t => t.AgeСategoryId);
 
+            modelBuilder.Entity<Review>()
+                .HasOne(t => t.Student)
+                .WithMany()
+                .HasForeignKey(t => t.StudentId);
 
+            modelBuilder.Entity<Review>()
+                .HasOne(t => t.Teacher)
+                .WithMany()
+                .HasForeignKey(t => t.TeacherId);
+
+
+            modelBuilder.Entity<ScienceLessonTarget>()
+                .HasKey(slt => new { slt.ScienceId, slt.LessonTargetId });
+
+            modelBuilder.Entity<ScienceLessonTarget>()
+                .HasOne(slt => slt.Science)
+                .WithMany(s => s.ScienceLessonTargets)
+                .HasForeignKey(slt => slt.ScienceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ScienceLessonTarget>()
+                .HasOne(slt => slt.LessonTarget)
+                .WithMany(lt => lt.ScienceLessonTargets)
+                .HasForeignKey(slt => slt.LessonTargetId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 
@@ -90,6 +114,31 @@ namespace RepititMe.Infrastructure
                 new Student { Id = 2, UserId = 3}
                 );
 
+
+            modelBuilder.Entity<ScienceLessonTarget>().HasData(
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 1 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 2 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 3 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 4 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 5 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 6 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 7 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 8 },
+                new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 2, LessonTargetId = 8 },
+                new ScienceLessonTarget { ScienceId = 2, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 3, LessonTargetId = 4 },
+                new ScienceLessonTarget { ScienceId = 3, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 4, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 5, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 6, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 7, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 8, LessonTargetId = 8 },
+                new ScienceLessonTarget { ScienceId = 8, LessonTargetId = 9 },
+                new ScienceLessonTarget { ScienceId = 9, LessonTargetId = 8 },
+                new ScienceLessonTarget { ScienceId = 9, LessonTargetId = 9 }
+            );
+
             modelBuilder.Entity<StudentUseFulUrl>().HasData(
                 new StudentUseFulUrl { Id = 1, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link1.com" },
                 new StudentUseFulUrl { Id = 2, Image = "https://www.umi-cms.ru/images/cms/data/articles/webp/webp3.jpg", Url = "http://link2.com" },
@@ -128,5 +177,6 @@ namespace RepititMe.Infrastructure
         public DbSet<LessonTarget> LessonTargets { get; set; }
         public DbSet<AgeСategory> AgeСategories { get; set; }
         public DbSet<TeacherStatus> TeacherStatuses { get; set; }
+        public DbSet<ScienceLessonTarget> ScienceLessonTargets { get; set; }
     }
 }

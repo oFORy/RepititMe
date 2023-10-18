@@ -1,6 +1,6 @@
 ﻿using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Users;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

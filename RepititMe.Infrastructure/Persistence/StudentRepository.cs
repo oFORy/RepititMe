@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Students.Common;
+using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Sciences;
+using RepititMe.Domain.Object.SearchCategory;
+using RepititMe.Domain.Object.Students;
+using RepititMe.Domain.Object.Teachers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,9 +85,23 @@ namespace RepititMe.Infrastructure.Persistence
             var result = new SearchCategoriesObject()
             {
                 AgeCategories = await _botDbContext.AgeСategories.ToListAsync(),
-                LessonTargets = await _botDbContext.LessonTargets.ToListAsync(),
-                Sciences = await _botDbContext.Sciences.ToListAsync(),
-                TeacherStatuses = await _botDbContext.TeacherStatuses.ToListAsync()
+                Sciences = await _botDbContext.Sciences
+                    .Include(s => s.ScienceLessonTargets)
+                        .ThenInclude(slt => slt.LessonTarget)
+                    .Select(s => new ScienceDto
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        LessonTargets = s.ScienceLessonTargets
+                            .Select(slt => new LessonTargetDto
+                            {
+                                Id = slt.LessonTargetId,
+                                Name = slt.LessonTarget.Name
+                            })
+                            .ToList()
+                    })
+                    .ToListAsync(),
+            TeacherStatuses = await _botDbContext.TeacherStatuses.ToListAsync()
             };
 
             return result;

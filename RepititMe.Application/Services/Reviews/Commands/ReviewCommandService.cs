@@ -1,5 +1,5 @@
 ﻿using RepititMe.Application.Services.Reviews.Common;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;

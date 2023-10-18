@@ -1,5 +1,6 @@
 ﻿using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace RepititMe.Application.Services.Reviews.Queries
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<List<Review>> TeacherReview(int teacherId)
+        public async Task<List<ReviewData>> TeacherReview(int teacherId)
         {
             return await _reviewRepository.TeacherReview(teacherId);
         }

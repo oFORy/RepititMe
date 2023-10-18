@@ -3,7 +3,7 @@ using RepititMe.Application.Services.Users.Common;
 using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace RepititMe.Infrastructure.Persistence
             var isUser = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);
             if (isUser == null)
             {
-                return 0;
+                return -1;
             }
             else
             {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Object
+namespace RepititMe.Domain.Object.Teachers
 {
     public class BriefTeacher
     {

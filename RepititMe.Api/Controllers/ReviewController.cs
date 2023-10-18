@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RepititMe.Application.Services.Reviews.Commands;
 using RepititMe.Application.Services.Reviews.Queries;
 using RepititMe.Domain.Entities;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Reviews;
 using System.ComponentModel;
 
 namespace RepititMe.Api.Controllers
@@ -27,7 +27,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="teacherId"></param>
         /// <returns></returns>
         [HttpGet("Api/Reviews/ShowAll")]
-        public async Task<List<Review>> TeacherReview(int teacherId)
+        public async Task<List<ReviewData>> TeacherReview(int teacherId)
         {
             return await _reviewQueryService.TeacherReview(teacherId);
         }

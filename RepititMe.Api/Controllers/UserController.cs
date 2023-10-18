@@ -6,7 +6,7 @@ using RepititMe.Application.Services.Users.Commands;
 using RepititMe.Application.Services.Users.Queries;
 using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Users;
-using RepititMe.Domain.Object;
+using RepititMe.Domain.Object.Users;
 using System.ComponentModel;
 
 namespace RepititMe.Api.Controllers
