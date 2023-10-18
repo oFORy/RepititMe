@@ -25,17 +25,30 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
-        public async Task<int> UserAccessId(int telegramId)
+        public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
         {
-            var isUser = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);
-            if (isUser == null)
+            var result = new Dictionary<string, int>
+                {
+                    { "LastActivity", 0 },
+                    { "Student", 0 },
+                    { "Teacher", 0 }
+                };
+
+            var user = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);
+            if (user == null)
             {
-                return -1;
+                return result;
             }
-            else
-            {
-                return isUser.LastActivity;
-            }
+
+            result["LastActivity"] = user.LastActivity;
+
+            var isStudent = await _botDbContext.Students.AnyAsync(s => s.UserId == user.Id);
+            var isTeacher = await _botDbContext.Teachers.AnyAsync(t => t.UserId == user.Id);
+
+            result["Student"] = isStudent ? 1 : 0;
+            result["Teacher"] = isTeacher ? 1 : 0;
+
+            return result;
         }
 
         public async Task<bool> UserSignUpStudent(UserSignUpObject userSignUpObject)

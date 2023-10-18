@@ -30,7 +30,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/User/Access")]
-        public async Task<ActionResult<int>> UserAccessId(int telegramId)
+        public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(int telegramId)
         {
             return await _userAccessQuery.UserAccessId(telegramId);
         }

@@ -23,7 +23,7 @@ namespace RepititMe.Application.Services.Users.Queries
             return await _userRepository.FullTeacher(userId);
         }
 
-        public async Task<int> UserAccessId(int telegramId)
+        public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
         {
             return await _userRepository.UserAccessId(telegramId);
         }
