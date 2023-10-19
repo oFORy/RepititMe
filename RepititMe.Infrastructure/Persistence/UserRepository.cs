@@ -3,6 +3,7 @@ using RepititMe.Application.Services.Users.Common;
 using RepititMe.Domain.Entities;
 using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object.Teachers;
 using RepititMe.Domain.Object.Users;
 using System;
 using System.Collections.Generic;
@@ -25,20 +26,6 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
-        public async Task<bool> UpdateTeacherDataFolder(UpdateTeacherDataFolderObject updateTeacherDataFolderObject)
-        {
-            var teacher = await _botDbContext.Teachers.FirstOrDefaultAsync(s => s.UserId == updateTeacherDataFolderObject.UserId);
-            if (teacher != null)
-            {
-                teacher.Image = updateTeacherDataFolderObject?.Image;
-                teacher.Certificates = updateTeacherDataFolderObject?.Certificates;
-                teacher.VideoPresentation = updateTeacherDataFolderObject?.VideoPresentation;
-                await _botDbContext.SaveChangesAsync();
-                return true;
-            }
-            else
-                return false;
-        }
 
         public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
         {
@@ -92,22 +79,37 @@ namespace RepititMe.Infrastructure.Persistence
                 return true;
         }
 
-        public async Task<int> UserSignUpTeacher(Teacher teacher, string name, string secondName, int telegramId)
+        public async Task<bool> UserSignUpTeacher(UserSignUpTeacherObject userSignUpTeacherObject)
         {
             var newUser = new User()
             {
-                TelegramId = telegramId,
-                Name = name,
-                SecondName = secondName,
+                TelegramId = userSignUpTeacherObject.TelegramId,
+                Name = userSignUpTeacherObject.Name,
+                SecondName = userSignUpTeacherObject.SecondName,
                 LastActivity = 2
             };
             _botDbContext.Users.Add(newUser);
             await _botDbContext.SaveChangesAsync();
 
-            teacher.UserId = newUser.Id;
-            _botDbContext.Teachers.Add(teacher);
+
+            var newTeacher = new Teacher()
+            {
+                UserId = newUser.Id,
+                Visibility = false,
+                Block = false,
+                Rating = 5,
+                PaymentRating = 400
+            };
+
+            _botDbContext.Teachers.Add(newTeacher);
             await _botDbContext.SaveChangesAsync();
-            return newUser.Id;
+
+
+            var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpTeacherObject.TelegramId);
+            if (check == null)
+                return false;
+            else
+                return true;
         }
     }
 }

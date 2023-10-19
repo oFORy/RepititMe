@@ -47,19 +47,15 @@ namespace RepititMe.Api.Controllers
             return await _userCommandService.UserSignUpStudent(userSignUpObject);
         }
 
-
+        /// <summary>
+        /// Регистрация для учителя
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <returns></returns>
         [HttpPost("Api/User/SignUpTeacher")]
-        public async Task<IActionResult> UserSignUpTeacher([FromForm] UserSignUpTeacherObject teacher)
+        public async Task<bool> UserSignUpTeacher([FromBody] UserSignUpTeacherObject teacher)
         {
-            try
-            {
-                var result = await _userCommandService.UserSignUpTeacher(teacher);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
+            return await _userCommandService.UserSignUpTeacher(teacher);
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace RepititMe.Application.Services.Users.Commands
 {
     public interface IUserCommandService
     {
-        Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpObject);
+        Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpStudent);
         Task<bool> UserSignUpTeacher(UserSignUpTeacherObject userSignUpTeacher);
     }
 }

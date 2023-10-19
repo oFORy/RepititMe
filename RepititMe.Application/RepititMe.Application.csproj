@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Services\Admins\" />
+    <Folder Include="Services\Teachers\Queries\" />
   </ItemGroup>
 
 </Project>

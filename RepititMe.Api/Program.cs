@@ -47,11 +47,11 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
-app.UseWhen(context => context.Request.Path.StartsWithSegments("/Api/User/SignUpTeacher"), appBuilder =>
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/Api/Teacher/ChangeProfile"), appBuilder =>
 {
     appBuilder.Use(async (context, next) =>
     {
-        context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 500_000_000;
+        context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = 300_000_000;
         await next.Invoke();
     });
 });
