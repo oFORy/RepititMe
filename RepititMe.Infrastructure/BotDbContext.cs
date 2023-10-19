@@ -37,6 +37,8 @@ namespace RepititMe.Infrastructure
                 .WithMany()
                 .HasForeignKey(t => t.AgeСategoryId);
 
+
+
             modelBuilder.Entity<Review>()
                 .HasOne(t => t.Student)
                 .WithMany()
@@ -46,6 +48,19 @@ namespace RepititMe.Infrastructure
                 .HasOne(t => t.Teacher)
                 .WithMany()
                 .HasForeignKey(t => t.TeacherId);
+
+
+
+            modelBuilder.Entity<Order>()
+                .HasOne(t => t.Teacher)
+                .WithMany()
+                .HasForeignKey(t => t.TeacherId);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(t => t.Student)
+                .WithMany()
+                .HasForeignKey(t => t.StudentId);
+
 
 
             modelBuilder.Entity<ScienceLessonTarget>()
@@ -62,8 +77,6 @@ namespace RepititMe.Infrastructure
                 .WithMany(lt => lt.ScienceLessonTargets)
                 .HasForeignKey(slt => slt.LessonTargetId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
 
 
 

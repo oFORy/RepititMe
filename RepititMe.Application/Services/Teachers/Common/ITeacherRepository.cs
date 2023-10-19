@@ -10,6 +10,8 @@ namespace RepititMe.Application.Services.Teachers.Common
 {
     public interface ITeacherRepository
     {
+        Task<SignInTeacherObject> SignInTeacher(int telegramId);
+        Task<bool> SignOutTeacher(int telegramId);
         Task<int> ChangeProfile(Teacher teacher, int telegramId);
         Task<bool> UpdateTeacherDataFolder(UpdateTeacherDataFolderObject updateTeacherDataFolderObject);
         Task<bool> ChangeVisability(int telegramId);

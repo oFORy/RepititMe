@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object.Students;
 using RepititMe.Domain.Object.Teachers;
 using RepititMe.Domain.Object.Users;
 using System;
@@ -82,6 +83,42 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 teacher.Visibility = !teacher.Visibility;
                 await _botDbContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<SignInTeacherObject> SignInTeacher(int telegramId)
+        {
+            var activityUpdate = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+
+            if (activityUpdate != null)
+            {
+                activityUpdate.LastActivity = 2;
+                _botDbContext.SaveChangesAsync();
+            }
+
+
+            var signIn = new SignInTeacherObject()
+            {
+                Teachers = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(u => u.User.TelegramId == telegramId),
+                UsefulLinks = await _botDbContext.TeacherUseFulUrls.ToListAsync()
+            };
+
+            return signIn;
+        }
+
+        public async Task<bool> SignOutTeacher(int telegramId)
+        {
+            var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
+
+            if (user != null)
+            {
+                user.LastActivity = 0;
+                _botDbContext.Users.Update(user);
+                await _botDbContext.SaveChangesAsync();
+
                 return true;
             }
 

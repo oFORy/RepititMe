@@ -139,8 +139,6 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<SignInStudentObject> SignInStudent(int telegramId)
         {
-
-
             var activityUpdate = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
             if (activityUpdate != null)
