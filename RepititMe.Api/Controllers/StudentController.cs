@@ -61,7 +61,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="lastTeachers"></param>
         /// <returns></returns>
         [HttpPost("Api/Student/ShowTeachers")]
-        public async Task<List<BriefTeacher>> ShowTeachers([FromBody] List<int> lastTeachers)
+        public async Task<List<BriefTeacherObject>> ShowTeachers([FromBody] List<int> lastTeachers)
         {
             return await _studentQueryService.ShowTeachers(lastTeachers);
         }
@@ -72,7 +72,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="searchCategoriesResultObject"></param>
         /// <returns></returns>
         [HttpPost("Api/Student/ResultSearch")]
-        public async Task<List<BriefTeacher>> ResultSearchCategories([FromBody] SearchCategoriesResultObject searchCategoriesResultObject)
+        public async Task<List<BriefTeacherObject>> ResultSearchCategories([FromBody] SearchCategoriesResultObject searchCategoriesResultObject)
         {
             return await _studentCommandService.ResultSearchCategories(searchCategoriesResultObject);
         }

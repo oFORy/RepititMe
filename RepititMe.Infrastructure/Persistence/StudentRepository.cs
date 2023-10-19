@@ -40,7 +40,7 @@ namespace RepititMe.Infrastructure.Persistence
         }
 
 
-        public async Task<List<BriefTeacher>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
+        public async Task<List<BriefTeacherObject>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {
             var topTeachers = await _botDbContext.Teachers
                 .Include(u => u.User)
@@ -59,7 +59,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .OrderByDescending(e => e.Rating)
                 .ThenByDescending(e => e.PaymentRating)
                 .Take(5)
-                .Select(t => new BriefTeacher
+                .Select(t => new BriefTeacherObject
                 {
                     User = t.User,
                     Image = t.Image,
@@ -107,7 +107,7 @@ namespace RepititMe.Infrastructure.Persistence
             return result;
         }
 
-        public async Task<List<BriefTeacher>> ShowTeachers(List<int> lastTeachers)
+        public async Task<List<BriefTeacherObject>> ShowTeachers(List<int> lastTeachers)
         {
             var topTeachers = await _botDbContext.Teachers
                     .Include(u => u.User)
@@ -119,7 +119,7 @@ namespace RepititMe.Infrastructure.Persistence
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
                     .Take(5)
-                    .Select(t => new BriefTeacher
+                    .Select(t => new BriefTeacherObject
                     {
                         User = t.User,
                         Image = t.Image,
@@ -160,7 +160,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .OrderByDescending(e => e.PaymentRating)
                 .ThenByDescending(e => e.Rating)
                 .Take(5)
-                .Select(t => new BriefTeacher
+                .Select(t => new BriefTeacherObject
                     {
                         User = t.User,
                         Image = t.Image,

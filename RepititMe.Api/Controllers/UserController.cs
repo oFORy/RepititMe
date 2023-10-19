@@ -35,7 +35,6 @@ namespace RepititMe.Api.Controllers
             return await _userQueryService.UserAccessId(telegramId);
         }
 
-
         /// <summary>
         /// Регистрация для ученика
         /// </summary>
@@ -67,6 +66,23 @@ namespace RepititMe.Api.Controllers
         public async Task<Teacher> FullTeacher(int userId)
         {
             return await _userQueryService.FullTeacher(userId);
+        }
+
+        /// <summary>
+        /// Вернет файл по пути
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        [HttpPost("Api/User/FullTeacher/Files")]
+        public IActionResult GetFile([FromBody] string fileName)
+        {
+            if (!System.IO.File.Exists(fileName))
+            {
+                return NotFound();
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(fileName);
+            return File(fileBytes, "application/octet-stream", Path.GetFileName(fileName));
         }
     }
 }

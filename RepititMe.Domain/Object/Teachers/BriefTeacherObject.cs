@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Object.Teachers
 {
-    public class BriefTeacher
+    public class BriefTeacherObject
     {
         public User User { get; set; }
         public string? Image { get; set; }

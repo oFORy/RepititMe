@@ -23,7 +23,13 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<Teacher> FullTeacher(int userId)
         {
-            return await _botDbContext.Teachers.FirstOrDefaultAsync(u => u.UserId == userId);
+            return await _botDbContext.Teachers
+                .Include(u => u.User)
+                .Include(u => u.Status)
+                .Include(u => u.Science)
+                .Include(u => u.LessonTarget)
+                .Include(u => u.AgeСategory)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
         }
 
 
