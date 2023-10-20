@@ -56,7 +56,7 @@ namespace RepititMe.Infrastructure.Persistence
                     teacher.StatusId = updatedTeacher.StatusId;
                     teacher.ScienceId = updatedTeacher.ScienceId;
                     teacher.LessonTargetId = updatedTeacher.LessonTargetId;
-                    teacher.AgeСategoryId = updatedTeacher.AgeСategoryId;
+                    teacher.AgeCategoryId = updatedTeacher.AgeCategoryId;
                     teacher.Experience = updatedTeacher.Experience;
                     teacher.AboutMe = updatedTeacher.AboutMe;
                     teacher.Price = updatedTeacher.Price;
@@ -69,7 +69,6 @@ namespace RepititMe.Infrastructure.Persistence
                 return user.Id;
             }
 
-            // Возвращаем -1, если пользователь не найден
             return -1;
 
         }
