@@ -23,9 +23,28 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> AcceptOrder(int idOrder)
         {
-            var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == idOrder);
+            var order = await _botDbContext.Orders
+                    .Include(o => o.Student)
+                        .ThenInclude(s => s.User)
+                    .Include(o => o.Teacher)
+                        .ThenInclude(t => t.User)
+                    .FirstOrDefaultAsync(o => o.Id == idOrder);
+
             if (order != null)
             {
+                var newSurvey = new Survey()
+                {
+                    TelegramIdStudent = order.Student.User.TelegramId,
+                    TelegramIdTeacher = order.Teacher.User.TelegramId,
+                    OrderId = idOrder,
+                    StudentAnswer = false,
+                    TeacherAnswer = false
+                };
+
+                await _botDbContext.AddAsync(newSurvey);
+                await _botDbContext.SaveChangesAsync();
+
+
                 order.DateTimeAccept = DateTime.UtcNow;
                 return await _botDbContext.SaveChangesAsync() > 0;
             }

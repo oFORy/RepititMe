@@ -63,9 +63,9 @@ namespace RepititMe.Api.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet("Api/User/FullTeacher")]
-        public async Task<Teacher> FullTeacher(int userId)
+        public async Task<Teacher> FullTeacher(int telegramId)
         {
-            return await _userQueryService.FullTeacher(userId);
+            return await _userQueryService.FullTeacher(telegramId);
         }
 
         /// <summary>

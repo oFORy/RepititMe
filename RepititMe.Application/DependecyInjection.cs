@@ -5,6 +5,7 @@ using RepititMe.Application.Services.Reviews.Commands;
 using RepititMe.Application.Services.Reviews.Queries;
 using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
+using RepititMe.Application.Services.Surveis.Queries;
 using RepititMe.Application.Services.Teachers.Commands;
 using RepititMe.Application.Services.Teachers.Queries;
 using RepititMe.Application.Services.Users.Commands;
@@ -31,6 +32,8 @@ namespace RepititMe.Application
 
                 .AddScoped<IOrderQueryService, OrderQueryService>()
                 .AddScoped<IOrderCommandService, OrderCommandService>()
+
+                .AddScoped<ISurveyQueryService, SurveyQueryService>()
                 ;
             return services;
         }

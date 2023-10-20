@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RepititMe.Domain.Entities.Weights
+{
+    public class Survey
+    {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
+
+        public bool StudentAnswer { get; set; }
+        public int TelegramIdStudent { get; set; }
+        public bool? StudentAccept { get; set; }
+        public int? StudentPrice { get; set; }
+        public string? StudentWhy { get; set; }
+
+        public bool TeacherAnswer { get; set; }
+        public int TelegramIdTeacher { get; set; }
+        public bool? TeacherAccept { get; set; }
+        public int? TeacherPrice { get; set; }
+        public string? TeacherCause { get; set;}
+        public string? TeacherSpecify { get; set; }
+        public string? TeacherWhy { get; set; }
+    }
+}

@@ -18,9 +18,9 @@ namespace RepititMe.Application.Services.Users.Queries
             _userRepository = userRepository;
         }
 
-        public async Task<Teacher> FullTeacher(int userId)
+        public async Task<Teacher> FullTeacher(int telegramId)
         {
-            return await _userRepository.FullTeacher(userId);
+            return await _userRepository.FullTeacher(telegramId);
         }
 
         public async Task<Dictionary<string, int>> UserAccessId(int telegramId)

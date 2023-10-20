@@ -71,6 +71,8 @@ namespace RepititMe.Api.Controllers
         [HttpPut("Api/Order/Accept")]
         public async Task<bool> AcceptOrder(int idOrder)
         {
+            // отправ данных через бота
+
             return await _orderQueryService.AcceptOrder(idOrder);
         }
 

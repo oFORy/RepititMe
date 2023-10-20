@@ -9,6 +9,7 @@ namespace RepititMe.Domain.Object.Users
     public class UserSignUpStudentObject
     {
         public int TelegramId { get; set; }
+        public string TelegramName { get; set; }
         public string Name { get; set; }
     }
 }

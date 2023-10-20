@@ -63,6 +63,13 @@ namespace RepititMe.Infrastructure
 
 
 
+            modelBuilder.Entity<Survey>()
+                .HasOne(t => t.Order)
+                .WithMany()
+                .HasForeignKey(t => t.OrderId);
+
+
+
             modelBuilder.Entity<ScienceLessonTarget>()
                 .HasKey(slt => new { slt.ScienceId, slt.LessonTargetId });
 
@@ -172,9 +179,9 @@ namespace RepititMe.Infrastructure
                 );
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Сергей", TelegramId = 12, LastActivity = 1},
-                new User { Id = 2, Name = "Владимир", SecondName = "Петров", TelegramId = 23, LastActivity = 2 },
-                new User { Id = 3, Name = "Даниил", SecondName = "Семенов", TelegramId = 34, LastActivity = 1 }
+                new User { Id = 1, Name = "Сергей", TelegramName = "@Serg" ,TelegramId = 12, LastActivity = 1},
+                new User { Id = 2, Name = "Владимир", TelegramName = "@Vlad", SecondName = "Петров", TelegramId = 23, LastActivity = 2 },
+                new User { Id = 3, Name = "Даниил", TelegramName = "@Dania", SecondName = "Семенов", TelegramId = 34, LastActivity = 1 }
                 );
         }
 
@@ -191,5 +198,6 @@ namespace RepititMe.Infrastructure
         public DbSet<AgeСategory> AgeСategories { get; set; }
         public DbSet<TeacherStatus> TeacherStatuses { get; set; }
         public DbSet<ScienceLessonTarget> ScienceLessonTargets { get; set; }
+        public DbSet<Survey> Surveis { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace RepititMe.Domain.Entities.Users
     {
         public int Id { get; set; }
         public int TelegramId { get; set; }
+        public string TelegramName { get; set; }
         public int LastActivity { get; set; }
         public string Name { get; set; }
         public string? SecondName { get; set; }

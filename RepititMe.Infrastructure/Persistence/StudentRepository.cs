@@ -177,11 +177,44 @@ namespace RepititMe.Infrastructure.Persistence
 
             var usefulLinks = await _botDbContext.StudentUseFulUrls.ToListAsync();
 
+
+
+            DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
+
+            var userId = await _botDbContext.Users
+                .Where(u => u.TelegramId == telegramId)
+                .Select(u => u.Id)
+                .SingleOrDefaultAsync();
+
+            var studentId = await _botDbContext.Students
+                .Where(s => s.UserId == userId)
+                .Select(s => s.Id)
+                .SingleOrDefaultAsync();
+
+
+            List<int> orderIdsList = await _botDbContext.Orders
+                .Where(t => t.StudentId == studentId)
+                .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value <= twoHoursAgo)
+                .Select(o => o.Id)
+                .ToListAsync();
+
+
+            List<int> ordersSurveyList = await _botDbContext.Surveis
+                .Where(s => orderIdsList.Contains(s.OrderId) && !s.StudentAnswer)
+                .Select(s => s.OrderId)
+                .ToListAsync();
+
+
+            var surveyStatus = ordersSurveyList.Any();
+
+
             var signIn = new SignInStudentObject()
             {
                 Name = user?.Name,
                 Teachers = topTeachers,
-                UsefulLinks = usefulLinks
+                UsefulLinks = usefulLinks,
+                SurveyStatus = surveyStatus,
+                OrdersSurvey = ordersSurveyList,
             };
 
             return signIn;

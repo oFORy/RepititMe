@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RepititMe.Application.Services.Orders.Common;
 using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Application.Services.Students.Common;
+using RepititMe.Application.Services.Surveis.Common;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Application.Services.Users.Common;
 using RepititMe.Infrastructure.Persistence;
@@ -25,6 +26,7 @@ namespace RepititMe.Infrastructure
                 .AddScoped<IReviewRepository, ReviewRepository>()
                 .AddScoped<ITeacherRepository, TeacherRepository>()
                 .AddScoped<IOrderRepository, OrderRepository>()
+                .AddScoped<ISurveyRepository, SurveyRepository>()
                 ;
 
 

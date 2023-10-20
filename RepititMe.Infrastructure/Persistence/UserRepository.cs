@@ -21,7 +21,7 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext = context;
         }
 
-        public async Task<Teacher> FullTeacher(int userId)
+        public async Task<Teacher> FullTeacher(int telegramId)
         {
             return await _botDbContext.Teachers
                 .Include(u => u.User)
@@ -29,7 +29,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.Science)
                 .Include(u => u.LessonTarget)
                 .Include(u => u.AgeСategory)
-                .FirstOrDefaultAsync(u => u.UserId == userId);
+                .FirstOrDefaultAsync(u => u.User.TelegramId == telegramId);
         }
 
 
@@ -64,6 +64,7 @@ namespace RepititMe.Infrastructure.Persistence
             var newUser = new User()
             {
                 TelegramId = userSignUpStudent.TelegramId,
+                TelegramName = userSignUpStudent.TelegramName,
                 Name = userSignUpStudent.Name,
                 LastActivity = 1
             };
@@ -90,6 +91,7 @@ namespace RepititMe.Infrastructure.Persistence
             var newUser = new User()
             {
                 TelegramId = userSignUpTeacherObject.TelegramId,
+                TelegramName =userSignUpTeacherObject.TelegramName,
                 Name = userSignUpTeacherObject.Name,
                 SecondName = userSignUpTeacherObject.SecondName,
                 LastActivity = 2

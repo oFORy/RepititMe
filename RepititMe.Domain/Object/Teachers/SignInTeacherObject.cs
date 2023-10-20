@@ -10,7 +10,9 @@ namespace RepititMe.Domain.Object.Teachers
 {
     public class SignInTeacherObject
     {
-        public Teacher Teachers { get; set; }
+        public Teacher TeacherIn { get; set; }
         public List<TeacherUseFulUrl>? UsefulLinks { get; set; }
+        public bool SurveyStatus { get; set; }
+        public List<int> OrdersSurvey { get; set; }
     }
 }

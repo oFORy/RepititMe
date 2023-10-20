@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Entities.Weights;
 using RepititMe.Domain.Object.Students;
 using RepititMe.Domain.Object.Teachers;
 using RepititMe.Domain.Object.Users;
@@ -99,12 +100,40 @@ namespace RepititMe.Infrastructure.Persistence
                 _botDbContext.SaveChangesAsync();
             }
 
+            DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-1);
+
+            var userId = await _botDbContext.Users
+                .Where(u => u.TelegramId == telegramId)
+                .Select(u => u.Id)
+                .SingleOrDefaultAsync();
+
+            var teacherId = await _botDbContext.Teachers
+                .Where(s => s.UserId == userId)
+                .Select(s => s.Id)
+                .SingleOrDefaultAsync();
+
+            List<int> orderIdsList = await _botDbContext.Orders
+                .Where(t => t.TeacherId == teacherId)
+                .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value <= twoHoursAgo)
+                .Select(o => o.Id)
+                .ToListAsync();
+
+
+            List<int> ordersSurveyList = await _botDbContext.Surveis
+                .Where(s => orderIdsList.Contains(s.OrderId) && !s.TeacherAnswer)
+                .Select(s => s.OrderId)
+                .ToListAsync();
+
+            var surveyStatus = ordersSurveyList.Any();
+
 
             var signIn = new SignInTeacherObject()
             {
-                Teachers = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(u => u.User.TelegramId == telegramId),
-                UsefulLinks = await _botDbContext.TeacherUseFulUrls.ToListAsync()
-            };
+                TeacherIn = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(u => u.User.TelegramId == telegramId),
+                UsefulLinks = await _botDbContext.TeacherUseFulUrls.ToListAsync(),
+                SurveyStatus = surveyStatus,
+                OrdersSurvey = ordersSurveyList
+            }; 
 
             return signIn;
         }
