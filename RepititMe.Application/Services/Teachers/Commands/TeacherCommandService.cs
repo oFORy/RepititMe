@@ -33,7 +33,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
                 StatusId = changeProfileTeacherObject.StatusId,
                 ScienceId = changeProfileTeacherObject.ScienceId,
                 LessonTargetId = changeProfileTeacherObject.LessonTargetId,
-                AgeСategoryId = changeProfileTeacherObject.AgeСategoryId,
+                AgeCategoryId = changeProfileTeacherObject.AgeCategoryId,
                 Experience = changeProfileTeacherObject.Experience,
                 AboutMe = changeProfileTeacherObject.AboutMe,
                 Price = changeProfileTeacherObject.Price,
