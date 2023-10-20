@@ -52,7 +52,7 @@ namespace RepititMe.Infrastructure.Persistence
                             && t.Block != true
                             && t.ScienceId == searchCategoriesResultObject.ScienceId
                             && t.LessonTargetId == searchCategoriesResultObject.LessonTargetId
-                            && t.AgeСategoryId == searchCategoriesResultObject.AgeCategoryId
+                            && t.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId
                             && t.StatusId == searchCategoriesResultObject.StatusId
                             && t.Price >= searchCategoriesResultObject.LowPrice
                             && t.Price <= searchCategoriesResultObject.HighPrice)
