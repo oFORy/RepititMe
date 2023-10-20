@@ -20,7 +20,7 @@ namespace RepititMe.Domain.Entities.Users
         public int? LessonTargetId { get; set; }
         public LessonTarget? LessonTarget { get; set; }
         public int? AgeСategoryId { get; set; }
-        public AgeСategory? AgeСategory { get; set; }
+        public AgeCategory? AgeCategory { get; set; }
         public int? Experience { get; set; }
         public string? AboutMe { get; set; }
         public int? Price { get; set; }

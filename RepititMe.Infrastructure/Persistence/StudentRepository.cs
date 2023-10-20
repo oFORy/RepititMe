@@ -47,7 +47,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.Status)
                 .Include(u => u.Science)
                 .Include(u => u.LessonTarget)
-                .Include(u => u.AgeСategory)
+                .Include(u => u.AgeCategory)
                 .Where(t => t.Visibility != false
                             && t.Block != true
                             && t.ScienceId == searchCategoriesResultObject.ScienceId
@@ -66,7 +66,7 @@ namespace RepititMe.Infrastructure.Persistence
                     Status = t.Status,
                     Science = t.Science,
                     LessonTarget = t.LessonTarget,
-                    AgeСategory = t.AgeСategory,
+                    AgeCategory = t.AgeCategory,
                     Experience = t.Experience,
                     AboutMe = t.AboutMe,
                     Price = t.Price,
@@ -84,7 +84,7 @@ namespace RepititMe.Infrastructure.Persistence
         {
             var result = new SearchCategoriesObject()
             {
-                AgeCategories = await _botDbContext.AgeСategories.ToListAsync(),
+                AgeCategories = await _botDbContext.AgeCategories.ToListAsync(),
                 Sciences = await _botDbContext.Sciences
                     .Include(s => s.ScienceLessonTargets)
                         .ThenInclude(slt => slt.LessonTarget)
@@ -114,7 +114,7 @@ namespace RepititMe.Infrastructure.Persistence
                     .Include(u => u.Status)
                     .Include(u => u.Science)
                     .Include(u => u.LessonTarget)
-                    .Include(u => u.AgeСategory)
+                    .Include(u => u.AgeCategory)
                     .Where(t => t.Visibility != false && t.Block != true && !lastTeachers.Contains(t.UserId))
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
@@ -126,7 +126,7 @@ namespace RepititMe.Infrastructure.Persistence
                         Status = t.Status,
                         Science = t.Science,
                         LessonTarget = t.LessonTarget,
-                        AgeСategory = t.AgeСategory,
+                        AgeCategory = t.AgeCategory,
                         Experience = t.Experience,
                         AboutMe = t.AboutMe,
                         Price = t.Price,
@@ -153,7 +153,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.Status)
                 .Include(u => u.Science)
                 .Include(u => u.LessonTarget)
-                .Include(u => u.AgeСategory)
+                .Include(u => u.AgeCategory)
                 .Where(t => t.Visibility != false && t.Block != true)
                 .OrderByDescending(e => e.PaymentRating)
                 .ThenByDescending(e => e.Rating)
@@ -165,7 +165,7 @@ namespace RepititMe.Infrastructure.Persistence
                         Status = t.Status,
                         Science = t.Science,
                         LessonTarget = t.LessonTarget,
-                        AgeСategory = t.AgeСategory,
+                        AgeCategory = t.AgeCategory,
                         Experience = t.Experience,
                         AboutMe = t.AboutMe,
                         Price = t.Price,

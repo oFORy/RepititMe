@@ -28,7 +28,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.Status)
                 .Include(u => u.Science)
                 .Include(u => u.LessonTarget)
-                .Include(u => u.AgeСategory)
+                .Include(u => u.AgeCategory)
                 .FirstOrDefaultAsync(u => u.User.TelegramId == telegramId);
         }
 

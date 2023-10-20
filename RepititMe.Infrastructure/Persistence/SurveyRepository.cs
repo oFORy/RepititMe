@@ -42,7 +42,6 @@ namespace RepititMe.Infrastructure.Persistence
 
         }
 
-
         public async Task<bool> SurveyTeacher(SurveyTeacherObject surveyTeacherObject)
         {
 
@@ -68,7 +67,6 @@ namespace RepititMe.Infrastructure.Persistence
                     return false;
             }
             
-
             if (survey != null)
             {
                 survey.TeacherAccept = surveyTeacherObject.TeacherAccept;

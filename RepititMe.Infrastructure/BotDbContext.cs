@@ -33,7 +33,7 @@ namespace RepititMe.Infrastructure
                 .HasForeignKey(t => t.LessonTargetId);
 
             modelBuilder.Entity<Teacher>()
-                .HasOne(t => t.AgeСategory)
+                .HasOne(t => t.AgeCategory)
                 .WithMany()
                 .HasForeignKey(t => t.AgeСategoryId);
 
@@ -99,13 +99,13 @@ namespace RepititMe.Infrastructure
                new Science { Id = 9, Name = "Обществознание" }
                );
 
-            modelBuilder.Entity<AgeСategory>().HasData(
-                new AgeСategory { Id = 1, Name = "Дошкольники: 4-7 лет" },
-                new AgeСategory { Id = 2, Name = "Начальные классы: 1-4 класс" },
-                new AgeСategory { Id = 3, Name = "Средние классы: 5-8 класс" },
-                new AgeСategory { Id = 4, Name = "Старшие классы: 9-11 класс" },
-                new AgeСategory { Id = 5, Name = "Студенты" },
-                new AgeСategory { Id = 6, Name = "Взрослые" }
+            modelBuilder.Entity<AgeCategory>().HasData(
+                new AgeCategory { Id = 1, Name = "Дошкольники: 4-7 лет" },
+                new AgeCategory { Id = 2, Name = "Начальные классы: 1-4 класс" },
+                new AgeCategory { Id = 3, Name = "Средние классы: 5-8 класс" },
+                new AgeCategory { Id = 4, Name = "Старшие классы: 9-11 класс" },
+                new AgeCategory { Id = 5, Name = "Студенты" },
+                new AgeCategory { Id = 6, Name = "Взрослые" }
                 );
 
             modelBuilder.Entity<LessonTarget>().HasData(
@@ -195,7 +195,7 @@ namespace RepititMe.Infrastructure
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Science> Sciences { get; set; }
         public DbSet<LessonTarget> LessonTargets { get; set; }
-        public DbSet<AgeСategory> AgeСategories { get; set; }
+        public DbSet<AgeCategory> AgeCategories { get; set; }
         public DbSet<TeacherStatus> TeacherStatuses { get; set; }
         public DbSet<ScienceLessonTarget> ScienceLessonTargets { get; set; }
         public DbSet<Survey> Surveis { get; set; }

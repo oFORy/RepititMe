@@ -10,7 +10,7 @@ namespace RepititMe.Domain.Object.SearchCategory
 {
     public class SearchCategoriesObject
     {
-        public List<AgeСategory> AgeCategories { get; set; }
+        public List<AgeCategory> AgeCategories { get; set; }
         public List<ScienceDto> Sciences { get; set; }
         public List<TeacherStatus> TeacherStatuses { get; set; }
     }

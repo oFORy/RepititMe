@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Entities.Data
 {
-    public class AgeСategory
+    public class AgeCategory
     {
         public int Id { get; set; }
         public string Name { get; set; }

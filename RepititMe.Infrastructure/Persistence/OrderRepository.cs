@@ -135,7 +135,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(o => o.Teacher)
                     .ThenInclude(t => t.LessonTarget)
                 .Include(o => o.Teacher)
-                    .ThenInclude(t => t.AgeСategory)
+                    .ThenInclude(t => t.AgeCategory)
                 .ToListAsync();
 
             return studentOrders;

@@ -100,7 +100,7 @@ namespace RepititMe.Infrastructure.Persistence
                 _botDbContext.SaveChangesAsync();
             }
 
-            DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-1);
+            DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
