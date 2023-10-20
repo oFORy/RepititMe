@@ -35,7 +35,7 @@ namespace RepititMe.Infrastructure
             modelBuilder.Entity<Teacher>()
                 .HasOne(t => t.AgeCategory)
                 .WithMany()
-                .HasForeignKey(t => t.AgeСategoryId);
+                .HasForeignKey(t => t.AgeCategoryId);
 
 
 
@@ -174,8 +174,8 @@ namespace RepititMe.Infrastructure
             );
 
             modelBuilder.Entity<Teacher>().HasData(
-                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeСategoryId  = 3, Experience = 2, Price = 2500, Visibility = true, Block = false },
-                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeСategoryId = 4, Experience = 1, Price = 1200, Visibility = false, Block = false }
+                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeCategoryId  = 3, Experience = 2, Price = 2500, Visibility = true, Block = false },
+                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeCategoryId = 4, Experience = 1, Price = 1200, Visibility = false, Block = false }
                 );
 
             modelBuilder.Entity<User>().HasData(
