@@ -27,9 +27,9 @@ namespace RepititMe.Api.Controllers
         /// <param name="teacherId"></param>
         /// <returns></returns>
         [HttpGet("Api/Reviews/ShowAll")]
-        public async Task<List<ReviewData>> TeacherReview(int teacherId)
+        public async Task<List<ReviewData>> TeacherReview(int telegramId)
         {
-            return await _reviewQueryService.TeacherReview(teacherId);
+            return await _reviewQueryService.TeacherReview(telegramId);
         }
 
         /// <summary>
@@ -41,6 +41,13 @@ namespace RepititMe.Api.Controllers
         public async Task<bool> NewReview([FromBody] ReviewObject reviewObject)
         {
             return await _reviewCommandService.NewReview(reviewObject);
+        }
+
+
+        [HttpGet("Api/Reviews/Data")]
+        public async Task<ReviewData> TeacherReviewData(int reviewId)
+        {
+            return await _reviewQueryService.TeacherReviewData(reviewId);
         }
     }
 }

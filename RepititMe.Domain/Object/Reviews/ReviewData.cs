@@ -9,6 +9,7 @@ namespace RepititMe.Domain.Object.Reviews
 {
     public class ReviewData
     { 
+        public int Id { get; set; }
         public Student Student { get; set; }
         public DateTime DateTime { get; set; }
         public string? Description { get; set; }

@@ -101,7 +101,7 @@ namespace RepititMe.Infrastructure.Persistence
                             .ToList()
                     })
                     .ToListAsync(),
-            TeacherStatuses = await _botDbContext.TeacherStatuses.ToListAsync()
+                TeacherStatuses = await _botDbContext.TeacherStatuses.ToListAsync()
             };
 
             return result;

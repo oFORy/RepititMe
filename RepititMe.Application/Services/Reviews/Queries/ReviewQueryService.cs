@@ -17,9 +17,14 @@ namespace RepititMe.Application.Services.Reviews.Queries
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<List<ReviewData>> TeacherReview(int teacherId)
+        public async Task<List<ReviewData>> TeacherReview(int telegramId)
         {
-            return await _reviewRepository.TeacherReview(teacherId);
+            return await _reviewRepository.TeacherReview(telegramId);
+        }
+
+        public async Task<ReviewData> TeacherReviewData(int reviewId)
+        {
+            return await _reviewRepository.TeacherReviewData(reviewId);
         }
     }
 }

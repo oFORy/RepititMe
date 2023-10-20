@@ -19,5 +19,6 @@ namespace RepititMe.Domain.Entities.Weights
         public DateTime? DateTimeFirstLesson { get; set; }
         public string? Description { get; set; }
         public bool IsRefused { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

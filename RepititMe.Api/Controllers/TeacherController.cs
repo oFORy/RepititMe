@@ -49,7 +49,7 @@ namespace RepititMe.Api.Controllers
         /// </summary>
         /// <param name="teacher"></param>
         /// <returns></returns>
-        [HttpPost("Api/Teacher/ChangeProfile")]
+        [HttpPut("Api/Teacher/ChangeProfile")]
         public async Task<IActionResult> ChangeProfile([FromForm] ChangeProfileTeacherObject teacher)
         {
             try
@@ -68,7 +68,7 @@ namespace RepititMe.Api.Controllers
         /// </summary>
         /// <param name="telegramId"></param>
         /// <returns></returns>
-        [HttpGet("Api/Teacher/ChangeVisability")]
+        [HttpPut("Api/Teacher/ChangeVisability")]
         public async Task<bool> ChangeVisability(int telegramId)
         {
             return await _teacherCommandService.ChangeVisability(telegramId);

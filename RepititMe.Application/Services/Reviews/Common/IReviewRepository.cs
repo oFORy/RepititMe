@@ -10,7 +10,8 @@ namespace RepititMe.Application.Services.Reviews.Common
 {
     public interface IReviewRepository
     {
-        Task<List<ReviewData>> TeacherReview(int teacherId);
+        Task<List<ReviewData>> TeacherReview(int telegramId);
         Task<bool> NewReview(ReviewObject reviewObject);
+        Task<ReviewData> TeacherReviewData(int reviewId);
     }
 }
