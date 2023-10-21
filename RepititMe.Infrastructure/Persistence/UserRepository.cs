@@ -68,15 +68,15 @@ namespace RepititMe.Infrastructure.Persistence
                 Name = userSignUpStudent.Name,
                 LastActivity = 1
             };
-            _botDbContext.Users.Add(newUser);
-            _botDbContext.SaveChanges();
+            await _botDbContext.Users.AddAsync(newUser);
+            await _botDbContext.SaveChangesAsync();
 
             var newStudent = new Student()
             {
                 UserId = newUser.Id
             };
-            _botDbContext.Students.Add(newStudent);
-            _botDbContext.SaveChanges();
+            await _botDbContext.Students.AddAsync(newStudent);
+            await _botDbContext.SaveChangesAsync();
 
             var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpStudent.TelegramId);
 
@@ -109,7 +109,7 @@ namespace RepititMe.Infrastructure.Persistence
                 PaymentRating = 400
             };
 
-            _botDbContext.Teachers.Add(newTeacher);
+            await _botDbContext.Teachers.AddAsync(newTeacher);
             await _botDbContext.SaveChangesAsync();
 
 

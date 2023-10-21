@@ -34,6 +34,8 @@ namespace RepititMe.Application
                 .AddScoped<IOrderCommandService, OrderCommandService>()
 
                 .AddScoped<ISurveyQueryService, SurveyQueryService>()
+
+
                 ;
             return services;
         }
