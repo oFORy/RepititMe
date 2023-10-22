@@ -45,7 +45,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
 
             if (userId > 0)
             {
-                string userFolderPath = $"media\\{userId}"; // Изменить на / когда отправиться на linux контейнер
+                string userFolderPath = $"wwwroot\\media\\{userId}"; // Изменить на / когда отправиться на linux контейнер
                 Directory.CreateDirectory(userFolderPath);
 
                 if (changeProfileTeacherObject.Image != null)

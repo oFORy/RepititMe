@@ -96,9 +96,9 @@ namespace RepititMe.Infrastructure.Persistence
                 SecondName = userSignUpTeacherObject.SecondName,
                 LastActivity = 2
             };
-            _botDbContext.Users.Add(newUser);
-            await _botDbContext.SaveChangesAsync();
 
+            await _botDbContext.Users.AddAsync(newUser);
+            await _botDbContext.SaveChangesAsync();
 
             var newTeacher = new Teacher()
             {

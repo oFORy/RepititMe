@@ -84,5 +84,28 @@ namespace RepititMe.Api.Controllers
             var fileBytes = System.IO.File.ReadAllBytes(fileName);
             return File(fileBytes, "application/octet-stream", Path.GetFileName(fileName));
         }
+
+        [HttpPost("Api/User/FullTeacher/Files_test")]
+        public IActionResult GetFileTest([FromBody] FileNameModel model)
+        {
+            var filePath = Path.Combine(model.FileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var fileContentResult = new PhysicalFileResult(filePath, "application/octet-stream")
+            {
+                FileDownloadName = model.FileName
+            };
+
+            return fileContentResult;
+        }
+
+        public class FileNameModel
+        {
+            public string FileName { get; set; }
+        }
     }
 }
