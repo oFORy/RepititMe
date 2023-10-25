@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
 using RepititMe.Application.Services.Users.Commands;
@@ -85,8 +86,28 @@ namespace RepititMe.Api.Controllers
             return File(fileBytes, "application/octet-stream", Path.GetFileName(fileName));
         }
 
-        [HttpPost("Api/User/FullTeacher/Files_test")]
-        public IActionResult GetFileTest([FromBody] FileNameModel model)
+
+
+        [HttpPost("Api/User/FullTeacher/Files_test_video")]
+        public IActionResult GetFileTest_video([FromBody] FileNameModel model)
+        {
+            var filePath = Path.Combine(model.FileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var file = new PhysicalFileResult(filePath, "video/mp4")
+            {
+                EnableRangeProcessing = true // эта строка позволяет обрабатывать заголовки "Range" от клиента
+            };
+
+            return file;
+        }
+
+        [HttpPost("Api/User/FullTeacher/Files_test_photo")]
+        public IActionResult GetFileTest_photo([FromBody] FileNameModel model)
         {
             var filePath = Path.Combine(model.FileName);
 
@@ -96,6 +117,43 @@ namespace RepititMe.Api.Controllers
             }
 
             var fileContentResult = new PhysicalFileResult(filePath, "application/octet-stream")
+            {
+                FileDownloadName = model.FileName
+            };
+            return fileContentResult;
+        }
+
+        [HttpPost("Api/User/FullTeacher/Files_test_doc")]
+        public IActionResult GetFileTest_doc([FromBody] FileNameModel model)
+        {
+            var filePath = Path.Combine(model.FileName);
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound();
+            }
+
+            var fileExtension = Path.GetExtension(model.FileName);
+            string contentType;
+
+            switch (fileExtension)
+            {
+                case ".doc":
+                    contentType = "application/msword";
+                    break;
+                case ".docx":
+                    contentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                    break;
+                case ".ppsx":
+                    contentType = "application/vnd.openxmlformats-officedocument.presentationml.slideshow";
+                    break;
+                default:
+                    contentType = "application/octet-stream";
+                    break;
+            }
+
+
+            var fileContentResult = new PhysicalFileResult(filePath, contentType)
             {
                 FileDownloadName = model.FileName
             };

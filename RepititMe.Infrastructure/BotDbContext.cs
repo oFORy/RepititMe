@@ -12,7 +12,7 @@ namespace RepititMe.Infrastructure
             : base(options)
         {
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,6 +50,11 @@ namespace RepititMe.Infrastructure
                 .HasForeignKey(t => t.TeacherId);
 
 
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Reports)
+                .WithOne(r => r.Order)
+                .HasForeignKey(r => r.OrderId);
 
             modelBuilder.Entity<Order>()
                 .HasOne(t => t.Teacher)
