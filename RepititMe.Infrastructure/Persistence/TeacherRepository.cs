@@ -52,6 +52,7 @@ namespace RepititMe.Infrastructure.Persistence
                 }
                 else
                 {
+                    teacher.PaymentRating = 0;
                     teacher.Image = updatedTeacher.Image;
                     teacher.StatusId = updatedTeacher.StatusId;
                     teacher.ScienceId = updatedTeacher.ScienceId;
@@ -62,8 +63,20 @@ namespace RepititMe.Infrastructure.Persistence
                     teacher.Price = updatedTeacher.Price;
                     teacher.VideoPresentation = updatedTeacher.VideoPresentation;
                     teacher.Certificates = updatedTeacher.Certificates;
+
+                    if (updatedTeacher.Image != null)
+                        teacher.PaymentRating += 200;
+                    if (updatedTeacher.VideoPresentation != null)
+                        teacher.PaymentRating += 400;
+                    if (updatedTeacher.Certificates != null && updatedTeacher.Certificates.Any())
+                        teacher.PaymentRating += updatedTeacher.Certificates.Count * 50;
+                    if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.LessonTargetId != null && updatedTeacher.AgeCategoryId != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
+                        teacher.PaymentRating += 300;
+
                     _botDbContext.Teachers.Update(teacher);
                 }
+
+
 
                 await _botDbContext.SaveChangesAsync();
                 return user.Id;

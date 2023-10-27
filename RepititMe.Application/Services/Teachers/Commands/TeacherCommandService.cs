@@ -24,7 +24,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
         public async Task<bool> ChangeProfile(ChangeProfileTeacherObject changeProfileTeacherObject)
         {
             string imagePath = null;
-            List<string> videoPaths = new List<string>();
+            string videoPath = null;
             List<string> certificatePaths = new List<string>();
 
             Teacher model = new Teacher
@@ -37,7 +37,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
                 Experience = changeProfileTeacherObject.Experience,
                 AboutMe = changeProfileTeacherObject.AboutMe,
                 Price = changeProfileTeacherObject.Price,
-                VideoPresentation = videoPaths,
+                VideoPresentation = videoPath,
                 Certificates = certificatePaths
             };
 
@@ -56,8 +56,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
                 {
                     foreach (var video in changeProfileTeacherObject.VideoPresentation)
                     {
-                        var videoPath = await SaveFile(video, $"{userFolderPath}\\presentations");
-                        videoPaths.Add(videoPath);
+                        videoPath = await SaveFile(video, $"{userFolderPath}\\presentations");
                     }
                 }
                 if (changeProfileTeacherObject.Certificates != null)
@@ -73,7 +72,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
                 {
                     UserId = userId,
                     Image = imagePath,
-                    VideoPresentation = videoPaths,
+                    VideoPresentation = videoPath,
                     Certificates = certificatePaths
                 };
 

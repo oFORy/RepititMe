@@ -106,7 +106,7 @@ namespace RepititMe.Infrastructure.Persistence
                 Visibility = false,
                 Block = false,
                 Rating = 5,
-                PaymentRating = 400
+                PaymentRating = 0
             };
 
             await _botDbContext.Teachers.AddAsync(newTeacher);

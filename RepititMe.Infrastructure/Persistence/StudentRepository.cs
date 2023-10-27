@@ -199,9 +199,18 @@ namespace RepititMe.Infrastructure.Persistence
                 .ToListAsync();
 
 
-            List<int> ordersSurveyList = await _botDbContext.Surveis
+            List<OrderSurveyDetails> ordersSurveyList = await _botDbContext.Surveis
+                .Include(s => s.Order)
+                    .ThenInclude(o => o.Teacher)
+                    .ThenInclude(t => t.User)
                 .Where(s => orderIdsList.Contains(s.OrderId) && !s.StudentAnswer)
-                .Select(s => s.OrderId)
+                .Select(s => new OrderSurveyDetails
+                {
+                    OrderId = s.OrderId,
+                    Name = s.Order.Teacher.User.Name,
+                    SecondName = s.Order.Teacher.User.SecondName,
+                    TelegramName = s.Order.Teacher.User.TelegramName
+                })
                 .ToListAsync();
 
 

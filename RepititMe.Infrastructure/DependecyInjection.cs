@@ -31,7 +31,7 @@ namespace RepititMe.Infrastructure
 
 
             services
-                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection2"),
                 b => b.MigrationsAssembly("RepititMe.Api")));
 
             /*services

@@ -69,7 +69,7 @@ namespace RepititMe.Infrastructure.Persistence
             var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == idOrder);
             if (order != null)
             {
-                //order.RefusedStudent = true;
+                order.Refused = true;
                 return await _botDbContext.SaveChangesAsync() > 0;
             }
             else

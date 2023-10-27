@@ -25,9 +25,9 @@ namespace RepititMe.Application.Services.Orders.Queries
             return await _orderRepository.CancelOrder(idOrder);
         }
 
-        public async Task<bool> RefuseOrder(int idOrder)
+        public async Task<bool> RefuseOrder(int idOrder, int user)
         {
-            return await _orderRepository.RefuseOrder(idOrder);
+            return await _orderRepository.RefuseOrder(idOrder, user);
         }
     }
 }

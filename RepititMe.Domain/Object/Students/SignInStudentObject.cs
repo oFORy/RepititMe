@@ -16,6 +16,6 @@ namespace RepititMe.Domain.Object.Students
         public List<StudentUseFulUrl>? UsefulLinks { get; set; }
         public List<BriefTeacherObject>? Teachers { get; set; }
         public bool SurveyStatus { get; set; }
-        public List<int> OrdersSurvey { get; set; }
+        public List<OrderSurveyDetails> OrdersSurvey { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace RepititMe.Domain.Object.Teachers
     {
         public int UserId { get; set; }
         public string? Image { get; set; }
-        public List<string>? VideoPresentation { get; set; }
+        public string? VideoPresentation { get; set; }
         public List<string>? Certificates { get; set; }
     }
 }

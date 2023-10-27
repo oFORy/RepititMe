@@ -14,7 +14,7 @@ namespace RepititMe.Application.Services.Orders.Common
         Task<List<Order>> ShowAllOrdersStudent(int telegramId);
         Task<List<Order>> ShowAllOrdersTeacher(int telegramId);
         Task<bool> AcceptOrder(int idOrder);
-        Task<bool> RefuseOrder(int idOrder);
+        Task<bool> RefuseOrder(int idOrder, int user);
         Task<bool> CancelOrder(int idOrder);
     }
 }
