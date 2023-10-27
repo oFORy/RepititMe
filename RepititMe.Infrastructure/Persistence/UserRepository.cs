@@ -73,7 +73,8 @@ namespace RepititMe.Infrastructure.Persistence
                     LastActivity = 1
                 };
                 await _botDbContext.Users.AddAsync(newUser);
-                await _botDbContext.SaveChangesAsync();
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
 
                 var newStudent = new Student()
                 {
@@ -86,7 +87,8 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 already.Name = userSignUpStudent.Name;
                 already.LastActivity = 1;
-                await _botDbContext.SaveChangesAsync();
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
 
                 var newStudent = new Student()
                 {
@@ -113,7 +115,8 @@ namespace RepititMe.Infrastructure.Persistence
                 };
 
                 await _botDbContext.Users.AddAsync(newUser);
-                await _botDbContext.SaveChangesAsync();
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
 
                 var newTeacher = new Teacher()
                 {
@@ -132,7 +135,8 @@ namespace RepititMe.Infrastructure.Persistence
                 already.Name = userSignUpTeacherObject.Name;
                 already.SecondName = userSignUpTeacherObject.SecondName;
                 already.LastActivity = 2;
-                await _botDbContext.SaveChangesAsync();
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
 
                 var newTeacher = new Teacher()
                 {
