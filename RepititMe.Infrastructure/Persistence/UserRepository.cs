@@ -61,63 +61,93 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpStudent)
         {
-            var newUser = new User()
+            var already = await _botDbContext.Users.FirstOrDefaultAsync(t => t.TelegramId == userSignUpStudent.TelegramId);
+
+            if (already == null)
             {
-                TelegramId = userSignUpStudent.TelegramId,
-                TelegramName = userSignUpStudent.TelegramName,
-                Name = userSignUpStudent.Name,
-                LastActivity = 1
-            };
-            await _botDbContext.Users.AddAsync(newUser);
-            await _botDbContext.SaveChangesAsync();
+                var newUser = new User()
+                {
+                    TelegramId = userSignUpStudent.TelegramId,
+                    TelegramName = userSignUpStudent.TelegramName,
+                    Name = userSignUpStudent.Name,
+                    LastActivity = 1
+                };
+                await _botDbContext.Users.AddAsync(newUser);
+                await _botDbContext.SaveChangesAsync();
 
-            var newStudent = new Student()
-            {
-                UserId = newUser.Id
-            };
-            await _botDbContext.Students.AddAsync(newStudent);
-            await _botDbContext.SaveChangesAsync();
-
-            var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpStudent.TelegramId);
-
-            if (check == null)
-                return false;
+                var newStudent = new Student()
+                {
+                    UserId = newUser.Id
+                };
+                await _botDbContext.Students.AddAsync(newStudent);
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
             else
-                return true;
+            {
+                already.Name = userSignUpStudent.Name;
+                already.LastActivity = 1;
+                await _botDbContext.SaveChangesAsync();
+
+                var newStudent = new Student()
+                {
+                    UserId = already.Id
+                };
+                await _botDbContext.Students.AddAsync(newStudent);
+
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
         }
 
         public async Task<bool> UserSignUpTeacher(UserSignUpTeacherObject userSignUpTeacherObject)
         {
-            var newUser = new User()
+            var already = await _botDbContext.Users.FirstOrDefaultAsync(t => t.TelegramId == userSignUpTeacherObject.TelegramId);
+            if (already == null)
             {
-                TelegramId = userSignUpTeacherObject.TelegramId,
-                TelegramName =userSignUpTeacherObject.TelegramName,
-                Name = userSignUpTeacherObject.Name,
-                SecondName = userSignUpTeacherObject.SecondName,
-                LastActivity = 2
-            };
+                var newUser = new User()
+                {
+                    TelegramId = userSignUpTeacherObject.TelegramId,
+                    TelegramName = userSignUpTeacherObject.TelegramName,
+                    Name = userSignUpTeacherObject.Name,
+                    SecondName = userSignUpTeacherObject.SecondName,
+                    LastActivity = 2
+                };
 
-            await _botDbContext.Users.AddAsync(newUser);
-            await _botDbContext.SaveChangesAsync();
+                await _botDbContext.Users.AddAsync(newUser);
+                await _botDbContext.SaveChangesAsync();
 
-            var newTeacher = new Teacher()
-            {
-                UserId = newUser.Id,
-                Visibility = false,
-                Block = false,
-                Rating = 5,
-                PaymentRating = 0
-            };
+                var newTeacher = new Teacher()
+                {
+                    UserId = newUser.Id,
+                    Visibility = false,
+                    Block = false,
+                    Rating = 5,
+                    PaymentRating = 0
+                };
 
-            await _botDbContext.Teachers.AddAsync(newTeacher);
-            await _botDbContext.SaveChangesAsync();
-
-
-            var check = await _botDbContext.Users.FirstOrDefaultAsync(c => c.TelegramId == userSignUpTeacherObject.TelegramId);
-            if (check == null)
-                return false;
+                await _botDbContext.Teachers.AddAsync(newTeacher);
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
             else
-                return true;
+            {
+                already.Name = userSignUpTeacherObject.Name;
+                already.SecondName = userSignUpTeacherObject.SecondName;
+                already.LastActivity = 2;
+                await _botDbContext.SaveChangesAsync();
+
+                var newTeacher = new Teacher()
+                {
+                    UserId = already.Id,
+                    Visibility = false,
+                    Block = false,
+                    Rating = 5,
+                    PaymentRating = 0
+                };
+
+                await _botDbContext.Teachers.AddAsync(newTeacher);
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
+
+            
         }
     }
 }
