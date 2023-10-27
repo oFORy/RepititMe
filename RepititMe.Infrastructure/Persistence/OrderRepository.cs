@@ -64,12 +64,15 @@ namespace RepititMe.Infrastructure.Persistence
                 return false;
         }
 
-        public async Task<bool> RefuseOrder(int idOrder)
+        public async Task<bool> RefuseOrder(int idOrder, int user)
         {
             var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == idOrder);
             if (order != null)
             {
-                order.Refused = true;
+                if (user == 2)
+                    order.RefusedTeacher = true;
+                else
+                    order.RefusedStudent = true;
                 return await _botDbContext.SaveChangesAsync() > 0;
             }
             else
@@ -125,7 +128,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var studentOrders = await _botDbContext.Orders
-                .Where(o => o.StudentId == studentId && !o.RefusedStudent && !o.RefusedTeacher)
+                .Where(o => o.StudentId == studentId && !o.RefusedStudent)
                 .Include(o => o.Teacher)
                     .ThenInclude(t => t.User)
                 .Include(o => o.Teacher)
@@ -154,7 +157,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var teacherOrders = await _botDbContext.Orders
-                .Where(o => o.TeacherId == teacherId && !o.RefusedTeacher)
+                .Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 ))
                 .Include(o => o.Student)
                     .ThenInclude(t => t.User)
                 .ToListAsync();
