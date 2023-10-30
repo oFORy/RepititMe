@@ -31,8 +31,7 @@ namespace RepititMe.Infrastructure.Persistence
                 teacher.Image = updateTeacherDataFolderObject?.Image;
                 teacher.Certificates = updateTeacherDataFolderObject?.Certificates;
                 teacher.VideoPresentation = updateTeacherDataFolderObject?.VideoPresentation;
-                await _botDbContext.SaveChangesAsync();
-                return true;
+                return await _botDbContext.SaveChangesAsync() > 0;
             }
             else
                 return false;
@@ -73,12 +72,9 @@ namespace RepititMe.Infrastructure.Persistence
                     if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.LessonTargetId != null && updatedTeacher.AgeCategoryId != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
                         teacher.PaymentRating += 300;
 
-                    _botDbContext.Teachers.Update(teacher);
+                    if (await _botDbContext.SaveChangesAsync() == 0)
+                        return -1;
                 }
-
-
-
-                await _botDbContext.SaveChangesAsync();
                 return user.Id;
             }
 
@@ -95,8 +91,7 @@ namespace RepititMe.Infrastructure.Persistence
             if (teacher != null)
             {
                 teacher.Visibility = !teacher.Visibility;
-                await _botDbContext.SaveChangesAsync();
-                return true;
+                return await _botDbContext.SaveChangesAsync() > 0;
             }
 
             return false;
@@ -109,12 +104,12 @@ namespace RepititMe.Infrastructure.Persistence
             if (activityUpdate != null)
             {
                 activityUpdate.LastActivity = 2;
-                _botDbContext.SaveChangesAsync();
+                await _botDbContext.SaveChangesAsync();
             }
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
-            var userId = await _botDbContext.Users
+            /*var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
                 .Select(u => u.Id)
                 .SingleOrDefaultAsync();
@@ -122,29 +117,73 @@ namespace RepititMe.Infrastructure.Persistence
             var teacherId = await _botDbContext.Teachers
                 .Where(s => s.UserId == userId)
                 .Select(s => s.Id)
+                .SingleOrDefaultAsync();*/
+
+
+            var teacherId = await _botDbContext.Teachers
+                .Include(u => u.User)
+                .Where(s => s.User.TelegramId == telegramId)
+                .Select(s => s.Id)
                 .SingleOrDefaultAsync();
 
-            List<int> orderIdsList = await _botDbContext.Orders
+
+            List<int> orderIdsListFirst = await _botDbContext.Orders
                 .Where(t => t.TeacherId == teacherId)
                 .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value <= twoHoursAgo)
                 .Select(o => o.Id)
                 .ToListAsync();
 
 
-            List<int> ordersSurveyList = await _botDbContext.Surveis
-                .Where(s => orderIdsList.Contains(s.OrderId) && !s.TeacherAnswer)
+            /*List<int> ordersSurveyListFirst = await _botDbContext.SurveisFirst
+                .Where(s => orderIdsListFirst.Contains(s.OrderId) && !s.TeacherAnswer)
                 .Select(s => s.OrderId)
+                .ToListAsync();*/
+
+
+            List<OrderSurveyDetailsTeacher> ordersSurveyListFirst = await _botDbContext.SurveisFirst
+                .Include(s => s.Order)
+                    .ThenInclude(o => o.Student)
+                    .ThenInclude(t => t.User)
+                .Where(s => orderIdsListFirst.Contains(s.OrderId) && !s.TeacherAnswer)
+                .Select(s => new OrderSurveyDetailsTeacher
+                {
+                    OrderId = s.OrderId,
+                    Name = s.Order.Student.User.Name,
+                    TelegramName = s.Order.Student.User.TelegramName
+                })
                 .ToListAsync();
 
-            var surveyStatus = ordersSurveyList.Any();
+
+            List<int> orderIdsListSecond = await _botDbContext.Orders
+                .Where(t => t.TeacherId == teacherId)
+                .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value.Date <= DateTime.UtcNow.Date && DateTime.UtcNow.TimeOfDay >= new TimeSpan(21, 0, 0))
+                .Select(o => o.Id)
+                .ToListAsync();
+
+            List<OrderSurveyDetailsTeacher> ordersSurveyListSecond = await _botDbContext.SurveisSecond
+                .Include(s => s.Order)
+                    .ThenInclude(o => o.Student)
+                    .ThenInclude(t => t.User)
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && !s.StudentAnswer)
+                .Select(s => new OrderSurveyDetailsTeacher
+                {
+                    OrderId = s.OrderId,
+                    Name = s.Order.Student.User.Name,
+                    TelegramName = s.Order.Student.User.TelegramName
+                })
+                .ToListAsync();
+
+
 
 
             var signIn = new SignInTeacherObject()
             {
                 TeacherIn = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(u => u.User.TelegramId == telegramId),
                 UsefulLinks = await _botDbContext.TeacherUseFulUrls.ToListAsync(),
-                SurveyStatus = surveyStatus,
-                OrdersSurvey = ordersSurveyList
+                SurveyStatusFirst = ordersSurveyListFirst.Any(),
+                OrdersSurveyFirst = ordersSurveyListFirst,
+                SurveyStatusSecond = ordersSurveyListSecond.Any(),
+                OrdersSurveySecond = ordersSurveyListSecond
             }; 
 
             return signIn;
@@ -157,12 +196,8 @@ namespace RepititMe.Infrastructure.Persistence
             if (user != null)
             {
                 user.LastActivity = 0;
-                _botDbContext.Users.Update(user);
-                await _botDbContext.SaveChangesAsync();
-
-                return true;
+                return await _botDbContext.SaveChangesAsync() > 0;
             }
-
             return false;
         }
     }

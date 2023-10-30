@@ -68,7 +68,7 @@ namespace RepititMe.Infrastructure
 
 
 
-            modelBuilder.Entity<Survey>()
+            modelBuilder.Entity<SurveyFirst>()
                 .HasOne(t => t.Order)
                 .WithMany()
                 .HasForeignKey(t => t.OrderId);
@@ -203,6 +203,7 @@ namespace RepititMe.Infrastructure
         public DbSet<AgeCategory> AgeCategories { get; set; }
         public DbSet<TeacherStatus> TeacherStatuses { get; set; }
         public DbSet<ScienceLessonTarget> ScienceLessonTargets { get; set; }
-        public DbSet<Survey> Surveis { get; set; }
+        public DbSet<SurveyFirst> SurveisFirst { get; set; }
+        public DbSet<SurveySecond> SurveisSecond { get; set; }
     }
 }

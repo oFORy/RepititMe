@@ -9,7 +9,9 @@ namespace RepititMe.Application.Services.Surveis.Common
 {
     public interface ISurveyRepository
     {
-        Task<bool> SurveyStudent(SurveyStudentObject surveyStudentObject);
-        Task<bool> SurveyTeacher(SurveyTeacherObject surveyTeacherObject);
+        Task<bool> SurveyStudentFirst(SurveyStudentFirstObject surveyStudentFirstObject);
+        Task<bool> SurveyTeacherFirst(SurveyTeacherFirstObject surveyTeacherFirstObject);
+        Task<bool> SurveyStudentSecond(SurveyStudentSecondObject surveyStudentSecondObject);
+        Task<bool> SurveyTeacherSecond(SurveyTeacherSecondObject surveyTeacherSecondObject);
     }
 }

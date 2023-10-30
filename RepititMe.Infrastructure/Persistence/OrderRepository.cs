@@ -32,7 +32,7 @@ namespace RepititMe.Infrastructure.Persistence
 
             if (order != null)
             {
-                var newSurvey = new Survey()
+                var newSurvey = new SurveyFirst()
                 {
                     TelegramIdStudent = order.Student.User.TelegramId,
                     TelegramIdTeacher = order.Teacher.User.TelegramId,
@@ -42,7 +42,8 @@ namespace RepititMe.Infrastructure.Persistence
                 };
 
                 await _botDbContext.AddAsync(newSurvey);
-                await _botDbContext.SaveChangesAsync();
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
 
 
                 order.DateTimeAccept = DateTime.UtcNow;
@@ -64,13 +65,17 @@ namespace RepititMe.Infrastructure.Persistence
                 return false;
         }
 
-        public async Task<bool> RefuseOrder(int idOrder, int user)
+        public async Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject)
         {
-            var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == idOrder);
+            var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == refuseOrederObject.IdOrder);
             if (order != null)
             {
-                if (user == 2)
+                if (refuseOrederObject.User == 2)
                     order.RefusedTeacher = true;
+                    if (refuseOrederObject.DescriptionRefuse != null)
+                    {
+                        // тут отправка уведомления через бота админу !!!!
+                    }
                 else
                     order.RefusedStudent = true;
                 return await _botDbContext.SaveChangesAsync() > 0;
@@ -107,7 +112,8 @@ namespace RepititMe.Infrastructure.Persistence
                 StudentId = studentId,
                 Description = newOrderObject.Description,
                 RefusedStudent = false,
-                RefusedTeacher = false
+                RefusedTeacher = false,
+                Commission = 0
             };
 
             _botDbContext.Orders.Add(newOrder);

@@ -1,4 +1,5 @@
 ﻿using RepititMe.Application.Services.Orders.Common;
+using RepititMe.Domain.Object.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,9 @@ namespace RepititMe.Application.Services.Orders.Queries
             return await _orderRepository.CancelOrder(idOrder);
         }
 
-        public async Task<bool> RefuseOrder(int idOrder, int user)
+        public async Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject)
         {
-            return await _orderRepository.RefuseOrder(idOrder, user);
+            return await _orderRepository.RefuseOrder(refuseOrederObject);
         }
     }
 }

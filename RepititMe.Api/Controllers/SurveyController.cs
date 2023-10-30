@@ -16,16 +16,29 @@ namespace RepititMe.Api.Controllers
             _surveyQueryService = surveyQueryService;
         }
 
-        [HttpPut("Api/Survey/Student")]
-        public async Task<bool> SurveyStudent(SurveyStudentObject surveyStudentObject)
+        [HttpPut("Api/Survey/Student/First")]
+        public async Task<bool> SurveyStudentFirst(SurveyStudentFirstObject surveyStudentFirstObject)
         {
-            return await _surveyQueryService.SurveyStudent(surveyStudentObject);
+            return await _surveyQueryService.SurveyStudentFirst(surveyStudentFirstObject);
         }
 
-        [HttpPut("Api/Survey/Teacher")]
-        public async Task<bool> SurveyTeacher(SurveyTeacherObject surveyTeacherObject)
+        [HttpPut("Api/Survey/Student/Second")]
+        public async Task<bool> SurveyStudentSecond(SurveyStudentSecondObject surveyStudentSecondObject)
         {
-            return await _surveyQueryService.SurveyTeacher(surveyTeacherObject);
+            return await _surveyQueryService.SurveyStudentSecond(surveyStudentSecondObject);
+        }
+
+
+        [HttpPut("Api/Survey/Teacher/First")]
+        public async Task<bool> SurveyTeacherFirst(SurveyTeacherFirstObject surveyTeacherFirstObject)
+        {
+            return await _surveyQueryService.SurveyTeacherFirst(surveyTeacherFirstObject);
+        }
+
+        [HttpPut("Api/Survey/Teacher/Second")]
+        public async Task<bool> SurveyTeacherSecond(SurveyTeacherSecondObject surveyTeacherSecondObject)
+        {
+            return await _surveyQueryService.SurveyTeacherSecond(surveyTeacherSecondObject);
         }
     }
 }

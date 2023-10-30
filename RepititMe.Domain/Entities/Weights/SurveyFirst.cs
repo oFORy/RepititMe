@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Entities.Weights
 {
-    public class Survey
+    public class SurveyFirst
     {
         public int Id { get; set; }
         public int OrderId { get; set; }

@@ -16,14 +16,24 @@ namespace RepititMe.Application.Services.Surveis.Queries
             _surveyRepository = surveyRepository;
         }
 
-        public async Task<bool> SurveyStudent(SurveyStudentObject surveyStudentObject)
+        public async Task<bool> SurveyStudentFirst(SurveyStudentFirstObject surveyStudentFirstObject)
         {
-            return await _surveyRepository.SurveyStudent(surveyStudentObject);
+            return await _surveyRepository.SurveyStudentFirst(surveyStudentFirstObject);
         }
 
-        public async Task<bool> SurveyTeacher(SurveyTeacherObject surveyTeacherObject)
+        public async Task<bool> SurveyStudentSecond(SurveyStudentSecondObject surveyStudentSecondObject)
         {
-            return await _surveyRepository.SurveyTeacher(surveyTeacherObject);
+            return await _surveyRepository.SurveyStudentSecond(surveyStudentSecondObject);
+        }
+
+        public async Task<bool> SurveyTeacherFirst(SurveyTeacherFirstObject surveyTeacherFirstObject)
+        {
+            return await _surveyRepository.SurveyTeacherFirst(surveyTeacherFirstObject);
+        }
+
+        public async Task<bool> SurveyTeacherSecond(SurveyTeacherSecondObject surveyTeacherSecondObject)
+        {
+            return await _surveyRepository.SurveyTeacherSecond(surveyTeacherSecondObject);
         }
     }
 }

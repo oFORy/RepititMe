@@ -30,10 +30,7 @@ namespace RepititMe.Infrastructure.Persistence
             if (user != null)
             {
                 user.Name = name;
-                _botDbContext.Users.Update(user);
-                await _botDbContext.SaveChangesAsync();
-
-                return true;
+                return await _botDbContext.SaveChangesAsync() > 0;
             }
 
             return false;
@@ -144,7 +141,7 @@ namespace RepititMe.Infrastructure.Persistence
             if (activityUpdate != null)
             {
                 activityUpdate.LastActivity = 1;
-                _botDbContext.SaveChangesAsync();
+                await _botDbContext.SaveChangesAsync();
             }
 
 
@@ -173,15 +170,15 @@ namespace RepititMe.Infrastructure.Persistence
                     })
                 .ToListAsync();
 
+
+
+
+
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
-
-            var usefulLinks = await _botDbContext.StudentUseFulUrls.ToListAsync();
-
-
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
-            var userId = await _botDbContext.Users
+            /*var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
                 .Select(u => u.Id)
                 .SingleOrDefaultAsync();
@@ -189,22 +186,29 @@ namespace RepititMe.Infrastructure.Persistence
             var studentId = await _botDbContext.Students
                 .Where(s => s.UserId == userId)
                 .Select(s => s.Id)
+                .SingleOrDefaultAsync();*/
+
+
+            var studentId = await _botDbContext.Students
+                .Include(u => u.User)
+                .Where(s => s.User.TelegramId == telegramId)
+                .Select(s => s.Id)
                 .SingleOrDefaultAsync();
 
 
-            List<int> orderIdsList = await _botDbContext.Orders
+            List<int> orderIdsListFirst = await _botDbContext.Orders
                 .Where(t => t.StudentId == studentId)
                 .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value <= twoHoursAgo)
                 .Select(o => o.Id)
                 .ToListAsync();
 
 
-            List<OrderSurveyDetails> ordersSurveyList = await _botDbContext.Surveis
+            List<OrderSurveyDetailsStudent> ordersSurveyListFirst = await _botDbContext.SurveisFirst
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Teacher)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsList.Contains(s.OrderId) && !s.StudentAnswer)
-                .Select(s => new OrderSurveyDetails
+                .Where(s => orderIdsListFirst.Contains(s.OrderId) && !s.StudentAnswer)
+                .Select(s => new OrderSurveyDetailsStudent
                 {
                     OrderId = s.OrderId,
                     Name = s.Order.Teacher.User.Name,
@@ -214,16 +218,37 @@ namespace RepititMe.Infrastructure.Persistence
                 .ToListAsync();
 
 
-            var surveyStatus = ordersSurveyList.Any();
+            List<int> orderIdsListSecond = await _botDbContext.Orders
+                .Where(t => t.StudentId == studentId)
+                .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value.Date <= DateTime.UtcNow.Date && DateTime.UtcNow.TimeOfDay >= new TimeSpan(21, 0, 0))  
+                .Select(o => o.Id)
+                .ToListAsync();
+
+
+            List<OrderSurveyDetailsStudent> ordersSurveyListSecond = await _botDbContext.SurveisSecond
+                .Include(s => s.Order)
+                    .ThenInclude(o => o.Teacher)
+                    .ThenInclude(t => t.User)
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && !s.StudentAnswer)
+                .Select(s => new OrderSurveyDetailsStudent
+                {
+                    OrderId = s.OrderId,
+                    Name = s.Order.Teacher.User.Name,
+                    SecondName = s.Order.Teacher.User.SecondName,
+                    TelegramName = s.Order.Teacher.User.TelegramName
+                })
+                .ToListAsync();
 
 
             var signIn = new SignInStudentObject()
             {
                 Name = user?.Name,
                 Teachers = topTeachers,
-                UsefulLinks = usefulLinks,
-                SurveyStatus = surveyStatus,
-                OrdersSurvey = ordersSurveyList,
+                UsefulLinks = await _botDbContext.StudentUseFulUrls.ToListAsync(),
+                SurveyStatusFirst = ordersSurveyListFirst.Any(),
+                OrdersSurveyFirst = ordersSurveyListFirst,
+                SurveyStatusSecond = ordersSurveyListSecond.Any(),
+                OrdersSurveySecond = ordersSurveyListSecond
             };
 
             return signIn;
@@ -236,10 +261,7 @@ namespace RepititMe.Infrastructure.Persistence
             if (user != null)
             {
                 user.LastActivity = 0;
-                _botDbContext.Users.Update(user);
-                await _botDbContext.SaveChangesAsync();
-
-                return true;
+                return await _botDbContext.SaveChangesAsync() > 0;
             }
 
             return false;

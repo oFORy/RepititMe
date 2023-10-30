@@ -49,9 +49,9 @@ namespace RepititMe.Infrastructure.Persistence
                 Rating = reviewObject.Rating
             };
             _botDbContext.Reviews.Add(review);
-            var saveResult = await _botDbContext.SaveChangesAsync();
 
-            return saveResult > 0;
+            // Сюда отправка уведомления о новом отзыве
+            return await _botDbContext.SaveChangesAsync() > 0;
         }
 
         public async Task<List<ReviewData>> TeacherReview(int telegramId)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepititMe.Domain.Object.Students
 {
-    public class OrderSurveyDetails
+    public class OrderSurveyDetailsStudent
     {
         public int OrderId { get; set; }
         public string Name { get; set; }

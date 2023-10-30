@@ -1,5 +1,6 @@
 ﻿using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object.Students;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,10 @@ namespace RepititMe.Domain.Object.Teachers
     {
         public Teacher TeacherIn { get; set; }
         public List<TeacherUseFulUrl>? UsefulLinks { get; set; }
-        public bool SurveyStatus { get; set; }
-        public List<int> OrdersSurvey { get; set; }
+        public bool SurveyStatusFirst { get; set; }
+        public List<OrderSurveyDetailsTeacher> OrdersSurveyFirst { get; set; }
+
+        public bool SurveyStatusSecond { get; set; }
+        public List<OrderSurveyDetailsTeacher> OrdersSurveySecond { get; set; }
     }
 }
