@@ -58,9 +58,9 @@ namespace RepititMe.Api.Controllers
         /// <param name="idOrder"></param>
         /// <returns></returns>
         [HttpPut("Api/Order/Refuse")]
-        public async Task<bool> RefuseOrder(int idOrder, int user)
+        public async Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject)
         {
-            return await _orderQueryService.RefuseOrder(idOrder, user);
+            return await _orderQueryService.RefuseOrder(refuseOrederObject);
         }
 
         /// <summary>
