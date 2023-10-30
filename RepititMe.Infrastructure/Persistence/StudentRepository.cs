@@ -112,7 +112,7 @@ namespace RepititMe.Infrastructure.Persistence
                     .Include(u => u.Science)
                     .Include(u => u.LessonTarget)
                     .Include(u => u.AgeCategory)
-                    .Where(t => t.Visibility != false && t.Block != true && !lastTeachers.Contains(t.UserId))
+                    .Where(t => t.Visibility != false && t.Block != true && !lastTeachers.Contains(t.User.TelegramId))
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
                     .Take(5)
