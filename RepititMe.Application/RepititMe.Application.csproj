@@ -21,8 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="Services\Admins\Commands\" />
-    <Folder Include="Services\Admins\Queries\" />
     <Folder Include="Services\Surveis\Commands\" />
   </ItemGroup>
 

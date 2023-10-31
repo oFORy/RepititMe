@@ -178,17 +178,6 @@ namespace RepititMe.Infrastructure.Persistence
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
-            /*var userId = await _botDbContext.Users
-                .Where(u => u.TelegramId == telegramId)
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();
-
-            var studentId = await _botDbContext.Students
-                .Where(s => s.UserId == userId)
-                .Select(s => s.Id)
-                .SingleOrDefaultAsync();*/
-
-
             var studentId = await _botDbContext.Students
                 .Include(u => u.User)
                 .Where(s => s.User.TelegramId == telegramId)

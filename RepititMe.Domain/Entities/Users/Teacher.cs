@@ -27,7 +27,6 @@ namespace RepititMe.Domain.Entities.Users
         public string? VideoPresentation { get; set; }
         public List<string>? Certificates { get; set; }
         public bool Visibility { get; set; }
-        public bool Block { get; set; }
         public double Rating { get; set; }
         public double PaymentRating { get; set; }
     }

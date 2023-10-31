@@ -109,17 +109,6 @@ namespace RepititMe.Infrastructure.Persistence
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
-            /*var userId = await _botDbContext.Users
-                .Where(u => u.TelegramId == telegramId)
-                .Select(u => u.Id)
-                .SingleOrDefaultAsync();
-
-            var teacherId = await _botDbContext.Teachers
-                .Where(s => s.UserId == userId)
-                .Select(s => s.Id)
-                .SingleOrDefaultAsync();*/
-
-
             var teacherId = await _botDbContext.Teachers
                 .Include(u => u.User)
                 .Where(s => s.User.TelegramId == telegramId)
@@ -132,12 +121,6 @@ namespace RepititMe.Infrastructure.Persistence
                 .Where(o => o.DateTimeAccept.HasValue && o.DateTimeAccept.Value <= twoHoursAgo)
                 .Select(o => o.Id)
                 .ToListAsync();
-
-
-            /*List<int> ordersSurveyListFirst = await _botDbContext.SurveisFirst
-                .Where(s => orderIdsListFirst.Contains(s.OrderId) && !s.TeacherAnswer)
-                .Select(s => s.OrderId)
-                .ToListAsync();*/
 
 
             List<OrderSurveyDetailsTeacher> ordersSurveyListFirst = await _botDbContext.SurveisFirst

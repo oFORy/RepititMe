@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Services.Admins.Commands;
+using RepititMe.Application.Services.Admins.Common;
+using RepititMe.Application.Services.Admins.Queries;
 using RepititMe.Application.Services.Orders.Commands;
 using RepititMe.Application.Services.Orders.Queries;
+using RepititMe.Application.Services.Reports.Queries;
 using RepititMe.Application.Services.Reviews.Commands;
 using RepititMe.Application.Services.Reviews.Queries;
 using RepititMe.Application.Services.Students.Commands;
@@ -35,7 +39,11 @@ namespace RepititMe.Application
 
                 .AddScoped<ISurveyQueryService, SurveyQueryService>()
 
+                .AddScoped<IReportQueryService, ReportQueryService>()
+                .AddScoped<IReviewCommandService, ReviewCommandService>()
 
+                .AddScoped<IAdminQueryService, AdminQueryService>()
+                .AddScoped<IAdminCommandService, AdminCommandService>()
                 ;
             return services;
         }

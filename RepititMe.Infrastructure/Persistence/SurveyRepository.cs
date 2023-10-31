@@ -21,13 +21,18 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> SurveyStudentFirst(SurveyStudentFirstObject surveyStudentObject)
         {
-
             if (surveyStudentObject == null)
                 throw new ArgumentNullException(nameof(surveyStudentObject));
 
             var survey = await _botDbContext.SurveisFirst
                 .FirstOrDefaultAsync(s => s.TelegramIdStudent == surveyStudentObject.TelegramId &&
                                           s.OrderId == surveyStudentObject.OrderId);
+
+
+            if (survey.TeacherAccept == true)
+            {
+
+            }
 
             if (survey != null)
             {

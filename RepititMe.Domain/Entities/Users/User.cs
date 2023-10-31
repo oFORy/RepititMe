@@ -15,5 +15,6 @@ namespace RepititMe.Domain.Entities.Users
         public int LastActivity { get; set; }
         public string Name { get; set; }
         public string? SecondName { get; set; }
+        public bool Block { get; set; }
     }
 }

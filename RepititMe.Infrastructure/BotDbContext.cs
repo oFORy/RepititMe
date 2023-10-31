@@ -51,6 +51,18 @@ namespace RepititMe.Infrastructure
 
 
 
+            modelBuilder.Entity<Dispute>()
+                .HasOne(t => t.Student)
+                .WithMany()
+                .HasForeignKey(t => t.StudentId);
+
+            modelBuilder.Entity<Dispute>()
+                .HasOne(t => t.Teacher)
+                .WithMany()
+                .HasForeignKey(t => t.TeacherId);
+
+
+
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.Reports)
                 .WithOne(r => r.Order)
@@ -179,14 +191,14 @@ namespace RepititMe.Infrastructure
             );
 
             modelBuilder.Entity<Teacher>().HasData(
-                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeCategoryId  = 3, Experience = 2, Price = 2500, Visibility = true, Block = false },
-                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeCategoryId = 4, Experience = 1, Price = 1200, Visibility = false, Block = false }
+                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeCategoryId  = 3, Experience = 2, Price = 2500, Visibility = true},
+                new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeCategoryId = 4, Experience = 1, Price = 1200, Visibility = false}
                 );
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Сергей", TelegramName = "@Serg" ,TelegramId = 12, LastActivity = 1},
-                new User { Id = 2, Name = "Владимир", TelegramName = "@Vlad", SecondName = "Петров", TelegramId = 23, LastActivity = 2 },
-                new User { Id = 3, Name = "Даниил", TelegramName = "@Dania", SecondName = "Семенов", TelegramId = 34, LastActivity = 1 }
+                new User { Id = 1, Name = "Сергей", TelegramName = "@Serg" ,TelegramId = 12, LastActivity = 1, Block = false },
+                new User { Id = 2, Name = "Владимир", TelegramName = "@Vlad", SecondName = "Петров", TelegramId = 23, LastActivity = 2, Block = false },
+                new User { Id = 3, Name = "Даниил", TelegramName = "@Dania", SecondName = "Семенов", TelegramId = 34, LastActivity = 1 , Block = false }
                 );
         }
 
@@ -205,5 +217,7 @@ namespace RepititMe.Infrastructure
         public DbSet<ScienceLessonTarget> ScienceLessonTargets { get; set; }
         public DbSet<SurveyFirst> SurveisFirst { get; set; }
         public DbSet<SurveySecond> SurveisSecond { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<Dispute> Disputes { get; set; }
     }
 }
