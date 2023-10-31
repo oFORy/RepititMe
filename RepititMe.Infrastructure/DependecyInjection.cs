@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Services.Admins.Common;
 using RepititMe.Application.Services.Orders.Common;
 using RepititMe.Application.Services.Reports.Common;
 using RepititMe.Application.Services.Reviews.Common;
@@ -29,7 +30,7 @@ namespace RepititMe.Infrastructure
                 .AddScoped<IOrderRepository, OrderRepository>()
                 .AddScoped<ISurveyRepository, SurveyRepository>()
                 .AddScoped<IReportRepository, ReportRepository>()
-                
+                .AddScoped<IAdminRepository, AdminRepository>()
                 ;
 
 

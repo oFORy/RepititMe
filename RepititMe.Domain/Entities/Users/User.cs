@@ -16,5 +16,6 @@ namespace RepititMe.Domain.Entities.Users
         public string Name { get; set; }
         public string? SecondName { get; set; }
         public bool Block { get; set; }
+        public bool Admin { get; set; }
     }
 }

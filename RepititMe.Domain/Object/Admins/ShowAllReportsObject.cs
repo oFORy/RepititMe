@@ -10,6 +10,6 @@ namespace RepititMe.Domain.Object.Admins
     public class ShowAllReportsObject
     {
         public bool Status { get; set; }
-        public List<Report> Reports { get; set; }
+        public List<Report>? Reports { get; set; }
     }
 }

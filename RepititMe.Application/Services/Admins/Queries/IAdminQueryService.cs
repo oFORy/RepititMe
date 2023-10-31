@@ -1,4 +1,5 @@
 ﻿using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object.Admins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,10 @@ namespace RepititMe.Application.Services.Admins.Queries
 {
     public interface IAdminQueryService
     {
-        Task<List<Student>> ShowAllStudents(int telegramId);
-        Task<List<Teacher>> ShowAllTeachers(int telegramId);
+        Task<ShowAllStudentsObject> ShowAllStudents(int telegramId);
+        Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId);
+        Task<ShowAllOrdersObject> AllOrders(int telegramId);
+        Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
+        Task<ShowAllDisputesObject> AllDispute(int telegramId);
     }
 }

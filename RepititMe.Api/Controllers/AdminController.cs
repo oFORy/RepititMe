@@ -21,14 +21,14 @@ namespace RepititMe.Api.Controllers
         }
 
         [HttpPost("Api/Admin/ShowAll/Students")]
-        public async Task<List<Student>> ShowAllStudents([FromBody] int telegramId)
+        public async Task<ShowAllStudentsObject> ShowAllStudents([FromBody] int telegramId)
         {
             return await _adminQueryService.ShowAllStudents(telegramId);
         }
 
 
         [HttpPost("Api/Admin/ShowAll/Teachers")]
-        public async Task<List<Teacher>> ShowAllTeachers([FromBody] int telegramId)
+        public async Task<ShowAllTeachersObject> ShowAllTeachers([FromBody] int telegramId)
         {
             return await _adminQueryService.ShowAllTeachers(telegramId);
         }
@@ -37,6 +37,24 @@ namespace RepititMe.Api.Controllers
         public async Task<bool> BlockingUser([FromBody] BlockingUserObject blockingUserObject)
         {
             return await _adminCommandService.BlockingUser(blockingUserObject);
+        }
+
+        [HttpPost("Api/Admin/ShowAll/Orders")]
+        public async Task<ShowAllOrdersObject> AllOrders(int telegramId)
+        {
+            return await _adminQueryService.AllOrders(telegramId);
+        }
+
+        [HttpPost("Api/Admin/ShowAll/Reports")]
+        public async Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId)
+        {
+            return await _adminQueryService.ShowAllReports(telegramId, orderId);
+        }
+
+        [HttpPost("Api/Admin/ShowAll/Dispute")]
+        public async Task<ShowAllDisputesObject> AllDispute(int telegramId)
+        {
+            return await _adminQueryService.AllDispute(telegramId);
         }
     }
 }

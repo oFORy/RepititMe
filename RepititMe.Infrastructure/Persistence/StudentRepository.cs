@@ -46,7 +46,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.LessonTarget)
                 .Include(u => u.AgeCategory)
                 .Where(t => t.Visibility != false
-                            && t.Block != true
+                            && t.User.Block != true
                             && t.ScienceId == searchCategoriesResultObject.ScienceId
                             && t.LessonTargetId == searchCategoriesResultObject.LessonTargetId
                             && t.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId
@@ -112,7 +112,7 @@ namespace RepititMe.Infrastructure.Persistence
                     .Include(u => u.Science)
                     .Include(u => u.LessonTarget)
                     .Include(u => u.AgeCategory)
-                    .Where(t => t.Visibility != false && t.Block != true && !lastTeachers.Contains(t.User.TelegramId))
+                    .Where(t => t.Visibility != false && t.User.Block != true && !lastTeachers.Contains(t.User.TelegramId))
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
                     .Take(5)
@@ -151,7 +151,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.Science)
                 .Include(u => u.LessonTarget)
                 .Include(u => u.AgeCategory)
-                .Where(t => t.Visibility != false && t.Block != true)
+                .Where(t => t.Visibility != false && t.User.Block != true)
                 .OrderByDescending(e => e.PaymentRating)
                 .ThenByDescending(e => e.Rating)
                 .Take(5)

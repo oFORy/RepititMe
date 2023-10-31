@@ -1,5 +1,6 @@
 ﻿using RepititMe.Application.Services.Admins.Common;
 using RepititMe.Domain.Entities.Users;
+using RepititMe.Domain.Object.Admins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,27 @@ namespace RepititMe.Application.Services.Admins.Queries
             _adminRepository = adminRepository;
         }
 
-        public async Task<List<Student>> ShowAllStudents(int telegramId)
+        public async Task<ShowAllDisputesObject> AllDispute(int telegramId)
+        {
+            return await _adminRepository.AllDispute(telegramId);
+        }
+
+        public async Task<ShowAllOrdersObject> AllOrders(int telegramId)
+        {
+            return await _adminRepository.AllOrders(telegramId);
+        }
+
+        public async Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId)
+        {
+            return await _adminRepository.ShowAllReports(telegramId, orderId);
+        }
+
+        public async Task<ShowAllStudentsObject> ShowAllStudents(int telegramId)
         {
             return await _adminRepository.ShowAllStudents(telegramId);
         }
 
-        public async Task<List<Teacher>> ShowAllTeachers(int telegramId)
+        public async Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId)
         {
             return await _adminRepository.ShowAllTeachers(telegramId);
         }

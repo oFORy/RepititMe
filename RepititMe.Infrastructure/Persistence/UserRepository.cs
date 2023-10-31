@@ -111,7 +111,8 @@ namespace RepititMe.Infrastructure.Persistence
                     TelegramName = userSignUpTeacherObject.TelegramName,
                     Name = userSignUpTeacherObject.Name,
                     SecondName = userSignUpTeacherObject.SecondName,
-                    LastActivity = 2
+                    LastActivity = 2,
+                    Block = false,
                 };
 
                 await _botDbContext.Users.AddAsync(newUser);
@@ -122,7 +123,6 @@ namespace RepititMe.Infrastructure.Persistence
                 {
                     UserId = newUser.Id,
                     Visibility = false,
-                    Block = false,
                     Rating = 5,
                     PaymentRating = 0
                 };
@@ -142,7 +142,6 @@ namespace RepititMe.Infrastructure.Persistence
                 {
                     UserId = already.Id,
                     Visibility = false,
-                    Block = false,
                     Rating = 5,
                     PaymentRating = 0
                 };
