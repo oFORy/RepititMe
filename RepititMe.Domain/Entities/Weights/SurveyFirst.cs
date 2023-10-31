@@ -15,13 +15,13 @@ namespace RepititMe.Domain.Entities.Weights
         public bool StudentAnswer { get; set; }
         public int TelegramIdStudent { get; set; }
         public bool? StudentAccept { get; set; }
-        public int? StudentPrice { get; set; }
+        public double? StudentPrice { get; set; }
         public string? StudentWhy { get; set; }
 
         public bool TeacherAnswer { get; set; }
         public int TelegramIdTeacher { get; set; }
         public bool? TeacherAccept { get; set; }
-        public int? TeacherPrice { get; set; }
+        public double? TeacherPrice { get; set; }
         public string? TeacherCause { get; set;}
         public string? TeacherSpecify { get; set; }
         public string? TeacherWhy { get; set; }

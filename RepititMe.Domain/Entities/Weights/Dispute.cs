@@ -16,7 +16,13 @@ namespace RepititMe.Domain.Entities.Weights
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
-        public string DataFromTeacher { get; set; }
-        public string DataFromStudent { get; set; }
+
+        public bool? AcceptFromTeacher { get; set; }
+        public double? PriceTeacher { get; set; }
+        public string? DataFromTeacher { get; set; }
+
+        public bool? AcceptFromStudent { get; set; }
+        public double? PriceStudent { get; set; }
+        public string? DataFromStudent { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using RepititMe.Application.Services.Reviews.Common;
+﻿using RepititMe.Application.Services.Orders.Common;
+using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
@@ -25,6 +27,11 @@ namespace RepititMe.Application.Services.Reviews.Queries
         public async Task<ReviewData> TeacherReviewData(int reviewId)
         {
             return await _reviewRepository.TeacherReviewData(reviewId);
+        }
+
+        public async Task<bool> ReviewSucces(ReviewSuccesObject reviewSuccesObject)
+        {
+            return await _reviewRepository.ReviewSucces(reviewSuccesObject);
         }
     }
 }

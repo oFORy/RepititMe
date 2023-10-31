@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,24 @@ namespace RepititMe.Infrastructure.Persistence
 
             // Сюда отправка уведомления о новом отзыве
             return await _botDbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ReviewSucces(ReviewSuccesObject reviewSuccesObject)
+        {
+            var check = await _botDbContext.Orders
+                .Include(s => s.Student)
+                    .ThenInclude(s => s.User)
+                .Include(t => t.Teacher)
+                    .ThenInclude(t => t.User)
+                .Where(r => r.Teacher.User.TelegramId == reviewSuccesObject.TelegramIdTeacher && r.Student.User.TelegramId == reviewSuccesObject.TelegramIdStudent)
+                .ToListAsync();
+
+            if (check.Count > 2)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         public async Task<List<ReviewData>> TeacherReview(int telegramId)

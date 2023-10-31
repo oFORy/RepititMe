@@ -1,4 +1,5 @@
 ﻿using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace RepititMe.Application.Services.Reviews.Common
         Task<List<ReviewData>> TeacherReview(int telegramId);
         Task<bool> NewReview(ReviewObject reviewObject);
         Task<ReviewData> TeacherReviewData(int reviewId);
+        Task<bool> ReviewSucces(ReviewSuccesObject reviewSuccesObject);
     }
 }

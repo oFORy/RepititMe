@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RepititMe.Application.Services.Reviews.Commands;
 using RepititMe.Application.Services.Reviews.Queries;
 using RepititMe.Domain.Entities;
+using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System.ComponentModel;
 
@@ -48,6 +49,12 @@ namespace RepititMe.Api.Controllers
         public async Task<ReviewData> TeacherReviewData(int reviewId)
         {
             return await _reviewQueryService.TeacherReviewData(reviewId);
+        }
+
+        [HttpPost("Api/Reviews/ReviewSucces")]
+        public async Task<bool> ReviewSucces([FromBody] ReviewSuccesObject reviewSuccesObject)
+        {
+            return await _reviewQueryService.ReviewSucces(reviewSuccesObject);
         }
     }
 }

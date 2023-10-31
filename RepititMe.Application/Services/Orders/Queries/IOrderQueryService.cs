@@ -12,5 +12,6 @@ namespace RepititMe.Application.Services.Orders.Queries
         Task<bool> AcceptOrder(int idOrder);
         Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject);
         Task<bool> CancelOrder(int idOrder);
+        
     }
 }
