@@ -22,12 +22,12 @@ namespace RepititMe.Application.Services.Orders.Commands
             return await _orderRepository.NewOrder(newOrderObject);
         }
 
-        public async Task<List<Order>> ShowAllOrdersStudent(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId)
         {
             return await _orderRepository.ShowAllOrdersStudent(telegramId);
         }
 
-        public async Task<List<Order>> ShowAllOrdersTeacher(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId)
         {
             return await _orderRepository.ShowAllOrdersTeacher(telegramId);
         }

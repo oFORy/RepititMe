@@ -27,9 +27,17 @@ namespace RepititMe.Infrastructure.Persistence
                 DateTime = newReportsObject.DateTimeReport,
                 OrderId = newReportsObject.OrderId
             };
-
             await _botDbContext.Reports.AddAsync(newReport);
-            return await _botDbContext.SaveChangesAsync() > 0;
+            if (await _botDbContext.SaveChangesAsync() == 0)
+                return false;
+
+            var addCommission = await _botDbContext.Reports.Include(r => r.Order).Where(o => o.Order.Id == newReportsObject.OrderId).FirstOrDefaultAsync();
+            if (addCommission != null)
+            {
+                addCommission.Order.Commission += newReportsObject.Price * 0.1;
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
+            return false;
         }
 
         public async Task<List<Report>> ShowAllReports(int telegramId, int orderId)

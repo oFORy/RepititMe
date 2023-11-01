@@ -40,7 +40,7 @@ namespace RepititMe.Api.Controllers
         }
 
         [HttpPost("Api/Admin/ShowAll/Orders")]
-        public async Task<ShowAllOrdersObject> AllOrders(int telegramId)
+        public async Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId)
         {
             return await _adminQueryService.AllOrders(telegramId);
         }

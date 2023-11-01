@@ -12,7 +12,7 @@ namespace RepititMe.Application.Services.Admins.Queries
     {
         Task<ShowAllStudentsObject> ShowAllStudents(int telegramId);
         Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId);
-        Task<ShowAllOrdersObject> AllOrders(int telegramId);
+        Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId);
         Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
         Task<ShowAllDisputesObject> AllDispute(int telegramId);
     }

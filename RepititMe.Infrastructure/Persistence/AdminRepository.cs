@@ -29,14 +29,14 @@ namespace RepititMe.Infrastructure.Persistence
             return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.OrderByDescending(e => e.Id).ToListAsync() };
         }
 
-        public async Task<ShowAllOrdersObject> AllOrders(int telegramId)
+        public async Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
             {
-                return new ShowAllOrdersObject() { Status = false };
+                return new ShowAllOrdersObjectAdmin() { Status = false };
             }
-            return new ShowAllOrdersObject() { Status = true, Orders = await _botDbContext.Orders.OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.OrderByDescending(e => e.Id).ToListAsync() };
         }
 
         public async Task<bool> BlockingUser(BlockingUserObject blockingUserObject)

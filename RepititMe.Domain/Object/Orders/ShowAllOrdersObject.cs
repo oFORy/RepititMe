@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepititMe.Domain.Object.Admins
+namespace RepititMe.Domain.Object.Orders
 {
     public class ShowAllOrdersObject
     {
-        public bool Status { get; set; }
-        public List<Order>? Orders { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<int>? CountLesson { get; set; }
     }
 }

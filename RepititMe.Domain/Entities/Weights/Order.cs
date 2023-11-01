@@ -21,7 +21,6 @@ namespace RepititMe.Domain.Entities.Weights
         public string? Description { get; set; }
         public bool RefusedStudent { get; set; }
         public bool RefusedTeacher { get; set; }
-        public List<Report>? Reports { get; set; }
         public double Commission { get; set; }
     }
 }

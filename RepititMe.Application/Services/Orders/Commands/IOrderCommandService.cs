@@ -11,7 +11,7 @@ namespace RepititMe.Application.Services.Orders.Commands
     public interface IOrderCommandService
     {
         Task<bool> NewOrder(NewOrderObject newOrderObject);
-        Task<List<Order>> ShowAllOrdersStudent(int telegramId);
-        Task<List<Order>> ShowAllOrdersTeacher(int telegramId);
+        Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId);
+        Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId);
     }
 }

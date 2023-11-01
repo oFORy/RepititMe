@@ -6,6 +6,7 @@ using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,7 +128,7 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<Order>> ShowAllOrdersStudent(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId)
         {
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
@@ -153,10 +154,21 @@ namespace RepititMe.Infrastructure.Persistence
                     .ThenInclude(t => t.AgeCategory)
                 .ToListAsync();
 
-            return studentOrders;
+
+            List<int> countLessons = new List<int>();
+
+            foreach (var order in studentOrders)
+            {
+                var count = await _botDbContext.Reports
+                    .CountAsync(r => r.OrderId == order.Id);
+                countLessons.Add(count);
+            }
+
+
+            return new ShowAllOrdersObject { Orders = studentOrders , CountLesson = countLessons };
         }
 
-        public async Task<List<Order>> ShowAllOrdersTeacher(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId)
         {
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
@@ -174,7 +186,17 @@ namespace RepititMe.Infrastructure.Persistence
                     .ThenInclude(t => t.User)
                 .ToListAsync();
 
-            return teacherOrders;
+            List<int> countLessons = new List<int>();
+
+            foreach (var order in teacherOrders)
+            {
+                var count = await _botDbContext.Reports
+                    .CountAsync(r => r.OrderId == order.Id);
+                countLessons.Add(count);
+            }
+
+
+            return new ShowAllOrdersObject { Orders = teacherOrders, CountLesson = countLessons };
         }
     }
 }

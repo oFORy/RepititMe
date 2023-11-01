@@ -14,7 +14,7 @@ namespace RepititMe.Application.Services.Admins.Common
         Task<ShowAllStudentsObject> ShowAllStudents(int telegramId);
         Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId);
         Task<bool> BlockingUser(BlockingUserObject blockingUserObject);
-        Task<ShowAllOrdersObject> AllOrders(int telegramId);
+        Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId);
         Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
         Task<ShowAllDisputesObject> AllDispute(int telegramId);
     }

@@ -22,7 +22,7 @@ namespace RepititMe.Application.Services.Admins.Queries
             return await _adminRepository.AllDispute(telegramId);
         }
 
-        public async Task<ShowAllOrdersObject> AllOrders(int telegramId)
+        public async Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId)
         {
             return await _adminRepository.AllOrders(telegramId);
         }
