@@ -16,6 +16,6 @@ namespace RepititMe.Application.Services.Admins.Common
         Task<bool> BlockingUser(BlockingUserObject blockingUserObject);
         Task<ShowAllOrdersObject> AllOrders(int telegramId);
         Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
-        Task<ShowAllDisputesObject> AllDispute(int telegramId); // Допилить Dispute
+        Task<ShowAllDisputesObject> AllDispute(int telegramId);
     }
 }

@@ -7,13 +7,15 @@ services:
       context: .
       dockerfile: RepititMe.Api/Dockerfile
     environment:
-        - DB_CS=host=localhost;port=5627;database=RepititMe;username=postgres;password=98GerodoT98;
+      - BotToken=6133428642:AAEMRPIdInGzWRuvAcgf5jdOuDDzw6KEYCA
+      - DB_CS=host=localhost;port=5627;database=Repitit;username=postgres;password=98GerodoT98;
+      - HostAddress=https://ff0a-24-135-39-140.ngrok.io
+      - HostAddress2=localhost
     ports:
       - "23400:80"
       - "23401:443"
     networks:
       - test-network
-
 
 networks:
   test-network:

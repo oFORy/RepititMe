@@ -71,14 +71,20 @@ namespace RepititMe.Infrastructure.Persistence
             if (order != null)
             {
                 if (refuseOrederObject.User == 2)
+                {
                     order.RefusedTeacher = true;
                     if (refuseOrederObject.DescriptionRefuse != null)
                     {
                         // тут отправка уведомления через бота админу !!!!
                     }
+                    return await _botDbContext.SaveChangesAsync() > 0;
+                } 
                 else
+                {
                     order.RefusedStudent = true;
-                return await _botDbContext.SaveChangesAsync() > 0;
+                    return await _botDbContext.SaveChangesAsync() > 0;
+                }
+                    
             }
             else
                 return false;
