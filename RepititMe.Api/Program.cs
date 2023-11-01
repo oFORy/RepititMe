@@ -41,10 +41,12 @@ builder.Services.AddSwaggerGen();
 
 
 
+
+
 // There are several strategies for completing asynchronous tasks during startup.
 // Some of them could be found in this article https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/
 // We are going to use IHostedService to add and later remove Webhook
-builder.Services.AddHostedService<ConfigureWebhook>();
+/*builder.Services.AddHostedService<ConfigureWebhook>();
 
 // Register named HttpClient to get benefits of IHttpClientFactory
 // and consume it with ITelegramBotClient typed client.
@@ -63,7 +65,7 @@ builder.Services.AddHttpClient("tgwebhook")
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddScoped<HandlerService>();
-builder.Services.AddScoped<ITelegramService, TelegramService>();
+builder.Services.AddScoped<ITelegramService, TelegramService>();*/
 
 //var botToken = Environment.GetEnvironmentVariable("BotToken");
 
@@ -112,9 +114,9 @@ app.UseHttpsRedirection();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(name: "tgwebhook",
+    /*endpoints.MapControllerRoute(name: "tgwebhook",
              pattern: $"bot/{botToken}",
-             new { controller = "Webhook", action = "Post" });
+             new { controller = "Webhook", action = "Post" });*/
     endpoints.MapControllers().RequireCors("enablecorspolicy");
 });
 
