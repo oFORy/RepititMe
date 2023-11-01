@@ -87,6 +87,13 @@ namespace RepititMe.Infrastructure
 
 
 
+            modelBuilder.Entity<Report>()
+                .HasOne(t => t.Order)
+                .WithMany()
+                .HasForeignKey(t => t.OrderId);
+
+
+
             modelBuilder.Entity<ScienceLessonTarget>()
                 .HasKey(slt => new { slt.ScienceId, slt.LessonTargetId });
 

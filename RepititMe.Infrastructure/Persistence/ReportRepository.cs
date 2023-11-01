@@ -22,7 +22,7 @@ namespace RepititMe.Infrastructure.Persistence
         {
             var newReport = new Report()
             {
-                Description = newReportsObject.Description ?? null,
+                Description = newReportsObject.Description != null ? newReportsObject.Description : null,
                 Price = newReportsObject.Price,
                 DateTime = newReportsObject.DateTimeReport,
                 OrderId = newReportsObject.OrderId
