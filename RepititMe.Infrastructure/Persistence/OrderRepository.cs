@@ -181,7 +181,8 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var teacherOrders = await _botDbContext.Orders
-                .Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 )) // !!!!!!!!!!!
+                //.Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 )) // !!!!!!!!!!!
+                .Where(o => o.Commission > 0 ? (o.TeacherId == teacherId && o.Commission > 0) : (o.TeacherId == teacherId && !o.RefusedTeacher))
                 .Include(o => o.Student)
                     .ThenInclude(t => t.User)
                 .ToListAsync();
