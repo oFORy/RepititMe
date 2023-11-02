@@ -14,7 +14,7 @@ namespace RepititMe.Domain.Entities.Weights
 
 
         public bool StudentAnswer { get; set; }
-        public int TelegramIdStudent { get; set; }
+        public long TelegramIdStudent { get; set; }
         public bool? StudentAccept { get; set; }
 
         public bool? StudentWannaNext { get; set; }
@@ -26,7 +26,7 @@ namespace RepititMe.Domain.Entities.Weights
 
 
         public bool TeacherAnswer { get; set; }
-        public int TelegramIdTeacher { get; set; }
+        public long TelegramIdTeacher { get; set; }
         public bool? TeacherAccept { get; set; }
 
         public bool? TeacherWannaNext { get; set; }

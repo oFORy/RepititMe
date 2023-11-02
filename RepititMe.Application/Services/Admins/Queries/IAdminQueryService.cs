@@ -10,10 +10,10 @@ namespace RepititMe.Application.Services.Admins.Queries
 {
     public interface IAdminQueryService
     {
-        Task<ShowAllStudentsObject> ShowAllStudents(int telegramId);
-        Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId);
-        Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId);
-        Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
-        Task<ShowAllDisputesObject> AllDispute(int telegramId);
+        Task<ShowAllStudentsObject> ShowAllStudents(long telegramId);
+        Task<ShowAllTeachersObject> ShowAllTeachers(long telegramId);
+        Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId);
+        Task<ShowAllReportsObject> ShowAllReports(ShowAllReportsInObject showAllReportsInObject);
+        Task<ShowAllDisputesObject> AllDispute(long telegramId);
     }
 }

@@ -28,7 +28,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="teacherId"></param>
         /// <returns></returns>
         [HttpGet("Api/Reviews/ShowAll")]
-        public async Task<List<ReviewData>> TeacherReview(int telegramId)
+        public async Task<List<ReviewData>> TeacherReview(long telegramId)
         {
             return await _reviewQueryService.TeacherReview(telegramId);
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
+using RepititMe.Api.bot.Services;
 using RepititMe.Application.Services.Students.Commands;
 using RepititMe.Application.Services.Students.Queries;
 using RepititMe.Application.Services.Users.Commands;
@@ -18,11 +19,13 @@ namespace RepititMe.Api.Controllers
     {
         private readonly IUserQueryService _userQueryService;
         private readonly IUserCommandService _userCommandService;
+        //private readonly ITelegramService _telegramService;
 
-        public UserController(IUserQueryService userQueryService, IUserCommandService userCommandService)
+        public UserController(IUserQueryService userQueryService, IUserCommandService userCommandService/*, ITelegramService telegramService*/)
         {
             _userQueryService = userQueryService;
             _userCommandService = userCommandService;
+           // _telegramService = telegramService;
         }
 
         /// <summary>
@@ -31,8 +34,10 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/User/Access")]
-        public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(int telegramId)
+        public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(long telegramId, string test)
         {
+
+            //await _telegramService.SendActionAsync(test, "Привет");
             return await _userQueryService.UserAccessId(telegramId);
         }
 
@@ -64,7 +69,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet("Api/User/FullTeacher")]
-        public async Task<Teacher> FullTeacher(int telegramId)
+        public async Task<Teacher> FullTeacher(long telegramId)
         {
             return await _userQueryService.FullTeacher(telegramId);
         }

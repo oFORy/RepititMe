@@ -11,11 +11,12 @@ namespace RepititMe.Application.Services.Admins.Common
 {
     public interface IAdminRepository
     {
-        Task<ShowAllStudentsObject> ShowAllStudents(int telegramId);
-        Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId);
+        Task<ShowAllStudentsObject> ShowAllStudents(long telegramId);
+        Task<ShowAllTeachersObject> ShowAllTeachers(long telegramId);
         Task<bool> BlockingUser(BlockingUserObject blockingUserObject);
-        Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId);
-        Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId);
-        Task<ShowAllDisputesObject> AllDispute(int telegramId);
+        Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId);
+        Task<ShowAllReportsObject> ShowAllReports(ShowAllReportsInObject showAllReportsInObject);
+        Task<ShowAllDisputesObject> AllDispute(long telegramId);
+        Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject);
     }
 }

@@ -11,6 +11,6 @@ namespace RepititMe.Application.Services.Teachers.Commands
     public interface ITeacherCommandService
     {
         Task<bool> ChangeProfile(ChangeProfileTeacherObject changeProfileTeacherObject);
-        Task<bool> ChangeVisability(int telegramId);
+        Task<bool> ChangeVisability(long telegramId);
     }
 }

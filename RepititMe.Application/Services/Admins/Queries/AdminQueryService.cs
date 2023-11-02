@@ -17,27 +17,27 @@ namespace RepititMe.Application.Services.Admins.Queries
             _adminRepository = adminRepository;
         }
 
-        public async Task<ShowAllDisputesObject> AllDispute(int telegramId)
+        public async Task<ShowAllDisputesObject> AllDispute(long telegramId)
         {
             return await _adminRepository.AllDispute(telegramId);
         }
 
-        public async Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId)
+        public async Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId)
         {
             return await _adminRepository.AllOrders(telegramId);
         }
 
-        public async Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId)
+        public async Task<ShowAllReportsObject> ShowAllReports(ShowAllReportsInObject showAllReportsInObject)
         {
-            return await _adminRepository.ShowAllReports(telegramId, orderId);
+            return await _adminRepository.ShowAllReports(showAllReportsInObject);
         }
 
-        public async Task<ShowAllStudentsObject> ShowAllStudents(int telegramId)
+        public async Task<ShowAllStudentsObject> ShowAllStudents(long telegramId)
         {
             return await _adminRepository.ShowAllStudents(telegramId);
         }
 
-        public async Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId)
+        public async Task<ShowAllTeachersObject> ShowAllTeachers(long telegramId)
         {
             return await _adminRepository.ShowAllTeachers(telegramId);
         }

@@ -11,7 +11,7 @@ namespace RepititMe.Application.Services.Reviews.Queries
 {
     public interface IReviewQueryService
     {
-        Task<List<ReviewData>> TeacherReview(int telegramId);
+        Task<List<ReviewData>> TeacherReview(long telegramId);
         Task<ReviewData> TeacherReviewData(int reviewId);
         Task<bool> ReviewSucces(ReviewSuccesObject reviewSuccesObject);
     }

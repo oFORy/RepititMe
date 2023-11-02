@@ -82,7 +82,6 @@ namespace RepititMe.Api.bot
 
 
 
-
         public Task HandleErrorAsync(Exception exception)
         {
             var ErrorMessage = exception switch

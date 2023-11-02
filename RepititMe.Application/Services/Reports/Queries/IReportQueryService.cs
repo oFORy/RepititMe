@@ -9,6 +9,6 @@ namespace RepititMe.Application.Services.Reports.Queries
 {
     public interface IReportQueryService
     {
-        Task<List<Report>> ShowAllReports(int telegramId, int orderId);
+        Task<List<Report>> ShowAllReports(long telegramId, int orderId);
     }
 }

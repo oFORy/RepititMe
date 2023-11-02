@@ -52,20 +52,28 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext.Reviews.Add(review);
 
             // Сюда отправка уведомления о новом отзыве
+
+
+            //
             return await _botDbContext.SaveChangesAsync() > 0;
         }
 
+
+
         public async Task<bool> ReviewSucces(ReviewSuccesObject reviewSuccesObject)
         {
-            var check = await _botDbContext.Orders
+            var orderId = await _botDbContext.Orders
                 .Include(s => s.Student)
                     .ThenInclude(s => s.User)
                 .Include(t => t.Teacher)
                     .ThenInclude(t => t.User)
                 .Where(r => r.Teacher.User.TelegramId == reviewSuccesObject.TelegramIdTeacher && r.Student.User.TelegramId == reviewSuccesObject.TelegramIdStudent)
-                .ToListAsync();
+                .Select(i => i.Id)
+                .FirstOrDefaultAsync();
 
-            if (check.Count > 2)
+            var check = await _botDbContext.Reports.Where(o => o.OrderId == orderId).ToListAsync();
+
+            if (check.Count >= 2)
             {
                 return true;
             }
@@ -73,7 +81,7 @@ namespace RepititMe.Infrastructure.Persistence
                 return false;
         }
 
-        public async Task<List<ReviewData>> TeacherReview(int telegramId)
+        public async Task<List<ReviewData>> TeacherReview(long telegramId)
         {
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)

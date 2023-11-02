@@ -84,7 +84,7 @@ namespace RepititMe.Application.Services.Teachers.Commands
             }
         }
 
-        public async Task<bool> ChangeVisability(int telegramId)
+        public async Task<bool> ChangeVisability(long telegramId)
         {
             return await _teacherRepository.ChangeVisability(telegramId);
         }

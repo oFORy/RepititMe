@@ -10,5 +10,6 @@ namespace RepititMe.Application.Services.Admins.Commands
     public interface IAdminCommandService
     {
         Task<bool> BlockingUser(BlockingUserObject blockingUserObject);
+        Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject);
     }
 }

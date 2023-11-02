@@ -12,10 +12,10 @@ namespace RepititMe.Application.Services.Students.Common
 {
     public interface IStudentRepository
     {
-        Task<SignInStudentObject> SignInStudent(int telegramId);
-        Task<bool> ChangeProfile(int telegramId, string name);
-        Task<bool> SignOutStudent(int telegramId);
-        Task<List<BriefTeacherObject>> ShowTeachers(List<int> lastTeachers);
+        Task<SignInStudentObject> SignInStudent(long telegramId);
+        Task<bool> ChangeProfile(long telegramId, string name);
+        Task<bool> SignOutStudent(long telegramId);
+        Task<List<BriefTeacherObject>> ShowTeachers(ShowTeachersFilterObject showTeachersFilterObject);
         Task<SearchCategoriesObject> SearchCategories();
         Task<List<BriefTeacherObject>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject);
         

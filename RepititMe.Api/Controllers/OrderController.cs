@@ -36,7 +36,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Order/ShowAll/Student")]
-        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(long telegramId)
         {
             return await _orderCommandService.ShowAllOrdersStudent(telegramId);
         }
@@ -47,7 +47,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Order/ShowAll/Teacher")]
-        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(long telegramId)
         {
             return await _orderCommandService.ShowAllOrdersTeacher(telegramId);
         }

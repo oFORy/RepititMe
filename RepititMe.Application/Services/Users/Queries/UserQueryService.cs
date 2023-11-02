@@ -18,12 +18,12 @@ namespace RepititMe.Application.Services.Users.Queries
             _userRepository = userRepository;
         }
 
-        public async Task<Teacher> FullTeacher(int telegramId)
+        public async Task<Teacher> FullTeacher(long telegramId)
         {
             return await _userRepository.FullTeacher(telegramId);
         }
 
-        public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
+        public async Task<Dictionary<string, int>> UserAccessId(long telegramId)
         {
             return await _userRepository.UserAccessId(telegramId);
         }

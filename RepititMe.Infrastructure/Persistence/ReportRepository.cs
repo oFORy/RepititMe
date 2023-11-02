@@ -40,7 +40,7 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
-        public async Task<List<Report>> ShowAllReports(int telegramId, int orderId)
+        public async Task<List<Report>> ShowAllReports(long telegramId, int orderId)
         {
             return await _botDbContext.Reports
                 .Where(i => i.OrderId == orderId)

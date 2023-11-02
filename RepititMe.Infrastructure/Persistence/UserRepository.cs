@@ -21,7 +21,7 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext = context;
         }
 
-        public async Task<Teacher> FullTeacher(int telegramId)
+        public async Task<Teacher> FullTeacher(long telegramId)
         {
             return await _botDbContext.Teachers
                 .Include(u => u.User)
@@ -33,7 +33,7 @@ namespace RepititMe.Infrastructure.Persistence
         }
 
 
-        public async Task<Dictionary<string, int>> UserAccessId(int telegramId)
+        public async Task<Dictionary<string, int>> UserAccessId(long telegramId)
         {
             var result = new Dictionary<string, int>
                 {

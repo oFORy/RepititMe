@@ -10,7 +10,7 @@ namespace RepititMe.Application.Services.Reports.Common
 {
     public interface IReportRepository
     {
-        Task<List<Report>> ShowAllReports(int telegramId, int orderId);
+        Task<List<Report>> ShowAllReports(long telegramId, int orderId);
         Task<bool> NewReport(NewReportsObject newReportsObject);
     }
 }

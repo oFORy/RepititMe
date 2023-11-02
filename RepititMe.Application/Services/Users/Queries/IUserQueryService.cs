@@ -10,7 +10,7 @@ namespace RepititMe.Application.Services.Users.Queries
 {
     public interface IUserQueryService
     {
-        Task<Dictionary<string, int>> UserAccessId(int telegramId);
-        Task<Teacher> FullTeacher(int telegramId);
+        Task<Dictionary<string, int>> UserAccessId(long telegramId);
+        Task<Teacher> FullTeacher(long telegramId);
     }
 }

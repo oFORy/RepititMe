@@ -10,7 +10,7 @@ namespace RepititMe.Domain.Entities.Users
     public class User
     {
         public int Id { get; set; }
-        public int TelegramId { get; set; }
+        public long TelegramId { get; set; }
         public string TelegramName { get; set; }
         public int LastActivity { get; set; }
         public string Name { get; set; }

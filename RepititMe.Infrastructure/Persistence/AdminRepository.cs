@@ -19,24 +19,24 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext = botDbContext;
         }
 
-        public async Task<ShowAllDisputesObject> AllDispute(int telegramId)
+        public async Task<ShowAllDisputesObject> AllDispute(long telegramId)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
             {
                 return new ShowAllDisputesObject() { Status = false };
             }
-            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.Include(t => t.Teacher).Include(s => s.Student).OrderByDescending(e => e.Id).ToListAsync() };
         }
 
-        public async Task<ShowAllOrdersObjectAdmin> AllOrders(int telegramId)
+        public async Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
             {
                 return new ShowAllOrdersObjectAdmin() { Status = false };
             }
-            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.Include(t => t.Teacher).Include(s => s.Student).OrderByDescending(e => e.Id).ToListAsync() };
         }
 
         public async Task<bool> BlockingUser(BlockingUserObject blockingUserObject)
@@ -59,17 +59,37 @@ namespace RepititMe.Infrastructure.Persistence
             }
         }
 
-        public async Task<ShowAllReportsObject> ShowAllReports(int telegramId, int orderId)
+        public async Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject)
         {
-            var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
+            var check = await _botDbContext.Users.Where(u => u.TelegramId == closeDisputeObject.TelegramIdAdmin && u.Admin).FirstOrDefaultAsync();
+            if (check == null)
+            {
+                return false;
+            }
+
+            var dispute = await _botDbContext.Disputes.Where(u => u.Id == closeDisputeObject.DisputeId).FirstOrDefaultAsync();
+            if (dispute == null)
+            {
+                return false;
+            }
+            else
+            {
+                dispute.StatusClose = !dispute.StatusClose;
+                return await _botDbContext.SaveChangesAsync() > 0;
+            }
+        }
+
+        public async Task<ShowAllReportsObject> ShowAllReports(ShowAllReportsInObject showAllReportsInObject)
+        {
+            var check = await _botDbContext.Users.Where(u => u.TelegramId == showAllReportsInObject.TelegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
             {
                 return new ShowAllReportsObject() { Status = false };
             }
-            return new ShowAllReportsObject() { Status = true, Reports = await _botDbContext.Reports.Where(o => o.OrderId == orderId).ToListAsync() };
+            return new ShowAllReportsObject() { Status = true, Reports = await _botDbContext.Reports.Include(t => t.Order).Where(o => o.OrderId == showAllReportsInObject.OrderId).ToListAsync() };
         }
 
-        public async Task<ShowAllStudentsObject> ShowAllStudents(int telegramId)
+        public async Task<ShowAllStudentsObject> ShowAllStudents(long telegramId)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
@@ -82,17 +102,21 @@ namespace RepititMe.Infrastructure.Persistence
                 .ToListAsync() };
         }
 
-        public async Task<ShowAllTeachersObject> ShowAllTeachers(int telegramId)
+        public async Task<ShowAllTeachersObject> ShowAllTeachers(long telegramId)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == telegramId && u.Admin).FirstOrDefaultAsync();
             if (check == null)
             {
                 return new ShowAllTeachersObject() { Status = false };
             }
-            return new ShowAllTeachersObject() { Teachers = await _botDbContext.Teachers
+            return new ShowAllTeachersObject() { Status = true,  Teachers = await _botDbContext.Teachers
                 .Include(u => u.User)
+                .Include(u => u.Status)
+                .Include(u => u.Science)
+                .Include(u => u.LessonTarget)
+                .Include(u => u.AgeCategory)
                 .OrderByDescending(e => e.User.Id)
-                .ToListAsync(), Status = true };
+                .ToListAsync()};
         }
     }
 }

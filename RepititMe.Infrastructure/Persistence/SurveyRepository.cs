@@ -71,12 +71,13 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = survey.TelegramIdTeacher,
-                            StudentId = surveyStudentObject.TelegramId,
+                            TeacherId = order.TeacherId,
+                            StudentId = order.StudentId,
                             AcceptFromStudent = surveyCheck.StudentAccept,
                             AcceptFromTeacher = surveyCheck.TeacherAccept,
                             DataFromTeacher = surveyCheck.TeacherCause ?? surveyCheck.TeacherSpecify ?? surveyCheck.TeacherWhy,
-                            DataFromStudent = surveyCheck.StudentWhy
+                            DataFromStudent = surveyCheck.StudentWhy,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
@@ -87,10 +88,11 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = surveyCheck.TelegramIdTeacher,
-                            StudentId = surveyStudentObject.TelegramId,
+                            TeacherId = order.TeacherId,
+                            StudentId = order.StudentId,
                             PriceTeacher = surveyCheck.TeacherPrice,
-                            PriceStudent = surveyCheck.StudentPrice
+                            PriceStudent = surveyCheck.StudentPrice,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
@@ -112,6 +114,7 @@ namespace RepititMe.Infrastructure.Persistence
                 throw new ArgumentNullException(nameof(surveyStudentSecondObject));
 
             var survey = await _botDbContext.SurveisSecond
+                .Include(o => o.Order)
                 .FirstOrDefaultAsync(s => s.TelegramIdStudent == surveyStudentSecondObject.TelegramId &&
                                           s.OrderId == surveyStudentSecondObject.OrderId);
 
@@ -145,8 +148,8 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = surveyCheck.TelegramIdTeacher,
-                            StudentId = surveyStudentSecondObject.TelegramId,
+                            TeacherId = survey.Order.TeacherId,
+                            StudentId = survey.Order.StudentId,
                             AcceptFromStudent = surveyCheck.StudentAccept,
                             AcceptFromTeacher = surveyCheck.TeacherAccept,
                             DataFromTeacher = surveyCheck.TeacherCause ??
@@ -154,7 +157,8 @@ namespace RepititMe.Infrastructure.Persistence
                                 surveyCheck.TeacherWhy ?? 
                                 (surveyCheck.StudentCancel != surveyCheck.TeacherCancel ? $"Ученик {((bool)surveyCheck.StudentCancel ? "не планирует занятия" : "не выбрал данную опцию")} | Преподаватель {((bool)surveyCheck.TeacherCancel ? "не планирует занятия" : "не выбрал данную опцию")}" : null) ??
                                 (surveyCheck.StudentWannaNext != surveyCheck.TeacherWannaNext ? $"Ученик {((bool)surveyCheck.StudentWannaNext ? "не планирует занятия" : "не выбрал данную опцию")} | Преподаватель {((bool)surveyCheck.TeacherWannaNext ? "не планирует занятия" : "не выбрал данную опцию")}" : null),
-                            DataFromStudent = surveyCheck.StudentWhy != null ? surveyCheck.StudentWhy : null
+                            DataFromStudent = surveyCheck.StudentWhy != null ? surveyCheck.StudentWhy : null,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
@@ -175,6 +179,7 @@ namespace RepititMe.Infrastructure.Persistence
                 throw new ArgumentNullException(nameof(surveyTeacherObject));
 
             var survey = await _botDbContext.SurveisFirst
+                .Include(o => o.Order)
                 .FirstOrDefaultAsync(s => s.TelegramIdTeacher == surveyTeacherObject.TelegramId &&
                                           s.OrderId == surveyTeacherObject.OrderId);
 
@@ -215,12 +220,13 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = survey.TelegramIdTeacher,
-                            StudentId = surveyTeacherObject.TelegramId,
+                            TeacherId = survey.Order.TeacherId,
+                            StudentId = survey.Order.StudentId,
                             AcceptFromStudent = surveyCheck.StudentAccept,
                             AcceptFromTeacher = surveyCheck.TeacherAccept,
                             DataFromTeacher = surveyCheck.TeacherCause ?? surveyCheck.TeacherSpecify ?? surveyCheck.TeacherWhy,
-                            DataFromStudent = surveyCheck.StudentWhy
+                            DataFromStudent = surveyCheck.StudentWhy,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
@@ -230,10 +236,11 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = surveyCheck.TelegramIdTeacher,
-                            StudentId = surveyTeacherObject.TelegramId,
+                            TeacherId = survey.Order.TeacherId,
+                            StudentId = survey.Order.StudentId,
                             PriceTeacher = surveyCheck.TeacherPrice,
-                            PriceStudent = surveyCheck.StudentPrice
+                            PriceStudent = surveyCheck.StudentPrice,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
@@ -253,6 +260,7 @@ namespace RepititMe.Infrastructure.Persistence
                 throw new ArgumentNullException(nameof(surveyTeacherSecondObject));
 
             var survey = await _botDbContext.SurveisSecond
+                .Include(o => o.Order)
                 .FirstOrDefaultAsync(s => s.TelegramIdStudent == surveyTeacherSecondObject.TelegramId &&
                                           s.OrderId == surveyTeacherSecondObject.OrderId);
 
@@ -283,8 +291,8 @@ namespace RepititMe.Infrastructure.Persistence
                     {
                         var newDispute = new Dispute()
                         {
-                            TeacherId = surveyCheck.TelegramIdTeacher,
-                            StudentId = surveyTeacherSecondObject.TelegramId,
+                            TeacherId = survey.Order.TeacherId,
+                            StudentId = survey.Order.StudentId,
                             AcceptFromStudent = surveyCheck.StudentAccept,
                             AcceptFromTeacher = surveyCheck.TeacherAccept,
                             DataFromTeacher = surveyCheck.TeacherCause ??
@@ -292,7 +300,8 @@ namespace RepititMe.Infrastructure.Persistence
                                 surveyCheck.TeacherWhy ??
                                 (surveyCheck.StudentCancel != surveyCheck.TeacherCancel ? $"Ученик {((bool)surveyCheck.StudentCancel ? "не планирует занятия" : "не выбрал данную опцию")} | Преподаватель {((bool)surveyCheck.TeacherCancel ? "не планирует занятия" : "не выбрал данную опцию")}" : null) ??
                                 (surveyCheck.StudentWannaNext != surveyCheck.TeacherWannaNext ? $"Ученик {((bool)surveyCheck.StudentWannaNext ? "не планирует занятия" : "не выбрал данную опцию")} | Преподаватель {((bool)surveyCheck.TeacherWannaNext ? "не планирует занятия" : "не выбрал данную опцию")}" : null),
-                            DataFromStudent = surveyCheck.StudentWhy != null ? surveyCheck.StudentWhy : null
+                            DataFromStudent = surveyCheck.StudentWhy != null ? surveyCheck.StudentWhy : null,
+                            StatusClose = false
                         };
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)

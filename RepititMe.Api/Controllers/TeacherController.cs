@@ -27,7 +27,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Teacher/SignIn")]
-        public async Task<SignInTeacherObject> SignInTeacher(int telegramId)
+        public async Task<SignInTeacherObject> SignInTeacher(long telegramId)
         {
             return await _teacherQueryService.SignInTeacher(telegramId);
         }
@@ -38,7 +38,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Teacher/SignOut")]
-        public async Task<bool> SignOutTeacher(int telegramId)
+        public async Task<bool> SignOutTeacher(long telegramId)
         {
             return await _teacherQueryService.SignOutTeacher(telegramId);
         }
@@ -69,7 +69,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpPut("Api/Teacher/ChangeVisability")]
-        public async Task<bool> ChangeVisability(int telegramId)
+        public async Task<bool> ChangeVisability(long telegramId)
         {
             return await _teacherCommandService.ChangeVisability(telegramId);
         }

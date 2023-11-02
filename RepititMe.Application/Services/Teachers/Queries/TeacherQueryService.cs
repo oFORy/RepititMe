@@ -16,12 +16,12 @@ namespace RepititMe.Application.Services.Teachers.Queries
             _teacherRepository = teacherRepository;
         }
 
-        public async Task<SignInTeacherObject> SignInTeacher(int telegramId)
+        public async Task<SignInTeacherObject> SignInTeacher(long telegramId)
         {
             return await _teacherRepository.SignInTeacher(telegramId);
         }
 
-        public async Task<bool> SignOutTeacher(int telegramId)
+        public async Task<bool> SignOutTeacher(long telegramId)
         {
             return await _teacherRepository.SignOutTeacher(telegramId);
         }

@@ -5,6 +5,7 @@ using RepititMe.Application.Services.Reports.Queries;
 using RepititMe.Domain.Entities.Weights;
 using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reports;
+using System.Runtime.CompilerServices;
 
 namespace RepititMe.Api.Controllers
 {
@@ -28,7 +29,7 @@ namespace RepititMe.Api.Controllers
 
 
         [HttpGet("Api/Report/ShowAll")]
-        public async Task<List<Report>> ShowAllReports(int telegramId, int orderId)
+        public async Task<List<Report>> ShowAllReports(long telegramId, int orderId)
         {
             return await _queryService.ShowAllReports(telegramId, orderId);
         }

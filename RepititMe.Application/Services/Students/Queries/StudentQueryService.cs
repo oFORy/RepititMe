@@ -24,12 +24,12 @@ namespace RepititMe.Application.Services.Students.Queries
              return await _studentRepository.SearchCategories();
         }
 
-        public async Task<List<BriefTeacherObject>> ShowTeachers(List<int> lastTeachers)
+        public async Task<List<BriefTeacherObject>> ShowTeachers(ShowTeachersFilterObject showTeachersFilterObject)
         {
-            return await _studentRepository.ShowTeachers(lastTeachers);
+            return await _studentRepository.ShowTeachers(showTeachersFilterObject);
         }
 
-        public async Task<SignInStudentObject> SignInStudent(int telegramId)
+        public async Task<SignInStudentObject> SignInStudent(long telegramId)
         {
             return await _studentRepository.SignInStudent(telegramId);
         }

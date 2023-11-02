@@ -23,7 +23,7 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext = context;
         }
 
-        public async Task<bool> ChangeProfile(int telegramId, string name)
+        public async Task<bool> ChangeProfile(long telegramId, string name)
         {
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
@@ -104,15 +104,72 @@ namespace RepititMe.Infrastructure.Persistence
             return result;
         }
 
-        public async Task<List<BriefTeacherObject>> ShowTeachers(List<int> lastTeachers)
+
+        public async Task<List<BriefTeacherObject>> ShowTeachers(ShowTeachersFilterObject showTeachersFilterObject)
         {
-            var topTeachers = await _botDbContext.Teachers
+            if (showTeachersFilterObject.ScienceId == null)
+            {
+                return await _botDbContext.Teachers
                     .Include(u => u.User)
                     .Include(u => u.Status)
                     .Include(u => u.Science)
                     .Include(u => u.LessonTarget)
                     .Include(u => u.AgeCategory)
-                    .Where(t => t.Visibility != false && t.User.Block != true && !lastTeachers.Contains(t.User.TelegramId))
+                    .Where(t => t.Visibility != false && !t.User.Block && !showTeachersFilterObject.WasTeachers.Contains(t.User.TelegramId))
+                    .OrderByDescending(e => e.PaymentRating)
+                    .ThenByDescending(e => e.Rating)
+                    .Take(5)
+                    .Select(t => new BriefTeacherObject
+                    {
+                        User = t.User,
+                        Image = t.Image,
+                        Status = t.Status,
+                        Science = t.Science,
+                        LessonTarget = t.LessonTarget,
+                        AgeCategory = t.AgeCategory,
+                        Experience = t.Experience,
+                        AboutMe = t.AboutMe,
+                        Price = t.Price,
+                        Rating = t.Rating
+                    })
+                    .ToListAsync();
+            }
+            else
+            {
+                var query = _botDbContext.Teachers
+                    .Include(u => u.User)
+                    .Include(u => u.Status)
+                    .Include(u => u.Science)
+                    .Include(u => u.LessonTarget)
+                    .Include(u => u.AgeCategory)
+                    .Where(t => t.Visibility != false && !t.User.Block && !showTeachersFilterObject.WasTeachers.Contains(t.User.TelegramId));
+
+                if (showTeachersFilterObject.ScienceId != null)
+                {
+                    query = query.Where(t => t.ScienceId == showTeachersFilterObject.ScienceId);
+                }
+                if (showTeachersFilterObject.PriceLow != null)
+                {
+                    query = query.Where(t => t.Price >= showTeachersFilterObject.PriceLow);
+                }
+                if (showTeachersFilterObject.PriceHigh != null)
+                {
+                    query = query.Where(t => t.Price <= showTeachersFilterObject.PriceHigh);
+                }
+                if (showTeachersFilterObject.PriceHigh != null && showTeachersFilterObject.PriceLow != null)
+                {
+                    query = query.Where(t => t.Price <= showTeachersFilterObject.PriceHigh && t.Price >= showTeachersFilterObject.PriceLow);
+                }
+                if (showTeachersFilterObject.TeacherStatusId != null)
+                {
+                    query = query.Where(t => t.StatusId == showTeachersFilterObject.TeacherStatusId);
+                }
+                if (showTeachersFilterObject.LessonTargetId != null)
+                {
+                    query = query.Where(t => t.LessonTargetId == showTeachersFilterObject.LessonTargetId);
+                }
+
+                var result = await query
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
                     .Take(5)
@@ -131,10 +188,16 @@ namespace RepititMe.Infrastructure.Persistence
                     })
                     .ToListAsync();
 
-            return topTeachers;
+                return result;
+            }
+
+
         }
 
-        public async Task<SignInStudentObject> SignInStudent(int telegramId)
+
+
+
+        public async Task<SignInStudentObject> SignInStudent(long telegramId)
         {
             var activityUpdate = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
@@ -145,7 +208,7 @@ namespace RepititMe.Infrastructure.Persistence
             }
 
 
-            var topTeachers = await _botDbContext.Teachers
+            /*var topTeachers = await _botDbContext.Teachers
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
@@ -168,10 +231,7 @@ namespace RepititMe.Infrastructure.Persistence
                         Price = t.Price,
                         Rating = t.Rating
                     })
-                .ToListAsync();
-
-
-
+                .ToListAsync();*/
 
 
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
@@ -218,7 +278,6 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Teacher)
                     .ThenInclude(t => t.User)
-                //.Where(s => orderIdsListSecond.Contains(s.OrderId) && (!s.StudentAnswer || (s.RepitSurveyStudent != null && s.RepitSurveyStudent.Value.Date < DateTime.UtcNow.Date)))
                 .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyStudent != null ? s.RepitSurveyStudent.Value.Date < DateTime.UtcNow.Date : !s.StudentAnswer))
                 .Select(s => new OrderSurveyDetailsStudent
                 {
@@ -233,7 +292,7 @@ namespace RepititMe.Infrastructure.Persistence
             var signIn = new SignInStudentObject()
             {
                 Name = user?.Name,
-                Teachers = topTeachers,
+                //Teachers = topTeachers,
                 UsefulLinks = await _botDbContext.StudentUseFulUrls.ToListAsync(),
                 SurveyStatusFirst = ordersSurveyListFirst.Any(),
                 OrdersSurveyFirst = ordersSurveyListFirst,
@@ -244,7 +303,7 @@ namespace RepititMe.Infrastructure.Persistence
             return signIn;
         }
 
-        public async Task<bool> SignOutStudent(int telegramId)
+        public async Task<bool> SignOutStudent(long telegramId)
         {
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 

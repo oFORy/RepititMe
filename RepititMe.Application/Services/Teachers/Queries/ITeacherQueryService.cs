@@ -9,7 +9,7 @@ namespace RepititMe.Application.Services.Teachers.Queries
 {
     public interface ITeacherQueryService
     {
-        Task<SignInTeacherObject> SignInTeacher(int telegramId);
-        Task<bool> SignOutTeacher(int telegramId);
+        Task<SignInTeacherObject> SignInTeacher(long telegramId);
+        Task<bool> SignOutTeacher(long telegramId);
     }
 }

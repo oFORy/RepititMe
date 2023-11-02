@@ -128,7 +128,7 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersStudent(long telegramId)
         {
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
@@ -141,7 +141,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var studentOrders = await _botDbContext.Orders
-                .Where(o => o.StudentId == studentId && !o.RefusedStudent)
+                .Where(o => o.StudentId == studentId && !o.RefusedStudent && !o.RefusedTeacher)
                 .Include(o => o.Teacher)
                     .ThenInclude(t => t.User)
                 .Include(o => o.Teacher)
@@ -168,7 +168,7 @@ namespace RepititMe.Infrastructure.Persistence
             return new ShowAllOrdersObject { Orders = studentOrders , CountLesson = countLessons };
         }
 
-        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId)
+        public async Task<ShowAllOrdersObject> ShowAllOrdersTeacher(long telegramId)
         {
             var userId = await _botDbContext.Users
                 .Where(u => u.TelegramId == telegramId)
@@ -181,7 +181,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var teacherOrders = await _botDbContext.Orders
-                .Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 ))
+                .Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 )) // !!!!!!!!!!!
                 .Include(o => o.Student)
                     .ThenInclude(t => t.User)
                 .ToListAsync();

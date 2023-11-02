@@ -21,5 +21,10 @@ namespace RepititMe.Application.Services.Admins.Commands
         {
             return await _adminRepository.BlockingUser(blockingUserObject);
         }
+
+        public async Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject)
+        {
+            return await _adminRepository.CloseDispute(closeDisputeObject);
+        }
     }
 }

@@ -24,5 +24,7 @@ namespace RepititMe.Domain.Entities.Weights
         public bool? AcceptFromStudent { get; set; }
         public double? PriceStudent { get; set; }
         public string? DataFromStudent { get; set; }
+
+        public bool StatusClose { get; set; }
     }
 }

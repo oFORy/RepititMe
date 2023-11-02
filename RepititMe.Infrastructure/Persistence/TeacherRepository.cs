@@ -37,7 +37,7 @@ namespace RepititMe.Infrastructure.Persistence
                 return false;
         }
 
-        public async Task<int> ChangeProfile(Teacher updatedTeacher, int telegramId)
+        public async Task<int> ChangeProfile(Teacher updatedTeacher, long telegramId)
         {
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
@@ -82,7 +82,7 @@ namespace RepititMe.Infrastructure.Persistence
 
         }
 
-        public async Task<bool> ChangeVisability(int telegramId)
+        public async Task<bool> ChangeVisability(long telegramId)
         {
             var teacher = await _botDbContext.Teachers
                      .Include(t => t.User)
@@ -97,7 +97,7 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
-        public async Task<SignInTeacherObject> SignInTeacher(int telegramId)
+        public async Task<SignInTeacherObject> SignInTeacher(long telegramId)
         {
             var activityUpdate = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
@@ -173,7 +173,7 @@ namespace RepititMe.Infrastructure.Persistence
             return signIn;
         }
 
-        public async Task<bool> SignOutTeacher(int telegramId)
+        public async Task<bool> SignOutTeacher(long telegramId)
         {
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 

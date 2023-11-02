@@ -29,7 +29,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Student/SignIn")]
-        public async Task<SignInStudentObject> SignInStudent(int telegramId)
+        public async Task<SignInStudentObject> SignInStudent(long telegramId)
         {
             return await _studentQueryService.SignInStudent(telegramId);
         }
@@ -40,7 +40,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/Student/SignOut")]
-        public async Task<bool> SignOutStudent(int telegramId)
+        public async Task<bool> SignOutStudent(long telegramId)
         {
             return await _studentCommandService.SignOutStudent(telegramId);
         }
@@ -61,9 +61,9 @@ namespace RepititMe.Api.Controllers
         /// <param name="lastTeachers"></param>
         /// <returns></returns>
         [HttpPost("Api/Student/ShowTeachers")]
-        public async Task<List<BriefTeacherObject>> ShowTeachers([FromBody] List<int> lastTeachers)
+        public async Task<List<BriefTeacherObject>> ShowTeachers([FromBody] ShowTeachersFilterObject showTeachersFilterObject)
         {
-            return await _studentQueryService.ShowTeachers(lastTeachers);
+            return await _studentQueryService.ShowTeachers(showTeachersFilterObject);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace RepititMe.Api.Controllers
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpPut("Api/Student/ChangeProfile")]
-        public async Task<bool> ChangeProfile(int telegramId, string name)
+        public async Task<bool> ChangeProfile(long telegramId, string name)
         {
             return await _studentCommandService.ChangeProfile(telegramId, name);
         }

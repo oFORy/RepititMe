@@ -5,7 +5,7 @@ namespace RepititMe.Api.bot.Services
 {
     public interface ITelegramService
     {
-        public Task SendActionAsync(string message, IFormFile file);
+        public Task SendActionAsync(string message, string id);
     }
 
     public class TelegramService : ITelegramService
@@ -18,21 +18,12 @@ namespace RepititMe.Api.bot.Services
             _botClient = botClient;
         }
 
-        public async Task SendActionAsync(string message, IFormFile file)
+        public async Task SendActionAsync(string message, string id)
         {
 
-            //InputOnlineFile fileForSendimg;
-            /*using (var stream = file.OpenReadStream())
-            {
-                fileForSendimg = new InputOnlineFile(stream)
-                {
-                    FileName = file.FileName
-                };
-                await _botClient.SendTextMessageAsync(Environment.GetEnvironmentVariable("AdminChanel"), message);
-                await _botClient.SendDocumentAsync(Environment.GetEnvironmentVariable("AdminChanel"), fileForSendimg, message);
-            }*/
+            await _botClient.SendTextMessageAsync(id, message);
 
-
+            // Query Id
         }
 
     }

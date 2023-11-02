@@ -11,8 +11,8 @@ namespace RepititMe.Application.Services.Orders.Common
     public interface IOrderRepository
     {
         Task<bool> NewOrder(NewOrderObject newOrderObject);
-        Task<ShowAllOrdersObject> ShowAllOrdersStudent(int telegramId);
-        Task<ShowAllOrdersObject> ShowAllOrdersTeacher(int telegramId);
+        Task<ShowAllOrdersObject> ShowAllOrdersStudent(long telegramId);
+        Task<ShowAllOrdersObject> ShowAllOrdersTeacher(long telegramId);
         Task<bool> AcceptOrder(int idOrder);
         Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject);
         Task<bool> CancelOrder(int idOrder);
