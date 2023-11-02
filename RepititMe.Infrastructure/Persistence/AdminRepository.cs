@@ -26,7 +26,7 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 return new ShowAllDisputesObject() { Status = false };
             }
-            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.Include(t => t.Teacher).Include(s => s.Student).OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.Include(t => t.Teacher).ThenInclude(u => u.User).Include(s => s.Student).ThenInclude(u => u.User).OrderByDescending(e => e.Id).ToListAsync() };
         }
 
         public async Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId)
@@ -36,7 +36,7 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 return new ShowAllOrdersObjectAdmin() { Status = false };
             }
-            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.Include(t => t.Teacher).Include(s => s.Student).OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.Include(t => t.Teacher).ThenInclude(u => u.User).Include(s => s.Student).ThenInclude(u => u.User).OrderByDescending(e => e.Id).ToListAsync() };
         }
 
         public async Task<bool> BlockingUser(BlockingUserObject blockingUserObject)

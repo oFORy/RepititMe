@@ -46,7 +46,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.LessonTarget)
                 .Include(u => u.AgeCategory)
                 .Where(t => t.Visibility != false
-                            && t.User.Block != true
+                            && !t.User.Block
                             && t.ScienceId == searchCategoriesResultObject.ScienceId
                             && t.LessonTargetId == searchCategoriesResultObject.LessonTargetId
                             && t.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId
