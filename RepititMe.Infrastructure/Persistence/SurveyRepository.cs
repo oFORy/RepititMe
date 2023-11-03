@@ -198,6 +198,18 @@ namespace RepititMe.Infrastructure.Persistence
                     return false;
             }
 
+
+            if (surveyTeacherObject.DateTimeRepit != null)
+            {
+                if (survey != null)
+                {
+                    survey.RepitSurveyTeacher = surveyTeacherObject.DateTimeRepit;
+                    await _botDbContext.SaveChangesAsync();
+                }
+                else
+                    return false;
+            }
+
             if (survey != null)
             {
                 survey.TeacherAccept = surveyTeacherObject.TeacherAccept;

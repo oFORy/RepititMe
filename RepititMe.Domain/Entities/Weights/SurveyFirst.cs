@@ -22,7 +22,8 @@ namespace RepititMe.Domain.Entities.Weights
         public long TelegramIdTeacher { get; set; }
         public bool? TeacherAccept { get; set; }
         public double? TeacherPrice { get; set; }
-        public string? TeacherCause { get; set;}
+        public string? TeacherCause { get; set; }
+        public DateTime? RepitSurveyTeacher { get; set; }
         public string? TeacherSpecify { get; set; }
         public string? TeacherWhy { get; set; }
     }

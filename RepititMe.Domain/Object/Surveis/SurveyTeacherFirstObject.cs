@@ -12,6 +12,7 @@ namespace RepititMe.Domain.Object.Surveis
         public int OrderId { get; set; }
         public bool TeacherAccept { get; set; }
         public DateTime? DateTimeFirstLesson { get; set; }
+        public DateTime? DateTimeRepit { get; set; }
         public int? TeacherPrice { get; set; }
         public string? TeacherCause { get; set; }
         public string? TeacherSpecify { get; set; }

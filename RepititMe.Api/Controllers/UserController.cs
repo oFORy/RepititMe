@@ -25,7 +25,7 @@ namespace RepititMe.Api.Controllers
         {
             _userQueryService = userQueryService;
             _userCommandService = userCommandService;
-           // _telegramService = telegramService;
+            //_telegramService = telegramService;
         }
 
         /// <summary>
@@ -34,10 +34,10 @@ namespace RepititMe.Api.Controllers
         /// <param name="telegramId"></param>
         /// <returns></returns>
         [HttpGet("Api/User/Access")]
-        public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(long telegramId/*, string test*/)
+        public async Task<ActionResult<Dictionary<string, int>>> UserAccessId(long telegramId/*, long testId*/)
         {
 
-            //await _telegramService.SendActionAsync(test, "Привет");
+            //await _telegramService.SendActionAsync(testId.ToString(), "Привет");
             return await _userQueryService.UserAccessId(telegramId);
         }
 
