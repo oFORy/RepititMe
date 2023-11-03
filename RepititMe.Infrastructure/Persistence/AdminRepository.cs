@@ -26,7 +26,7 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 return new ShowAllDisputesObject() { Status = false };
             }
-            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.Include(t => t.Teacher).ThenInclude(u => u.User).Include(s => s.Student).ThenInclude(u => u.User).OrderByDescending(e => e.Id).ToListAsync() };
+            return new ShowAllDisputesObject() { Status = true, Disputes = await _botDbContext.Disputes.Include(t => t.Teacher).ThenInclude(u => u.User).Include(s => s.Student).ThenInclude(u => u.User).Where(b => !b.StatusClose).OrderByDescending(e => e.Id).ToListAsync() };
         }
 
         public async Task<ShowAllOrdersObjectAdmin> AllOrders(long telegramId)

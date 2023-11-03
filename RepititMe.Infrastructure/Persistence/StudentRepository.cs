@@ -292,7 +292,7 @@ namespace RepititMe.Infrastructure.Persistence
             var signIn = new SignInStudentObject()
             {
                 Name = user?.Name,
-                //Teachers = topTeachers,
+                Blocked = user.Block,
                 UsefulLinks = await _botDbContext.StudentUseFulUrls.ToListAsync(),
                 SurveyStatusFirst = ordersSurveyListFirst.Any(),
                 OrdersSurveyFirst = ordersSurveyListFirst,
