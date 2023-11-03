@@ -3,8 +3,8 @@ using RepititMe.Infrastructure;
 using RepititMe.Application;
 using Microsoft.AspNetCore.Http.Features;
 using Telegram.Bot;
-using RepititMe.Api.bot;
-using RepititMe.Api.bot.Services;
+using RepititMe.Application.bot;
+using RepititMe.Application.bot.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 {

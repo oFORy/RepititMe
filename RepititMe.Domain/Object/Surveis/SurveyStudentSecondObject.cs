@@ -13,5 +13,6 @@ namespace RepititMe.Domain.Object.Surveis
         public bool? StudentAccept { get; set; }
         public bool? StudentCancel { get; set; }
         public bool? RepitSurveyStudent { get; set; }
+        public string? StudentWhy { get; set; }
     }
 }

@@ -3,8 +3,9 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using Microsoft.Extensions.Logging;
 
-namespace RepititMe.Api.bot
+namespace RepititMe.Application.bot
 {
     public class HandlerService
     {
@@ -52,6 +53,9 @@ namespace RepititMe.Api.bot
                 case "/start":
                     sentMessage = await SendFirstMessage(message);
                     break;
+                case "/admin":
+                    sentMessage = await SendAdminMessage(message);
+                    break;
                 default:
                     break;
             }
@@ -75,6 +79,17 @@ namespace RepititMe.Api.bot
             return await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                          text: usage,
                                                          replyMarkup: new ReplyKeyboardRemove());
+        }
+
+        private async Task<Message> SendAdminMessage(Message message)
+        {
+            InlineKeyboardMarkup inlineKeyboard = InlineKeyboardButton.WithCallbackData(text: "Помощь", callbackData: "/help");
+            string usage = "Администратор";
+
+            return await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
+                                                         text: usage,
+                                                         replyMarkup: inlineKeyboard,
+                                                         replyToMessageId: message.MessageId);
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepititMe.Application.bot.Services;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Entities.Weights;
@@ -17,9 +18,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class TeacherRepository : ITeacherRepository
     {
         private readonly BotDbContext _botDbContext;
-        public TeacherRepository(BotDbContext context)
+        //private readonly ITelegramService _telegramService;
+        public TeacherRepository(BotDbContext context/*, ITelegramService telegramService*/)
         {
             _botDbContext = context;
+            //_telegramService = telegramService;
         }
 
 
@@ -43,7 +46,7 @@ namespace RepititMe.Infrastructure.Persistence
 
             if (user != null)
             {
-                var teacher = await _botDbContext.Teachers.FirstOrDefaultAsync(t => t.UserId == user.Id);
+                var teacher = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(t => t.UserId == user.Id);
 
                 if (teacher == null)
                 {
@@ -74,6 +77,14 @@ namespace RepititMe.Infrastructure.Persistence
 
                     if (await _botDbContext.SaveChangesAsync() == 0)
                         return -1;
+
+
+                    /*string message = $"Учитель ({teacher.User.Name} {teacher.User.SecondName} | {teacher.User.TelegramName}) изменил свой профиль";
+                    List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                    foreach (long adminId in admins)
+                    {
+                        await _telegramService.SendActionAsync(message, adminId.ToString());
+                    }*/
                 }
                 return user.Id;
             }

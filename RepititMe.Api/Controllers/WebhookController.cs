@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RepititMe.Api.bot;
+using RepititMe.Application.bot;
 using Telegram.Bot.Types;
 
 namespace RepititMe.Api.Controllers

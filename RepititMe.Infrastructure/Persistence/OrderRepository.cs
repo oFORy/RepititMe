@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepititMe.Application.bot.Services;
 using RepititMe.Application.Services.Orders.Common;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Entities.Weights;
@@ -17,9 +18,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class OrderRepository : IOrderRepository
     {
         private readonly BotDbContext _botDbContext;
-        public OrderRepository(BotDbContext context)
+        //private readonly ITelegramService _telegramService;
+        public OrderRepository(BotDbContext context/*, ITelegramService telegramService*/)
         {
             _botDbContext = context;
+            //_telegramService = telegramService;
         }
 
         public async Task<bool> AcceptOrder(int idOrder)
@@ -48,7 +51,26 @@ namespace RepititMe.Infrastructure.Persistence
 
 
                 order.DateTimeAccept = DateTime.UtcNow;
-                return await _botDbContext.SaveChangesAsync() > 0;
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
+
+
+                
+                /*string messageTeacher = $"Данные для связи с учеником: {order.Student.User.Name} {order.Student.User.TelegramName}";
+                await _telegramService.SendActionAsync(messageTeacher, order.Teacher.User.TelegramId.ToString());
+
+                string messageStudent = $"Данные для связи с преподавателем: {order.Teacher.User.Name} {order.Teacher.User.TelegramName}";
+                await _telegramService.SendActionAsync(messageStudent, order.Student.User.TelegramId.ToString());
+
+
+                string message = $"Учитель ({order.Teacher.User.Name} {order.Teacher.User.SecondName} | {order.Teacher.User.TelegramName}) и ученик ({order.Student.User.Name} | {order.Student.User.TelegramName}) обменялись контактами";
+                List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                foreach (long adminId in admins)
+                {
+                    await _telegramService.SendActionAsync(message, adminId.ToString());
+                }*/
+
+                return true;
             }
             else
                 return false;
@@ -124,6 +146,11 @@ namespace RepititMe.Infrastructure.Persistence
             };
 
             _botDbContext.Orders.Add(newOrder);
+
+
+            /*ar stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == newOrderObject.TelegramIdStudent);
+            string message = $"У вас новая заявка от ученика | {stud?.User.Name}";
+            await _telegramService.SendActionAsync(message, newOrderObject.TelegramIdTeacher.ToString());*/
 
             return await _botDbContext.SaveChangesAsync() > 0;
         }

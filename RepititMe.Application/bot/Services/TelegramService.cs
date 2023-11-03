@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types.InlineQueryResults;
 
-namespace RepititMe.Api.bot.Services
+namespace RepititMe.Application.bot.Services
 {
     public interface ITelegramService
     {

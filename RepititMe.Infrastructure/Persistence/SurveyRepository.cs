@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepititMe.Application.bot.Services;
 using RepititMe.Application.Services.Surveis.Common;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Entities.Weights;
@@ -14,9 +15,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class SurveyRepository : ISurveyRepository
     {
         private readonly BotDbContext _botDbContext;
-        public SurveyRepository(BotDbContext botDbContext)
+        //private readonly ITelegramService _telegramService;
+        public SurveyRepository(BotDbContext botDbContext/*, ITelegramService telegramService*/)
         {
             _botDbContext = botDbContext;
+            //_telegramService = telegramService;
         }
 
 
@@ -122,6 +125,7 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 survey.StudentAccept = surveyStudentSecondObject.StudentAccept;
                 survey.StudentCancel = surveyStudentSecondObject.StudentCancel;
+                survey.StudentWhy = surveyStudentSecondObject.StudentWhy;
                 survey.StudentAnswer = true;
 
                 if (surveyStudentSecondObject.RepitSurveyStudent != null)
@@ -280,6 +284,9 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 survey.TeacherAccept = surveyTeacherSecondObject.TeacherAccept;
                 survey.TeacherCancel = surveyTeacherSecondObject.TeacherCancel;
+                survey.TeacherCause = surveyTeacherSecondObject.TeacherCause;
+                survey.TeacherSpecify = surveyTeacherSecondObject.TeacherSpecify;
+                survey.TeacherWhy = surveyTeacherSecondObject.TeacherWhy;
                 survey.TeacherAnswer = true;
 
                 if (surveyTeacherSecondObject.RepitSurveyTeacher != null)
@@ -289,6 +296,9 @@ namespace RepititMe.Infrastructure.Persistence
                 }
                 if (await _botDbContext.SaveChangesAsync() == 0)
                     return false;
+
+
+
 
                 var surveyCheck = await _botDbContext.SurveisSecond
                 .FirstOrDefaultAsync(s => s.TelegramIdStudent == surveyTeacherSecondObject.TelegramId &&

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RepititMe.Application.bot.Services;
 using RepititMe.Application.Services.Reviews.Common;
 using RepititMe.Domain.Entities;
+using RepititMe.Domain.Entities.Weights;
 using RepititMe.Domain.Object.Orders;
 using RepititMe.Domain.Object.Reviews;
 using System;
@@ -14,9 +16,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class ReviewRepository : IReviewRepository
     {
         private readonly BotDbContext _botDbContext;
-        public ReviewRepository(BotDbContext context)
+        //private readonly ITelegramService _telegramService;
+        public ReviewRepository(BotDbContext context/*, ITelegramService telegramService*/)
         {
             _botDbContext = context;
+            //_telegramService = telegramService;
         }
 
         public async Task<bool> NewReview(ReviewObject reviewObject)
@@ -51,11 +55,13 @@ namespace RepititMe.Infrastructure.Persistence
             };
             _botDbContext.Reviews.Add(review);
 
-            // Сюда отправка уведомления о новом отзыве
+            if (await _botDbContext.SaveChangesAsync() == 0)
+                return false;
 
-
-            //
-            return await _botDbContext.SaveChangesAsync() > 0;
+            /*var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == reviewObject.TelegramIdStudent);
+            string message = $"У вас новый отзыв от {stud?.User.Name} | Оценка: {reviewObject.Rating}";
+            await _telegramService.SendActionAsync(message, reviewObject.TelegramIdTeacher.ToString());*/
+            return true;
         }
 
 

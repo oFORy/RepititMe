@@ -1,8 +1,11 @@
-using RepititMe.Api.bot;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
-namespace RepititMe.Api.bot;
+namespace RepititMe.Application.bot;
 
 public class ConfigureWebhook : IHostedService
 {

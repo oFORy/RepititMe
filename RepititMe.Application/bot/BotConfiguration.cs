@@ -1,4 +1,4 @@
-namespace RepititMe.Api.bot;
+namespace RepititMe.Application.bot;
 
 public class BotConfiguration
 {

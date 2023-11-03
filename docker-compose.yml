@@ -9,7 +9,7 @@ services:
     environment:
       - BotToken=6133428642:AAEMRPIdInGzWRuvAcgf5jdOuDDzw6KEYCA
       - DB_CS=host=host.docker.internal;port=5627;database=RepititMe;username=postgres;password=98GerodoT98
-      - HostAddress=https://e9f9-95-25-166-2.ngrok.io
+      - HostAddress=https://e06a-95-25-166-2.ngrok.io
     ports:
       - "23400:80"
       - "23401:443"
