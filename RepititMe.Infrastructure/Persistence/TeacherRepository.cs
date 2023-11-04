@@ -158,7 +158,6 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Student)
                     .ThenInclude(t => t.User)
-                //.Where(s => orderIdsListSecond.Contains(s.OrderId) && !s.StudentAnswer)
                 .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? (s.RepitSurveyTeacher.Value.Date < DateTime.UtcNow.Date && !s.TeacherAnswer) : (s.Order.DateTimeFirstLesson < DateTime.UtcNow.Date && !s.TeacherAnswer)))
                 .Select(s => new OrderSurveyDetailsTeacher
                 {

@@ -207,33 +207,6 @@ namespace RepititMe.Infrastructure.Persistence
                 await _botDbContext.SaveChangesAsync();
             }
 
-
-            /*var topTeachers = await _botDbContext.Teachers
-                .Include(u => u.User)
-                .Include(u => u.Status)
-                .Include(u => u.Science)
-                .Include(u => u.LessonTarget)
-                .Include(u => u.AgeCategory)
-                .Where(t => t.Visibility != false && t.User.Block != true)
-                .OrderByDescending(e => e.PaymentRating)
-                .ThenByDescending(e => e.Rating)
-                .Take(5)
-                .Select(t => new BriefTeacherObject
-                    {
-                        User = t.User,
-                        Image = t.Image,
-                        Status = t.Status,
-                        Science = t.Science,
-                        LessonTarget = t.LessonTarget,
-                        AgeCategory = t.AgeCategory,
-                        Experience = t.Experience,
-                        AboutMe = t.AboutMe,
-                        Price = t.Price,
-                        Rating = t.Rating
-                    })
-                .ToListAsync();*/
-
-
             var user = await _botDbContext.Users.FirstOrDefaultAsync(u => u.TelegramId == telegramId);
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
@@ -278,7 +251,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Teacher)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListSecond.Contains(s.OrderId) && s.RepitSurveyStudent != null ? (s.RepitSurveyStudent.Value.Date < DateTime.UtcNow.Date && !s.StudentAnswer) : (s.Order.DateTimeFirstLesson < DateTime.UtcNow.Date && !s.StudentAnswer))
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyStudent != null ? (s.RepitSurveyStudent.Value.Date < DateTime.UtcNow.Date && !s.StudentAnswer) : (s.Order.DateTimeFirstLesson < DateTime.UtcNow.Date && !s.StudentAnswer)))
                 .Select(s => new OrderSurveyDetailsStudent
                 {
                     OrderId = s.OrderId,
