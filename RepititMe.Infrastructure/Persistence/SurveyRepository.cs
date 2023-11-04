@@ -218,6 +218,16 @@ namespace RepititMe.Infrastructure.Persistence
                 else
                     return false;
             }
+            else if (surveyTeacherObject.DateTimeRepit == null)
+            {
+                if (survey != null)
+                {
+                    survey.RepitSurveyTeacher = surveyTeacherObject.DateTimeRepit;
+                    await _botDbContext.SaveChangesAsync();
+                }
+                else
+                    return false;
+            }
 
             if (survey != null)
             {

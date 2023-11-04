@@ -148,6 +148,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .ToListAsync();
 
 
+
             List<int> orderIdsListSecond = await _botDbContext.Orders
                 .Where(t => t.TeacherId == teacherId)
                 .Where(o => o.DateTimeFirstLesson.HasValue && o.DateTimeFirstLesson.Value.Date < DateTime.UtcNow.Date)
