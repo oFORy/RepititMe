@@ -301,6 +301,12 @@ namespace RepititMe.Infrastructure.Persistence
                     survey.TeacherAnswer = false;
                 }
 
+                if (surveyTeacherSecondObject.DateTimeRepit != null)
+                {
+                    survey.RepitSurveyTeacher = surveyTeacherSecondObject.DateTimeRepit;
+                    survey.TeacherAnswer = false;
+                }
+
                 if (await _botDbContext.SaveChangesAsync() == 0)
                     return false;
 

@@ -16,5 +16,6 @@ namespace RepititMe.Domain.Object.Surveis
         public string? TeacherCause { get; set; }
         public string? TeacherSpecify { get; set; }
         public string? TeacherWhy { get; set; }
+        public DateTime? DateTimeRepit { get; set; }
     }
 }
