@@ -128,14 +128,19 @@ namespace RepititMe.Infrastructure.Persistence
                 survey.StudentWhy = surveyStudentSecondObject.StudentWhy;
                 survey.StudentAnswer = true;
 
+                if (await _botDbContext.SaveChangesAsync() == 0)
+                    return false;
+
+
                 if (surveyStudentSecondObject.RepitSurveyStudent != null)
                 {
                     survey.RepitSurveyStudent = DateTime.UtcNow.AddDays(+3);
                     survey.StudentAnswer = false;
+                    if (await _botDbContext.SaveChangesAsync() == 0)
+                        return false;
                 }
 
-                if (await _botDbContext.SaveChangesAsync() == 0)
-                    return false;
+                
 
 
 
@@ -277,7 +282,7 @@ namespace RepititMe.Infrastructure.Persistence
 
             var survey = await _botDbContext.SurveisSecond
                 .Include(o => o.Order)
-                .FirstOrDefaultAsync(s => s.TelegramIdStudent == surveyTeacherSecondObject.TelegramId &&
+                .FirstOrDefaultAsync(s => s.TelegramIdTeacher == surveyTeacherSecondObject.TelegramId &&
                                           s.OrderId == surveyTeacherSecondObject.OrderId);
 
             if (survey != null)
@@ -288,15 +293,16 @@ namespace RepititMe.Infrastructure.Persistence
                 survey.TeacherSpecify = surveyTeacherSecondObject.TeacherSpecify;
                 survey.TeacherWhy = surveyTeacherSecondObject.TeacherWhy;
                 survey.TeacherAnswer = true;
+                
 
                 if (surveyTeacherSecondObject.RepitSurveyTeacher != null)
                 {
                     survey.RepitSurveyTeacher = DateTime.UtcNow.AddDays(+3);
                     survey.TeacherAnswer = false;
                 }
+
                 if (await _botDbContext.SaveChangesAsync() == 0)
                     return false;
-
 
 
 
