@@ -74,7 +74,7 @@ namespace RepititMe.Application.bot
         private async Task<Message> SendFirstMessage(Message message)
         {
             string usage = "Привет" + (message?.From?.FirstName != null ? ", " + message?.From?.FirstName + "! " : "! ") +
-                           "Добро пожаловать! Наш сервис к твоим услугам!\n\n";
+                           "RepetitMe – сервис для подбора онлайн-репетиторов по всей России. Находите преподавателей для повышения успеваемости, подготовки к экзаменам и олимпиадам в удобном современном формате через приложение в Telegram по всем предметам. Быстро, безопасно и удобно!Наша база репетиторов постоянно растет, чтобы Вы смогли найти идеального преподавателя под свои задачи.\r\nЕсли Вы - преподаватель, то заполните анкету в приложение и получайте дополнительных учеников.";
 
             return await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                          text: usage,
@@ -83,8 +83,8 @@ namespace RepititMe.Application.bot
 
         private async Task<Message> SendAdminMessage(Message message)
         {
-            InlineKeyboardMarkup inlineKeyboard = InlineKeyboardButton.WithCallbackData(text: "Помощь", callbackData: "/help");
-            string usage = "Администратор";
+            InlineKeyboardMarkup inlineKeyboard = InlineKeyboardButton.WithCallbackData(text: "Администратор", callbackData: "/start");
+            string usage = "Вы входите в админ-панель приложения";
 
             return await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
                                                          text: usage,

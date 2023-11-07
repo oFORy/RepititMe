@@ -65,9 +65,9 @@ builder.Services.AddHttpClient("tgwebhook")
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddScoped<HandlerService>();
-builder.Services.AddScoped<ITelegramService, TelegramService>();*/
+builder.Services.AddScoped<ITelegramService, TelegramService>();
 
-//var botToken = Environment.GetEnvironmentVariable("BotToken");
+var botToken = Environment.GetEnvironmentVariable("BotToken");*/
 
 
 
@@ -98,9 +98,6 @@ app.UseWhen(context => context.Request.Path.StartsWithSegments("/Api/Teacher/Cha
         await next.Invoke();
     });
 });
-
-
-var botToken = Environment.GetEnvironmentVariable("BotToken");
 
 app.UseRouting();
 

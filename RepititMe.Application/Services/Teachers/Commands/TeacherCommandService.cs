@@ -45,25 +45,25 @@ namespace RepititMe.Application.Services.Teachers.Commands
 
             if (userId > 0)
             {
-                string userFolderPath = $"wwwroot\\media\\{userId}"; // Изменить на / когда отправиться на linux контейнер
+                string userFolderPath = $"wwwroot/media/{userId}"; // Изменить на / когда отправиться на linux контейнер
                 Directory.CreateDirectory(userFolderPath);
 
                 if (changeProfileTeacherObject.Image != null)
                 {
-                    imagePath = await SaveFile(changeProfileTeacherObject.Image, $"{userFolderPath}\\images");
+                    imagePath = await SaveFile(changeProfileTeacherObject.Image, $"{userFolderPath}/images");
                 }
                 if (changeProfileTeacherObject.VideoPresentation != null)
                 {
                     foreach (var video in changeProfileTeacherObject.VideoPresentation)
                     {
-                        videoPath = await SaveFile(video, $"{userFolderPath}\\presentations");
+                        videoPath = await SaveFile(video, $"{userFolderPath}/presentations");
                     }
                 }
                 if (changeProfileTeacherObject.Certificates != null)
                 {
                     foreach (var certificate in changeProfileTeacherObject.Certificates)
                     {
-                        var certificatePath = await SaveFile(certificate, $"{userFolderPath}\\certificates");
+                        var certificatePath = await SaveFile(certificate, $"{userFolderPath}/certificates");
                         certificatePaths.Add(certificatePath);
                     }
                 }

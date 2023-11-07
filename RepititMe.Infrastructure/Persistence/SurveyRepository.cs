@@ -86,6 +86,13 @@ namespace RepititMe.Infrastructure.Persistence
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
 
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
+
                     }
                     else if ((survey.StudentPrice != null && survey.TeacherPrice != null) && (surveyCheck.StudentPrice != surveyCheck.TeacherPrice))
                     {
@@ -100,6 +107,13 @@ namespace RepititMe.Infrastructure.Persistence
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
+
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                 }
                 
@@ -172,6 +186,13 @@ namespace RepititMe.Infrastructure.Persistence
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
+
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                 }
 
@@ -262,6 +283,13 @@ namespace RepititMe.Infrastructure.Persistence
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
+
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                     else if ((survey.StudentPrice != null && survey.TeacherPrice != null) && (surveyCheck.StudentPrice != surveyCheck.TeacherPrice))
                     {
@@ -276,6 +304,13 @@ namespace RepititMe.Infrastructure.Persistence
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
+
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                 }
 
@@ -350,6 +385,13 @@ namespace RepititMe.Infrastructure.Persistence
                         await _botDbContext.Disputes.AddAsync(newDispute);
                         if (await _botDbContext.SaveChangesAsync() == 0)
                             return false;
+
+                        /*string message = $"Появился новый спор: Id -> {newDispute.Id}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                 }
 

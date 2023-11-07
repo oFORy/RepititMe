@@ -55,7 +55,7 @@ namespace RepititMe.Infrastructure.Persistence
                     return false;
 
 
-                
+
                 /*string messageTeacher = $"Данные для связи с учеником: {order.Student.User.Name} {order.Student.User.TelegramName}";
                 await _telegramService.SendActionAsync(messageTeacher, order.Teacher.User.TelegramId.ToString());
 
@@ -98,7 +98,12 @@ namespace RepititMe.Infrastructure.Persistence
                     order.RefusedTeacher = true;
                     if (refuseOrederObject.DescriptionRefuse != null)
                     {
-                        // тут отправка уведомления через бота админу !!!!
+                        /*string message = $"Учитель ({order.Teacher.User.Name} {order.Teacher.User.SecondName} | {order.Teacher.User.TelegramName}) отказался от ученика ({order.Student.User.Name} | {order.Student.User.TelegramName}) | Описание: {refuseOrederObject.DescriptionRefuse}";
+                        List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
+                        foreach (long adminId in admins)
+                        {
+                            await _telegramService.SendActionAsync(message, adminId.ToString());
+                        }*/
                     }
                     return await _botDbContext.SaveChangesAsync() > 0;
                 } 
@@ -148,7 +153,7 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext.Orders.Add(newOrder);
 
 
-            /*ar stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == newOrderObject.TelegramIdStudent);
+            /*var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == newOrderObject.TelegramIdStudent);
             string message = $"У вас новая заявка от ученика | {stud?.User.Name}";
             await _telegramService.SendActionAsync(message, newOrderObject.TelegramIdTeacher.ToString());*/
 
@@ -208,7 +213,6 @@ namespace RepititMe.Infrastructure.Persistence
                 .SingleOrDefaultAsync();
 
             var teacherOrders = await _botDbContext.Orders
-                //.Where(o => o.TeacherId == teacherId && ( !o.RefusedTeacher || o.Commission > 0 )) // !!!!!!!!!!!
                 .Where(o => o.Commission > 0 ? (o.TeacherId == teacherId && o.Commission > 0) : (o.TeacherId == teacherId && !o.RefusedTeacher))
                 .Include(o => o.Student)
                     .ThenInclude(t => t.User)
