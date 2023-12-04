@@ -16,11 +16,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class ReviewRepository : IReviewRepository
     {
         private readonly BotDbContext _botDbContext;
-        //private readonly ITelegramService _telegramService;
-        public ReviewRepository(BotDbContext context/*, ITelegramService telegramService*/)
+        private readonly ITelegramService _telegramService;
+        public ReviewRepository(BotDbContext context, ITelegramService telegramService)
         {
             _botDbContext = context;
-            //_telegramService = telegramService;
+            _telegramService = telegramService;
         }
 
         public async Task<bool> NewReview(ReviewObject reviewObject)
@@ -58,9 +58,9 @@ namespace RepititMe.Infrastructure.Persistence
             if (await _botDbContext.SaveChangesAsync() == 0)
                 return false;
 
-            /*var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == reviewObject.TelegramIdStudent);
+            var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == reviewObject.TelegramIdStudent);
             string message = $"У вас новый отзыв от {stud?.User.Name} | Оценка: {reviewObject.Rating}";
-            await _telegramService.SendActionAsync(message, reviewObject.TelegramIdTeacher.ToString());*/
+            await _telegramService.SendActionAsync(message, reviewObject.TelegramIdTeacher.ToString());
             return true;
         }
 

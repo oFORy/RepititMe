@@ -28,36 +28,47 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
-                .Include(u => u.LessonTarget)
-                .Include(u => u.AgeCategory)
+                .Include(u => u.TeacherLessonTargets)
+                    .ThenInclude(tlt => tlt.LessonTarget)
+                .Include(u => u.TeacherAgeCategories)
+                    .ThenInclude(tac => tac.AgeCategory)
                 .FirstOrDefaultAsync(u => u.User.TelegramId == telegramId);
         }
 
 
         public async Task<Dictionary<string, int>> UserAccessId(long telegramId)
         {
-            var result = new Dictionary<string, int>
+            try
+            {
+                var result = new Dictionary<string, int>
                 {
                     { "LastActivity", 0 },
                     { "Student", 0 },
                     { "Teacher", 0 }
                 };
 
-            var user = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);
-            if (user == null)
-            {
+                var user = await _botDbContext.Users.FirstOrDefaultAsync(s => s.TelegramId == telegramId);
+                if (user == null)
+                {
+                    return result;
+                }
+
+                result["LastActivity"] = user.LastActivity;
+
+                var isStudent = await _botDbContext.Students.AnyAsync(s => s.UserId == user.Id);
+                var isTeacher = await _botDbContext.Teachers.AnyAsync(t => t.UserId == user.Id);
+
+                result["Student"] = isStudent ? 1 : 0;
+                result["Teacher"] = isTeacher ? 1 : 0;
+
                 return result;
             }
+            catch(Exception ex) 
+            { 
+                Console.WriteLine(ex.Message);
+                return null;
+            }
 
-            result["LastActivity"] = user.LastActivity;
-
-            var isStudent = await _botDbContext.Students.AnyAsync(s => s.UserId == user.Id);
-            var isTeacher = await _botDbContext.Teachers.AnyAsync(t => t.UserId == user.Id);
-
-            result["Student"] = isStudent ? 1 : 0;
-            result["Teacher"] = isTeacher ? 1 : 0;
-
-            return result;
         }
 
         public async Task<bool> UserSignUpStudent(UserSignUpStudentObject userSignUpStudent)
@@ -123,7 +134,7 @@ namespace RepititMe.Infrastructure.Persistence
                 var newTeacher = new Teacher()
                 {
                     UserId = newUser.Id,
-                    Visibility = false,
+                    Visibility = true,
                     Rating = 5,
                     PaymentRating = 0
                 };

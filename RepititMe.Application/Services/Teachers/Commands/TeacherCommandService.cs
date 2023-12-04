@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Application.Services.Users.Common;
+using RepititMe.Domain.Entities.Data;
 using RepititMe.Domain.Entities.Users;
 using RepititMe.Domain.Object.Teachers;
 using RepititMe.Domain.Object.Users;
@@ -32,20 +33,33 @@ namespace RepititMe.Application.Services.Teachers.Commands
                 Image = imagePath,
                 StatusId = changeProfileTeacherObject.StatusId,
                 ScienceId = changeProfileTeacherObject.ScienceId,
-                LessonTargetId = changeProfileTeacherObject.LessonTargetId,
-                AgeCategoryId = changeProfileTeacherObject.AgeCategoryId,
                 Experience = changeProfileTeacherObject.Experience,
                 AboutMe = changeProfileTeacherObject.AboutMe,
                 Price = changeProfileTeacherObject.Price,
                 VideoPresentation = videoPath,
-                Certificates = certificatePaths
+                Certificates = certificatePaths,
+                TeacherLessonTargets = changeProfileTeacherObject.LessonTargetId
+                             .Select(lessonTargetId => new TeacherLessonTarget
+                             {
+                                 LessonTargetId = lessonTargetId
+                             })
+                             .ToList(),
+                TeacherAgeCategories = changeProfileTeacherObject.AgeCategoryId
+                             .Select(ageCategoryId => new TeacherAgeCategory
+                             {
+                                 AgeCategoryId = ageCategoryId
+                             })
+                             .ToList()
             };
 
             int userId = await _teacherRepository.ChangeProfile(model, changeProfileTeacherObject.TelegramId);
 
             if (userId > 0)
             {
-                string userFolderPath = $"wwwroot/media/{userId}"; // Изменить на / когда отправиться на linux контейнер
+                string userFolderPath = $"wwwroot/media/{userId}";
+
+                Directory.Delete(userFolderPath, true);
+
                 Directory.CreateDirectory(userFolderPath);
 
                 if (changeProfileTeacherObject.Image != null)

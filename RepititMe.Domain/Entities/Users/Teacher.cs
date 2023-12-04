@@ -17,10 +17,8 @@ namespace RepititMe.Domain.Entities.Users
         public TeacherStatus? Status { get; set; }
         public int? ScienceId { get; set; }
         public Science? Science { get; set; }
-        public int? LessonTargetId { get; set; }
-        public LessonTarget? LessonTarget { get; set; }
-        public int? AgeCategoryId { get; set; }
-        public AgeCategory? AgeCategory { get; set; }
+        public List<TeacherLessonTarget> TeacherLessonTargets { get; set; }
+        public List<TeacherAgeCategory> TeacherAgeCategories { get; set; }
         public int? Experience { get; set; }
         public string? AboutMe { get; set; }
         public int? Price { get; set; }

@@ -14,8 +14,8 @@ namespace RepititMe.Domain.Object.Teachers
         public string? Image { get; set; }
         public TeacherStatus Status { get; set; }
         public Science Science { get; set; }
-        public LessonTarget LessonTarget { get; set; }
-        public AgeCategory AgeCategory { get; set; }
+        public List<LessonTarget> LessonTarget { get; set; }
+        public List<AgeCategory> AgeCategory { get; set; }
         public int? Experience { get; set; }
         public string? AboutMe { get; set; }
         public int? Price { get; set; }

@@ -8,7 +8,7 @@ namespace RepititMe.Domain.Object.Admins
 {
     public class ShowAllReportsInObject
     {
-        public int TelegramId { get; set; }
+        public long TelegramId { get; set; }
         public int OrderId { get; set; }
     }
 }

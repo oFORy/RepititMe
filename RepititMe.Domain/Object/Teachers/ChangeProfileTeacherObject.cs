@@ -4,12 +4,12 @@ namespace RepititMe.Domain.Object.Users
 {
     public class ChangeProfileTeacherObject
     {
-        public int TelegramId { get; set; }
+        public long TelegramId { get; set; }
         public IFormFile? Image { get; set; }
         public int StatusId { get; set; }
         public int ScienceId { get; set; }
-        public int LessonTargetId { get; set; }
-        public int AgeCategoryId { get; set; }
+        public List<int> LessonTargetId { get; set; }
+        public List<int> AgeCategoryId { get; set; }
         public int? Experience { get; set; }
         public string? AboutMe { get; set; }
         public int Price { get; set; }

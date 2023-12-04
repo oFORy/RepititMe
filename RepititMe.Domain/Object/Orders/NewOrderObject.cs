@@ -8,8 +8,8 @@ namespace RepititMe.Domain.Object.Orders
 {
     public class NewOrderObject
     {
-        public int TelegramIdTeacher { get; set; }
-        public int TelegramIdStudent { get; set; }
+        public long TelegramIdTeacher { get; set; }
+        public long TelegramIdStudent { get; set; }
         public string? Description { get; set; }
     }
 }

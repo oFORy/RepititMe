@@ -18,11 +18,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class TeacherRepository : ITeacherRepository
     {
         private readonly BotDbContext _botDbContext;
-        //private readonly ITelegramService _telegramService;
-        public TeacherRepository(BotDbContext context/*, ITelegramService telegramService*/)
+        private readonly ITelegramService _telegramService;
+        public TeacherRepository(BotDbContext context, ITelegramService telegramService)
         {
             _botDbContext = context;
-            //_telegramService = telegramService;
+            _telegramService = telegramService;
         }
 
 
@@ -34,6 +34,13 @@ namespace RepititMe.Infrastructure.Persistence
                 teacher.Image = updateTeacherDataFolderObject?.Image;
                 teacher.Certificates = updateTeacherDataFolderObject?.Certificates;
                 teacher.VideoPresentation = updateTeacherDataFolderObject?.VideoPresentation;
+
+                if (updateTeacherDataFolderObject?.Image != null)
+                    teacher.PaymentRating += 200;
+                if (updateTeacherDataFolderObject?.VideoPresentation != null)
+                    teacher.PaymentRating += 400;
+                if (updateTeacherDataFolderObject?.Certificates != null && updateTeacherDataFolderObject.Certificates.Any())
+                    teacher.PaymentRating += updateTeacherDataFolderObject.Certificates.Count * 50;
                 return await _botDbContext.SaveChangesAsync() > 0;
             }
             else
@@ -46,7 +53,13 @@ namespace RepititMe.Infrastructure.Persistence
 
             if (user != null)
             {
-                var teacher = await _botDbContext.Teachers.Include(u => u.User).FirstOrDefaultAsync(t => t.UserId == user.Id);
+                var teacher = await _botDbContext.Teachers
+                    .Include(u => u.User)
+                    .Include(u => u.TeacherLessonTargets)
+                        .ThenInclude(u => u.LessonTarget)
+                    .Include(u => u.TeacherAgeCategories)
+                        .ThenInclude(u => u.AgeCategory)
+                    .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
                 if (teacher == null)
                 {
@@ -54,43 +67,38 @@ namespace RepititMe.Infrastructure.Persistence
                 }
                 else
                 {
+                    teacher.TeacherAgeCategories.Clear();
+                    teacher.TeacherLessonTargets.Clear();
+
                     teacher.PaymentRating = 0;
                     teacher.Image = updatedTeacher.Image;
                     teacher.StatusId = updatedTeacher.StatusId;
                     teacher.ScienceId = updatedTeacher.ScienceId;
-                    teacher.LessonTargetId = updatedTeacher.LessonTargetId;
-                    teacher.AgeCategoryId = updatedTeacher.AgeCategoryId;
+                    teacher.TeacherLessonTargets = updatedTeacher.TeacherLessonTargets;
+                    teacher.TeacherAgeCategories = updatedTeacher.TeacherAgeCategories;
                     teacher.Experience = updatedTeacher.Experience;
                     teacher.AboutMe = updatedTeacher.AboutMe;
                     teacher.Price = updatedTeacher.Price;
                     teacher.VideoPresentation = updatedTeacher.VideoPresentation;
                     teacher.Certificates = updatedTeacher.Certificates;
 
-                    if (updatedTeacher.Image != null)
-                        teacher.PaymentRating += 200;
-                    if (updatedTeacher.VideoPresentation != null)
-                        teacher.PaymentRating += 400;
-                    if (updatedTeacher.Certificates != null && updatedTeacher.Certificates.Any())
-                        teacher.PaymentRating += updatedTeacher.Certificates.Count * 50;
-                    if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.LessonTargetId != null && updatedTeacher.AgeCategoryId != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
+                    if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.TeacherLessonTargets != null && updatedTeacher.TeacherAgeCategories != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
                         teacher.PaymentRating += 300;
 
                     if (await _botDbContext.SaveChangesAsync() == 0)
                         return -1;
 
 
-                    /*string message = $"Учитель ({teacher.User.Name} {teacher.User.SecondName} | {teacher.User.TelegramName}) изменил свой профиль";
+                    string message = $"Учитель ({teacher.User.Name} {teacher.User.SecondName} | {teacher.User.TelegramName}) изменил свой профиль";
                     List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
                     foreach (long adminId in admins)
                     {
                         await _telegramService.SendActionAsync(message, adminId.ToString());
-                    }*/
+                    }
                 }
                 return user.Id;
             }
-
             return -1;
-
         }
 
         public async Task<bool> ChangeVisability(long telegramId)

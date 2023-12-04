@@ -59,6 +59,15 @@ namespace RepititMe.Infrastructure.Persistence
             }
         }
 
+        public async Task<bool> CheckAdmin(long telegramId)
+        {
+            var admin = await _botDbContext.Users.Where(u => u.Admin && u.TelegramId == telegramId).FirstOrDefaultAsync();
+            if (admin != null)
+                return admin.Admin;
+            else
+                return false;
+        }
+
         public async Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject)
         {
             var check = await _botDbContext.Users.Where(u => u.TelegramId == closeDisputeObject.TelegramIdAdmin && u.Admin).FirstOrDefaultAsync();
@@ -113,8 +122,10 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
-                .Include(u => u.LessonTarget)
-                .Include(u => u.AgeCategory)
+                .Include(u => u.TeacherLessonTargets)
+                    .ThenInclude(tlt => tlt.LessonTarget)
+                .Include(u => u.TeacherAgeCategories)
+                    .ThenInclude(tac => tac.AgeCategory)
                 .OrderByDescending(e => e.User.Id)
                 .ToListAsync()};
         }

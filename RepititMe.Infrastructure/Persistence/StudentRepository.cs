@@ -43,14 +43,16 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
-                .Include(u => u.LessonTarget)
-                .Include(u => u.AgeCategory)
+                .Include(u => u.TeacherLessonTargets)
+                    .ThenInclude(tlt => tlt.LessonTarget)
+                .Include(u => u.TeacherAgeCategories)
+                    .ThenInclude(tac => tac.AgeCategory)
                 .Where(t => t.Visibility != false
                             && !t.User.Block
                             && t.ScienceId == searchCategoriesResultObject.ScienceId
-                            && t.LessonTargetId == searchCategoriesResultObject.LessonTargetId
-                            && t.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId
-                            && t.StatusId == searchCategoriesResultObject.StatusId
+                            && t.TeacherLessonTargets.Any(lt => lt.LessonTargetId == searchCategoriesResultObject.LessonTargetId)
+                            && t.TeacherAgeCategories.Any(ac => ac.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId)
+                            && searchCategoriesResultObject.StatusId.Contains((int)t.StatusId)
                             && t.Price >= searchCategoriesResultObject.LowPrice
                             && t.Price <= searchCategoriesResultObject.HighPrice)
                 .OrderByDescending(e => e.Rating)
@@ -62,8 +64,8 @@ namespace RepititMe.Infrastructure.Persistence
                     Image = t.Image,
                     Status = t.Status,
                     Science = t.Science,
-                    LessonTarget = t.LessonTarget,
-                    AgeCategory = t.AgeCategory,
+                    LessonTarget = t.TeacherLessonTargets.Select(tlt => tlt.LessonTarget).ToList(),
+                    AgeCategory = t.TeacherAgeCategories.Select(tac => tac.AgeCategory).ToList(),
                     Experience = t.Experience,
                     AboutMe = t.AboutMe,
                     Price = t.Price,
@@ -113,8 +115,10 @@ namespace RepititMe.Infrastructure.Persistence
                     .Include(u => u.User)
                     .Include(u => u.Status)
                     .Include(u => u.Science)
-                    .Include(u => u.LessonTarget)
-                    .Include(u => u.AgeCategory)
+                    .Include(u => u.TeacherLessonTargets)
+                        .ThenInclude(tlt => tlt.LessonTarget)
+                    .Include(u => u.TeacherAgeCategories)
+                        .ThenInclude(tac => tac.AgeCategory)
                     .Where(t => t.Visibility != false && !t.User.Block && !showTeachersFilterObject.WasTeachers.Contains(t.User.TelegramId))
                     .OrderByDescending(e => e.PaymentRating)
                     .ThenByDescending(e => e.Rating)
@@ -125,8 +129,8 @@ namespace RepititMe.Infrastructure.Persistence
                         Image = t.Image,
                         Status = t.Status,
                         Science = t.Science,
-                        LessonTarget = t.LessonTarget,
-                        AgeCategory = t.AgeCategory,
+                        LessonTarget = t.TeacherLessonTargets.Select(tlt => tlt.LessonTarget).ToList(),
+                        AgeCategory = t.TeacherAgeCategories.Select(tac => tac.AgeCategory).ToList(),
                         Experience = t.Experience,
                         AboutMe = t.AboutMe,
                         Price = t.Price,
@@ -140,8 +144,10 @@ namespace RepititMe.Infrastructure.Persistence
                     .Include(u => u.User)
                     .Include(u => u.Status)
                     .Include(u => u.Science)
-                    .Include(u => u.LessonTarget)
-                    .Include(u => u.AgeCategory)
+                    .Include(u => u.TeacherLessonTargets)
+                        .ThenInclude(tlt => tlt.LessonTarget)
+                    .Include(u => u.TeacherAgeCategories)
+                        .ThenInclude(tac => tac.AgeCategory)
                     .Where(t => t.Visibility != false && !t.User.Block && !showTeachersFilterObject.WasTeachers.Contains(t.User.TelegramId));
 
                 if (showTeachersFilterObject.ScienceId != null)
@@ -166,7 +172,7 @@ namespace RepititMe.Infrastructure.Persistence
                 }
                 if (showTeachersFilterObject.LessonTargetId != null)
                 {
-                    query = query.Where(t => t.LessonTargetId == showTeachersFilterObject.LessonTargetId);
+                    query = query.Where(t => t.TeacherLessonTargets.Any(ltId => ltId.LessonTargetId == showTeachersFilterObject.LessonTargetId));
                 }
 
                 var result = await query
@@ -179,8 +185,8 @@ namespace RepititMe.Infrastructure.Persistence
                         Image = t.Image,
                         Status = t.Status,
                         Science = t.Science,
-                        LessonTarget = t.LessonTarget,
-                        AgeCategory = t.AgeCategory,
+                        LessonTarget = t.TeacherLessonTargets.Select(tlt => tlt.LessonTarget).ToList(),
+                        AgeCategory = t.TeacherAgeCategories.Select(tac => tac.AgeCategory).ToList(),
                         Experience = t.Experience,
                         AboutMe = t.AboutMe,
                         Price = t.Price,

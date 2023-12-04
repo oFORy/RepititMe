@@ -4,6 +4,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Microsoft.Extensions.Logging;
+using RepititMe.Application.Services.Admins.Common;
 
 namespace RepititMe.Application.bot
 {
@@ -11,12 +12,14 @@ namespace RepititMe.Application.bot
     {
         private readonly ITelegramBotClient _botClient;
         private readonly ILogger<HandlerService> _logger;
+        private readonly IAdminRepository _adminRepository;
 
 
-        public HandlerService(ITelegramBotClient botClient, ILogger<HandlerService> logger)
+        public HandlerService(ITelegramBotClient botClient, ILogger<HandlerService> logger, IAdminRepository adminRepository)
         {
             _botClient = botClient;
             _logger = logger;
+            _adminRepository = adminRepository;
         }
 
         public async Task EchoAsync(Update update)
@@ -54,7 +57,8 @@ namespace RepititMe.Application.bot
                     sentMessage = await SendFirstMessage(message);
                     break;
                 case "/admin":
-                    sentMessage = await SendAdminMessage(message);
+                    if (await _adminRepository.CheckAdmin(message.From.Id))
+                        sentMessage = await SendAdminMessage(message);
                     break;
                 default:
                     break;
@@ -83,13 +87,24 @@ namespace RepititMe.Application.bot
 
         private async Task<Message> SendAdminMessage(Message message)
         {
-            InlineKeyboardMarkup inlineKeyboard = InlineKeyboardButton.WithCallbackData(text: "Администратор", callbackData: "/start");
-            string usage = "Вы входите в админ-панель приложения";
 
-            return await _botClient.SendTextMessageAsync(chatId: message.Chat.Id,
-                                                         text: usage,
-                                                         replyMarkup: inlineKeyboard,
-                                                         replyToMessageId: message.MessageId);
+            var replyMarkup = new InlineKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    InlineKeyboardButton.WithWebApp("Администратор", new WebAppInfo
+                    {
+                        Url = "https://webapp.repetitmeweb.ru/admin"
+                    })
+                }
+            });
+
+            return await _botClient.SendTextMessageAsync(
+                chatId: message.Chat.Id,
+                text: "Вы входите в админ-панель приложения",
+                replyMarkup: replyMarkup,
+                replyToMessageId: message.MessageId
+            );
         }
 
 

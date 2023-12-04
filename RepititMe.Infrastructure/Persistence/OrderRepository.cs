@@ -18,11 +18,11 @@ namespace RepititMe.Infrastructure.Persistence
     public class OrderRepository : IOrderRepository
     {
         private readonly BotDbContext _botDbContext;
-        //private readonly ITelegramService _telegramService;
-        public OrderRepository(BotDbContext context/*, ITelegramService telegramService*/)
+        private readonly ITelegramService _telegramService;
+        public OrderRepository(BotDbContext context, ITelegramService telegramService)
         {
             _botDbContext = context;
-            //_telegramService = telegramService;
+            _telegramService = telegramService;
         }
 
         public async Task<bool> AcceptOrder(int idOrder)
@@ -56,7 +56,7 @@ namespace RepititMe.Infrastructure.Persistence
 
 
 
-                /*string messageTeacher = $"Данные для связи с учеником: {order.Student.User.Name} {order.Student.User.TelegramName}";
+                string messageTeacher = $"Данные для связи с учеником: {order.Student.User.Name} {order.Student.User.TelegramName}";
                 await _telegramService.SendActionAsync(messageTeacher, order.Teacher.User.TelegramId.ToString());
 
                 string messageStudent = $"Данные для связи с преподавателем: {order.Teacher.User.Name} {order.Teacher.User.TelegramName}";
@@ -68,7 +68,7 @@ namespace RepititMe.Infrastructure.Persistence
                 foreach (long adminId in admins)
                 {
                     await _telegramService.SendActionAsync(message, adminId.ToString());
-                }*/
+                }
 
                 return true;
             }
@@ -98,12 +98,12 @@ namespace RepititMe.Infrastructure.Persistence
                     order.RefusedTeacher = true;
                     if (refuseOrederObject.DescriptionRefuse != null)
                     {
-                        /*string message = $"Учитель ({order.Teacher.User.Name} {order.Teacher.User.SecondName} | {order.Teacher.User.TelegramName}) отказался от ученика ({order.Student.User.Name} | {order.Student.User.TelegramName}) | Описание: {refuseOrederObject.DescriptionRefuse}";
+                        string message = $"Учитель ({order.Teacher.User.Name} {order.Teacher.User.SecondName} | {order.Teacher.User.TelegramName}) отказался от ученика ({order.Student.User.Name} | {order.Student.User.TelegramName}) | Описание: {refuseOrederObject.DescriptionRefuse}";
                         List<long> admins = await _botDbContext.Users.Where(u => u.Admin).Select(u => u.TelegramId).ToListAsync();
                         foreach (long adminId in admins)
                         {
                             await _telegramService.SendActionAsync(message, adminId.ToString());
-                        }*/
+                        }
                     }
                     return await _botDbContext.SaveChangesAsync() > 0;
                 } 
@@ -153,9 +153,9 @@ namespace RepititMe.Infrastructure.Persistence
             _botDbContext.Orders.Add(newOrder);
 
 
-            /*var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == newOrderObject.TelegramIdStudent);
+            var stud = await _botDbContext.Students.Include(u => u.User).SingleOrDefaultAsync(u => u.User.TelegramId == newOrderObject.TelegramIdStudent);
             string message = $"У вас новая заявка от ученика | {stud?.User.Name}";
-            await _telegramService.SendActionAsync(message, newOrderObject.TelegramIdTeacher.ToString());*/
+            await _telegramService.SendActionAsync(message, newOrderObject.TelegramIdTeacher.ToString());
 
             return await _botDbContext.SaveChangesAsync() > 0;
         }
@@ -181,9 +181,11 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(o => o.Teacher)
                     .ThenInclude(t => t.Science)
                 .Include(o => o.Teacher)
-                    .ThenInclude(t => t.LessonTarget)
+                    .ThenInclude(t => t.TeacherLessonTargets)
+                        .ThenInclude(tlt => tlt.LessonTarget)
                 .Include(o => o.Teacher)
-                    .ThenInclude(t => t.AgeCategory)
+                    .ThenInclude(t => t.TeacherAgeCategories)
+                        .ThenInclude(tac => tac.AgeCategory)
                 .ToListAsync();
 
 

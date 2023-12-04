@@ -8,7 +8,7 @@ namespace RepititMe.Domain.Object.Orders
 {
     public class ReviewSuccesObject
     {
-        public int TelegramIdStudent { get; set; }
-        public int TelegramIdTeacher { get; set; }
+        public long TelegramIdStudent { get; set; }
+        public long TelegramIdTeacher { get; set; }
     }
 }

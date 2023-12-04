@@ -18,5 +18,6 @@ namespace RepititMe.Application.Services.Admins.Common
         Task<ShowAllReportsObject> ShowAllReports(ShowAllReportsInObject showAllReportsInObject);
         Task<ShowAllDisputesObject> AllDispute(long telegramId);
         Task<bool> CloseDispute(CloseDisputeInObject closeDisputeObject);
+        Task<bool> CheckAdmin(long telegramId);
     }
 }

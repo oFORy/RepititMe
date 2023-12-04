@@ -8,8 +8,8 @@ namespace RepititMe.Domain.Object.Reviews
 {
     public class ReviewObject
     {
-        public int TelegramIdTeacher { get; set; }
-        public int TelegramIdStudent { get; set; }
+        public long TelegramIdTeacher { get; set; }
+        public long TelegramIdStudent { get; set; }
         public string? Description { get; set; }
         public int Rating { get; set; }
     }

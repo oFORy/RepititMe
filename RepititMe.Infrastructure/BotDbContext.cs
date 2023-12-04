@@ -11,8 +11,9 @@ namespace RepititMe.Infrastructure
         public BotDbContext(DbContextOptions<BotDbContext> options)
             : base(options)
         {
+            //Database.SetCommandTimeout(60);
             //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,15 +28,21 @@ namespace RepititMe.Infrastructure
                 .WithMany()
                 .HasForeignKey(t => t.ScienceId);
 
-            modelBuilder.Entity<Teacher>()
-                .HasOne(t => t.LessonTarget)
-                .WithMany()
-                .HasForeignKey(t => t.LessonTargetId);
+            modelBuilder.Entity<TeacherLessonTarget>()
+                .HasKey(tlt => new { tlt.TeacherId, tlt.LessonTargetId });
+
+            modelBuilder.Entity<TeacherAgeCategory>()
+                .HasKey(tac => new { tac.TeacherId, tac.AgeCategoryId });
 
             modelBuilder.Entity<Teacher>()
-                .HasOne(t => t.AgeCategory)
-                .WithMany()
-                .HasForeignKey(t => t.AgeCategoryId);
+                .HasMany(t => t.TeacherLessonTargets)
+                .WithOne(tlt => tlt.Teacher)
+                .HasForeignKey(tlt => tlt.TeacherId);
+
+            modelBuilder.Entity<Teacher>()
+                .HasMany(t => t.TeacherAgeCategories)
+                .WithOne(tac => tac.Teacher)
+                .HasForeignKey(tac => tac.TeacherId);
 
 
 
@@ -196,12 +203,6 @@ namespace RepititMe.Infrastructure
                 );
 
 
-            modelBuilder.Entity<Student>().HasData(
-                new Student { Id = 1, UserId = 1},
-                new Student { Id = 2, UserId = 3}
-                );
-
-
             modelBuilder.Entity<ScienceLessonTarget>().HasData(
                 new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 1 },
                 new ScienceLessonTarget { ScienceId = 1, LessonTargetId = 2 },
@@ -290,37 +291,42 @@ namespace RepititMe.Infrastructure
             );
 
             modelBuilder.Entity<StudentUseFulUrl>().HasData(
-                new StudentUseFulUrl { Id = 1, Image = "https://www.freepik.com/free-photo/representations-user-experience-interface-design_37153491.htm#page=2&query=3d%20iphone&position=27&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/about_us", Text = "Как пользоваться сервисом? ", ColorText = "#FFFFFF" },
-                new StudentUseFulUrl { Id = 2, Image = "https://www.freepik.com/free-photo/golden-correct-sign-best-quality-assurance-guarantee-product-iso-service-concept_25953158.htm#query=advantages%203d&position=21&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/adv_for_students", Text = "Преимущества сервиса для клиентов", ColorText = "#000000" },
-                new StudentUseFulUrl { Id = 3, Image = "https://www.freepik.com/free-photo/beautiful-rendering-dating-app-concept_23669750.htm#query=3d%20online%20profile&position=15&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/ways_to_find_tutors", Text = "Способы подобрать репетитора", ColorText = "#FFFFFF" },
-                new StudentUseFulUrl { Id = 4, Image = "https://www.freepik.com/free-photo/comment-message-inbox-shape-social-media-notification-icon-speech-bubbles-3d-cartoon-banner-website-ui-pink-background-3d-rendering-illustration_24803408.htm#page=2&query=feedback%203d&position=10&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/feedback_students", Text = "Обратная связь от ученика", ColorText = "#FFFFFF" },
-                new StudentUseFulUrl { Id = 5, Image = "https://www.freepik.com/free-photo/3d-render-online-education-survey-test-concept_33062156.htm#query=online%20lessons%203d&position=1&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/online_lessons", Text = "Как проводить онлайн-занятия?", ColorText = "#000000" },
-                new StudentUseFulUrl { Id = 6, Image = "https://www.freepik.com/free-photo/3d-render-customer-leave-feedback-phone-screen_35987163.htm#query=review%203d&position=1&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/review", Text = "Как оставить отзыв о репетиторе", ColorText = "#000000" },
-                new StudentUseFulUrl { Id = 7, Image = "https://www.freepik.com/free-psd/question-mark-confirmed-signs-false-rejection-icon-3d-render-isolated_33111633.htm#query=faq%203d&position=7&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/faq_students", Text = "FAQ– вопросы учеников", ColorText = "#000000" }
+                new StudentUseFulUrl { Id = 1, Image = "https://img.freepik.com/free-photo/representations-user-experience-interface-design_23-2150104504.jpg?w=1380&t=st=1699363487~exp=1699364087~hmac=a9b760c1990278d66e9109276b979b59e76c80ca595013e73eba0940c56d26cc", Url = "https://teletype.in/@repetitme/about_us", Text = "Как пользоваться сервисом? ", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 2, Image = "https://img.freepik.com/free-photo/golden-correct-sign-best-quality-assurance-guarantee-product-iso-service-concept_616485-97.jpg?w=1380&t=st=1699363513~exp=1699364113~hmac=ecaf72d45234a4bb1219570234da5ceabf78e3bf10a97af84e00afb49fcd5ae5", Url = "https://teletype.in/@repetitme/adv_for_students", Text = "Преимущества сервиса для клиентов", ColorText = "#000000" },
+                new StudentUseFulUrl { Id = 3, Image = "https://img.freepik.com/free-photo/beautiful-rendering-dating-app-concept_23-2149316416.jpg?w=1060&t=st=1699363774~exp=1699364374~hmac=e63b5200fc721a3e448eba417175666be7775c2c0f33da70ee967308a2d0240d", Url = "https://teletype.in/@repetitme/ways_to_find_tutors", Text = "Способы подобрать репетитора", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 4, Image = "https://img.freepik.com/free-photo/comment-message-inbox-shape-social-media-notification-icon-speech-bubbles-3d-cartoon-banner-website-ui-pink-background-3d-rendering-illustration_56104-1328.jpg?w=996&t=st=1699363791~exp=1699364391~hmac=70384b0d70615256dca861d55637a99b8eeac5a381ef02c0e7768b8de466552e", Url = "https://teletype.in/@repetitme/feedback_students", Text = "Обратная связь от ученика", ColorText = "#FFFFFF" },
+                new StudentUseFulUrl { Id = 5, Image = "https://img.freepik.com/free-photo/3d-render-customer-leave-feedback-phone-screen_107791-17460.jpg?w=826&t=st=1699363813~exp=1699364413~hmac=676797ff3134036292b7b0678a890743998fe3ede313c132a1e5fcbd935c6b06", Url = "https://teletype.in/@repetitme/online_lessons", Text = "Как проводить онлайн-занятия?", ColorText = "#000000" },
+                new StudentUseFulUrl { Id = 6, Image = "https://img.freepik.com/free-photo/3d-render-online-education-survey-test-concept_107791-15665.jpg?w=1800&t=st=1699363835~exp=1699364435~hmac=1dcdc60cb6f2e8d2e2362d1ff8101f78c0e7f41f79308f22fb2fc3d7185c7986", Url = "https://teletype.in/@repetitme/review", Text = "Как оставить отзыв о репетиторе", ColorText = "#000000" },
+                new StudentUseFulUrl { Id = 7, Image = "https://img.freepik.com/free-psd/question-mark-confirmed-signs-false-rejection-icon-3d-render-isolated_47987-11659.jpg?w=1060&t=st=1699363851~exp=1699364451~hmac=f1f533e4f73684627235426e2fbc4992512f9f71b2be48ef10a6adc8a5c1bdcc", Url = "https://teletype.in/@repetitme/faq_students", Text = "FAQ– вопросы учеников", ColorText = "#000000" }
             );
 
             modelBuilder.Entity<TeacherUseFulUrl>().HasData(
-                new TeacherUseFulUrl { Id = 1, Image = "https://www.freepik.com/free-photo/representations-user-experience-interface-design_37153491.htm#page=2&query=3d%20iphone&position=27&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/about_us", Text = "Как пользоваться сервисом?", ColorText = "#000000" },
-                new TeacherUseFulUrl { Id = 2, Image = "https://www.freepik.com/free-photo/3d-render-bullseye-target-sandglass-coins_34159227.htm#query=advanatges%203d&position=26&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/adv_for_tutors", Text = "Преимущества сервиса для репетиторов", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 3, Image = "https://www.freepik.com/free-photo/mobile-phone-with-check-list-screen_35987160.htm#query=anketa%203d&position=21&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/from_for_tutors", Text = "Анкета репетитора", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 4, Image = "https://www.freepik.com/free-photo/golden-russian-ruble-coins-currency-money-sign-symbol-background-3d-illustration_27654389.htm#query=3d%20money&position=12&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/about_fee", Text = "Как формируется комиссия за заявки?", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 5, Image = "https://www.freepik.com/free-photo/five-golden-stars-client-excellent-evaluation-after-use-product-service-concept-by-3d-render_24049938.htm#page=2&query=raiting%203d&position=6&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/rating_of_tutor", Text = "Как формируется рейтинг?", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 6, Image = "https://www.freepik.com/free-photo/3d-rendering-social-media-icon_59781222.htm#page=5&query=3d%20notification&position=29&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/feedback_tutors", Text = "Уведомления для репетитора", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 7, Image = "https://www.freepik.com/free-photo/3d-render-customer-leave-feedback-phone-screen_35987163.htm#query=review%203d&position=1&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/review", Text = "Как оставить отзыв о репетиторе", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 8, Image = "https://www.freepik.com/free-photo/3d-render-online-education-survey-test-concept_33062156.htm#query=online%20lessons%203d&position=1&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/online_lessons", Text = "Как проводить онлайн - занятия ?", ColorText = "#FFFFFF" },
-                new TeacherUseFulUrl { Id = 9, Image = "https://www.freepik.com/free-psd/question-mark-speech-bubble-icon-isolated-3d-render-illustration_33111639.htm#query=faq%203d&position=4&from_view=search&track=ais", Url = "https://teletype.in/@repetitme/faq_tutors", Text = "FAQ - вопросырепетиторов", ColorText = "#000000" }
+                new TeacherUseFulUrl { Id = 1, Image = "https://img.freepik.com/free-photo/representations-user-experience-interface-design_23-2150104504.jpg?w=1380&t=st=1699363877~exp=1699364477~hmac=1af63fd6e634f7117b35f5828ab2438586596ff114107c04372bb7933069f072", Url = "https://teletype.in/@repetitme/about_us", Text = "Как пользоваться сервисом?", ColorText = "#000000" },
+                new TeacherUseFulUrl { Id = 2, Image = "https://img.freepik.com/free-photo/3d-render-bullseye-target-sandglass-coins_107791-16200.jpg?w=1060&t=st=1699363889~exp=1699364489~hmac=f3fb45411408c5c52ae24de4ac5c71cbaa9b5c0300a7d274eb52ad3c557505df", Url = "https://teletype.in/@repetitme/adv_for_tutors", Text = "Преимущества сервиса для репетиторов", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 3, Image = "https://img.freepik.com/free-photo/mobile-phone-with-check-list-screen_107791-17459.jpg?w=826&t=st=1699363905~exp=1699364505~hmac=b63d3159070c03c0782365fce92d943e06467d15a5540fe32f3a00c9b03c085f", Url = "https://teletype.in/@repetitme/from_for_tutors", Text = "Анкета репетитора", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 4, Image = "https://img.freepik.com/free-photo/golden-russian-ruble-coins-currency-money-sign-symbol-background-3d-illustration_56104-1707.jpg?w=740&t=st=1699363923~exp=1699364523~hmac=71e34623397ca15b7bc078617e449936286fda33eba6809317e99b58159875ed", Url = "https://teletype.in/@repetitme/about_fee", Text = "Как формируется комиссия за заявки?", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 5, Image = "https://img.freepik.com/free-photo/five-golden-stars-client-excellent-evaluation-after-use-product-service-concept-by-3d-render_616485-15.jpg?w=1380&t=st=1699363939~exp=1699364539~hmac=c3a33800b559a6ad51484a74095b2863a0c0b459dfc9a3384c2ab4410016c8c6", Url = "https://teletype.in/@repetitme/rating_of_tutor", Text = "Как формируется рейтинг?", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 6, Image = "https://img.freepik.com/free-photo/3d-rendering-social-media-icon_23-2150701008.jpg?w=1060&t=st=1699363955~exp=1699364555~hmac=3c1c1242d415454fc889dd2154994aa05bbfdb971d8b1de943be29e7967d3f9c", Url = "https://teletype.in/@repetitme/feedback_tutors", Text = "Уведомления для репетитора", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 7, Image = "https://img.freepik.com/free-photo/3d-render-customer-leave-feedback-phone-screen_107791-17460.jpg?w=826&t=st=1699363994~exp=1699364594~hmac=835f40a2ce752e0d61c0d54582e463a8705394efae80722e2310a6a6b45b4746", Url = "https://teletype.in/@repetitme/review", Text = "Как оставить отзыв о репетиторе", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 8, Image = "https://img.freepik.com/free-photo/3d-render-online-education-survey-test-concept_107791-15665.jpg?w=1800&t=st=1699364012~exp=1699364612~hmac=ff52de907dd32cb7cc25828f5807cc65909670cdc661c8385175737605f1470f", Url = "https://teletype.in/@repetitme/online_lessons", Text = "Как проводить онлайн - занятия ?", ColorText = "#FFFFFF" },
+                new TeacherUseFulUrl { Id = 9, Image = "https://img.freepik.com/free-psd/question-mark-speech-bubble-icon-isolated-3d-render-illustration_47987-11661.jpg?w=1060&t=st=1699364032~exp=1699364632~hmac=b9780246b63790d28062a5a78a4a454a15ba74ee89136a9edd3f33f6d54560db", Url = "https://teletype.in/@repetitme/faq_tutors", Text = "FAQ - вопросырепетиторов", ColorText = "#000000" }
             );
 
-            modelBuilder.Entity<Teacher>().HasData(
-                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = 1, AgeCategoryId  = 3, Experience = 2, Price = 2500, Visibility = true},
+            /*modelBuilder.Entity<Teacher>().HasData(
+                new Teacher { Id = 1, UserId = 2, PaymentRating = 700, Rating = 5.0, Image = "testteacher", StatusId = 5, ScienceId = 2, LessonTargetId = , AgeCategoryId  = 3, Experience = 2, Price = 2500, Visibility = true},
                 new Teacher { Id = 2, UserId = 3, PaymentRating = 1000, Rating = 4.4, Image = "testteacher2", StatusId = 2, ScienceId = 1, LessonTargetId = 3, AgeCategoryId = 4, Experience = 1, Price = 1200, Visibility = false}
-                );
+                );*/
 
-            modelBuilder.Entity<User>().HasData(
+            /* modelBuilder.Entity<Student>().HasData(
+                new Student { Id = 1, UserId = 1},
+                new Student { Id = 2, UserId = 3}
+                );*/
+
+            /*modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, Name = "Сергей", TelegramName = "@Serg" ,TelegramId = 12, LastActivity = 1, Block = false },
                 new User { Id = 2, Name = "Владимир", TelegramName = "@Vlad", SecondName = "Петров", TelegramId = 23, LastActivity = 2, Block = false },
                 new User { Id = 3, Name = "Даниил", TelegramName = "@Dania", SecondName = "Семенов", TelegramId = 34, LastActivity = 1 , Block = false }
-                );
+                );*/
         }
 
 

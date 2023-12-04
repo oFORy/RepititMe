@@ -8,7 +8,7 @@ namespace RepititMe.Domain.Object.Surveis
 {
     public class SurveyTeacherFirstObject
     {
-        public int TelegramId { get; set; }
+        public long TelegramId { get; set; }
         public int OrderId { get; set; }
         public bool TeacherAccept { get; set; }
         public DateTime? DateTimeFirstLesson { get; set; }

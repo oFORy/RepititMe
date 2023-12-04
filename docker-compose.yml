@@ -7,16 +7,25 @@ services:
       context: .
       dockerfile: RepititMe.Api/Dockerfile
     environment:
+      #- BotToken=6835809808:AAG1QEjNLHBD6PxoB7c5n8TjVE9R-_rg_Qc
+      # my bot
       - BotToken=6133428642:AAEMRPIdInGzWRuvAcgf5jdOuDDzw6KEYCA
-      - DB_CS=host=host.docker.internal;port=5627;database=RepititMe;username=postgres;password=98GerodoT98
-      - HostAddress=https://7673-95-25-166-2.ngrok.io
+      # this idk
+      #- BotToken=5885856244:AAFOO4yU5RK7Fl_w-5EDdT3lG6xsJcTOTbM
+      #- DB_CS=host=95.163.230.58;port=5627;database=RepetitMeTest;username=postgres;password=r2aWOf7qwLekkaz0;
+      - DB_CS=host=host.docker.internal;port=5627;database=RepetitMeMy2;username=postgres;password=98GerodoT98;
+      #- DB_CS=server=host.docker.internal;username=postgres;password=627corrupted627;database=RepititMe;port=5627
+      - HostAddress=https://534e-95-25-166-28.ngrok.io
+      - Secret_Key=live_-rCnmV7jENqXMuHUkjg8O4OiFe-s4gH59fjbTD1-dek
+      - Shop_Id=280065
     ports:
       - "23400:80"
       - "23401:443"
     networks:
-      - test-network
+      - traefik_proxy
+
 
 
 networks:
-  test-network:
+  traefik_proxy:
     external: true

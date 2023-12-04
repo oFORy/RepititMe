@@ -8,7 +8,7 @@ namespace RepititMe.Domain.Object.Admins
 {
     public class BlockingUserObject
     {
-        public int TelegramIdAdmin { get; set; }
-        public int TelegramIdUser { get; set; }
+        public long TelegramIdAdmin { get; set; }
+        public long TelegramIdUser { get; set; }
     }
 }

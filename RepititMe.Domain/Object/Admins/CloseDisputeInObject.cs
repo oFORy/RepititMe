@@ -8,7 +8,7 @@ namespace RepititMe.Domain.Object.Admins
 {
     public class CloseDisputeInObject
     {
-        public int TelegramIdAdmin { get; set; }
+        public long TelegramIdAdmin { get; set; }
         public int DisputeId { get; set; }
     }
 }
