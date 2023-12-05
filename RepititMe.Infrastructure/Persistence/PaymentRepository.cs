@@ -20,7 +20,7 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> CheckPayment(int orderId)
         {
-            var confPaymentOrder = await _botDbContext.Orders.FirstOrDefaultAsync(c => c.Id == orderId);
+            var confPaymentOrder = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.Id == orderId);
             if (confPaymentOrder != null)
             {
                 return true;
