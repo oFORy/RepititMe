@@ -58,7 +58,15 @@ namespace RepititMe.Application.Services.Teachers.Commands
             {
                 string userFolderPath = $"wwwroot/media/{userId}";
 
-                Directory.Delete(userFolderPath, true);
+                try
+                {
+                    Directory.Delete(userFolderPath, true);
+                }
+                catch
+                {
+
+                }
+                
 
                 Directory.CreateDirectory(userFolderPath);
 
