@@ -9,7 +9,7 @@ namespace RepititMe.Application.Common
 {
     public interface IPayment
     {
-        Task<string> CreatePayment(double value, int orderId);
+        Task<string> CreatePayment(double value, int orderId, int countLesson);
         Task<bool> CheckPayment(int orderId);
         Task CheckPaymentStatus(int orderId);
     }
@@ -85,12 +85,13 @@ namespace RepititMe.Application.Common
             }
         }
 
-        public async Task<string> CreatePayment(double value, int orderId)
+        public async Task<string> CreatePayment(double value, int orderId, int countLesson)
         {
             string shopId = Environment.GetEnvironmentVariable("Shop_Id");
             string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
             string idempotenceKey = Guid.NewGuid().ToString();
-            string returnUrl = "https://yookassa.ru/developers/payment-acceptance/getting-started/quick-start?codeLang=bash";
+
+            string returnUrl = $"{Environment.GetEnvironmentVariable("ReturnUrl")}/orders/{orderId}?countLesson={countLesson}";
 
             string currency = "RUB";
 

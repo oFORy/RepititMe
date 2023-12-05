@@ -22,18 +22,16 @@ namespace RepititMe.Api.Controllers
 
         
         [HttpPost("Api/Payment/Create")]
-        public async Task<string> CreatePaymentAsync(double value, int orderId)
+        public async Task<string> CreatePaymentAsync(double value, int orderId, int countLesson)
         {
-            string confirmationUrl = await _payment.CreatePayment(value, orderId);
+            string confirmationUrl = await _payment.CreatePayment(value, orderId, countLesson);
 
             if (!string.IsNullOrEmpty(confirmationUrl))
             {
-                // Редирект на страницу подтверждения оплаты
                 return confirmationUrl;
             }
             else
             {
-                // Обработка ошибки, например, возврат ошибочного представления
                 return "Err";
             }
         }

@@ -18,6 +18,7 @@ services:
       - DB_CS=host=host.docker.internal;port=5627;database=RepetitMeMy2;username=postgres;password=98GerodoT98;
       #- DB_CS=server=host.docker.internal;username=postgres;password=627corrupted627;database=RepititMe;port=5627
       - HostAddress=https://534e-95-25-166-28.ngrok.io
+      - ReturnUrl=http://localhost:5173
 
       #- Secret_Key=live_-rCnmV7jENqXMuHUkjg8O4OiFe-s4gH59fjbTD1-dek
       #- Shop_Id=280065
