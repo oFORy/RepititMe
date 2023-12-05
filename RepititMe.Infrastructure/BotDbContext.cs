@@ -13,7 +13,7 @@ namespace RepititMe.Infrastructure
         {
             //Database.SetCommandTimeout(60);
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -346,5 +346,7 @@ namespace RepititMe.Infrastructure
         public DbSet<SurveySecond> SurveisSecond { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Dispute> Disputes { get; set; }
+        public DbSet<TeacherLessonTarget> TeacherLessonTargets { get; set; }
+        public DbSet<TeacherAgeCategory> TeacherAgeCategorys { get; set; }
     }
 }

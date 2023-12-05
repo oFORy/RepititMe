@@ -134,7 +134,7 @@ namespace RepititMe.Infrastructure.Persistence
                 var newTeacher = new Teacher()
                 {
                     UserId = newUser.Id,
-                    Visibility = true,
+                    Visibility = false,
                     Rating = 5,
                     PaymentRating = 0
                 };

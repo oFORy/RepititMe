@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Common;
 using RepititMe.Application.Services.Admins.Commands;
 using RepititMe.Application.Services.Admins.Common;
 using RepititMe.Application.Services.Admins.Queries;
@@ -45,6 +46,8 @@ namespace RepititMe.Application
 
                 .AddScoped<IAdminQueryService, AdminQueryService>()
                 .AddScoped<IAdminCommandService, AdminCommandService>()
+
+                .AddScoped<IPayment, Payment>()
                 ;
             return services;
         }

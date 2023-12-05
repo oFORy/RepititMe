@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepititMe.Application.Common;
 using RepititMe.Application.Services.Admins.Common;
 using RepititMe.Application.Services.Orders.Common;
 using RepititMe.Application.Services.Reports.Common;
@@ -31,16 +32,17 @@ namespace RepititMe.Infrastructure
                 .AddScoped<ISurveyRepository, SurveyRepository>()
                 .AddScoped<IReportRepository, ReportRepository>()
                 .AddScoped<IAdminRepository, AdminRepository>()
+                .AddScoped<IPaymentRepository, PaymentRepository>()
                 ;
 
 
-            services
-                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly("RepititMe.Api")));
-
             /*services
-                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CS"),
+                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly("RepititMe.Api")));*/
+
+            services
+                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(Environment.GetEnvironmentVariable("DB_CS"),
+                b => b.MigrationsAssembly("RepititMe.Api")));
 
             return services;
         }
