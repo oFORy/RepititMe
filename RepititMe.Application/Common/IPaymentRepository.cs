@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RepititMe.Domain.Entities.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace RepititMe.Application.Common
 {
     public interface IPaymentRepository
     {
-        Task ConfirmPayment(long telegramId, double value);
+        Task ConfirmPayment(int orderId);
+        Task<bool> CheckPayment(int orderId);
+        Task<bool> Createpayment(int orderId, string paymentId, double value);
+        Task<PaymentStatus> GetPaymentData(int orderId);
     }
 }

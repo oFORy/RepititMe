@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RepititMe.Application.Common
 {
     public interface IPayment
     {
-        Task<string> CreatePayment(double value, string description);
-        Task CheckPayment(string paymentId, double value, long telegramId);
+        Task<string> CreatePayment(double value, int orderId);
+        Task<bool> CheckPayment(int orderId);
+        Task CheckPaymentStatus(int orderId);
     }
 
     public class Payment : IPayment
@@ -20,42 +22,70 @@ namespace RepititMe.Application.Common
             _repository = paymentRepository;
         }
 
-        public async Task CheckPayment(string paymentId, double value, long telegramId)
+        public async Task<bool> CheckPayment(int orderId)
         {
+            return await _repository.CheckPayment(orderId);
+        }
+
+        public async Task CheckPaymentStatus(int orderId)
+        {
+            var dataPayment = await _repository.GetPaymentData(orderId);
+
+
             string shopId = Environment.GetEnvironmentVariable("Shop_Id");
             string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
 
-            string apiUrl = $"https://api.yookassa.ru/v3/payments/{paymentId}";
+            string apiUrl = $"https://api.yookassa.ru/v3/payments/{dataPayment.PaymentId}";
 
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
                     "Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{shopId}:{secretKey}")));
 
-                var response = await client.GetAsync(apiUrl);
 
-                if (response.IsSuccessStatusCode)
+                await Task.Run(async () =>
                 {
-                    var paymentInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-                    Console.WriteLine($"Информация о платеже: {paymentInfo}");
-                    if (paymentInfo["paid"].ToObject<bool>())
+                    int maxAttempts = 20;
+                    int currentAttempt = 0;
+
+                    while (currentAttempt < maxAttempts)
                     {
-                        Console.WriteLine("Платеж оплачен успешно.");
-                        await _repository.ConfirmPayment(telegramId, value);
+                        try
+                        {
+                            var response = await client.GetAsync(apiUrl);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var paymentInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                                if (paymentInfo["paid"].ToObject<bool>())
+                                {
+                                    Console.WriteLine("Платеж оплачен успешно.");
+                                    await _repository.ConfirmPayment(orderId);
+                                    break;
+                                }
+                                else
+                                    Console.WriteLine("Платеж еще не ордакв");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Ошибка при проверке платежа. Код ошибки: {response.StatusCode}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error during payment status check: {ex.Message}");
+                        }
+
+                        await Task.Delay(30000);
+                        currentAttempt++;
                     }
-                    else
-                    {
-                        Console.WriteLine("Платеж не оплачен.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"Ошибка при проверке платежа. Код ошибки: {response.StatusCode}");
-                }
+
+                    Console.WriteLine("Payment status checking completed.");
+                });
             }
         }
 
-        public async Task<string> CreatePayment(double value, string descriptionData)
+        public async Task<string> CreatePayment(double value, int orderId)
         {
             string shopId = Environment.GetEnvironmentVariable("Shop_Id");
             string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
@@ -77,7 +107,6 @@ namespace RepititMe.Application.Common
                     type = "redirect",
                     return_url = returnUrl
                 },
-                description = descriptionData
             };
 
             string apiUrl = "https://api.yookassa.ru/v3/payments";
@@ -99,7 +128,11 @@ namespace RepititMe.Application.Common
                     var paymentResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
                     string confirmationUrl = paymentResponse.confirmation.confirmation_url;
                     Console.WriteLine($"Платеж создан. Перенаправьте пользователя по следующей ссылке для оплаты: {confirmationUrl}");
-                    return confirmationUrl;
+                    Console.WriteLine(paymentResponse.id);
+
+                    if (await _repository.Createpayment(orderId, (string)paymentResponse.id, value))
+                        return confirmationUrl;
+                    return "";
                 }
                 else
                 {
@@ -110,3 +143,4 @@ namespace RepititMe.Application.Common
         }
     }
 }
+

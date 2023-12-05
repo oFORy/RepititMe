@@ -348,5 +348,6 @@ namespace RepititMe.Infrastructure
         public DbSet<Dispute> Disputes { get; set; }
         public DbSet<TeacherLessonTarget> TeacherLessonTargets { get; set; }
         public DbSet<TeacherAgeCategory> TeacherAgeCategorys { get; set; }
+        public DbSet<PaymentStatus> PaymentStatuses { get; set; }
     }
 }

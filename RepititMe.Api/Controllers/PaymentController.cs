@@ -22,9 +22,9 @@ namespace RepititMe.Api.Controllers
 
         
         [HttpPost("Api/Payment/Create")]
-        public async Task<string> CreatePaymentAsync(double value)
+        public async Task<string> CreatePaymentAsync(double value, int orderId)
         {
-            string confirmationUrl = await _payment.CreatePayment(value, "test");
+            string confirmationUrl = await _payment.CreatePayment(value, orderId);
 
             if (!string.IsNullOrEmpty(confirmationUrl))
             {
@@ -39,9 +39,15 @@ namespace RepititMe.Api.Controllers
         }
 
         [HttpPost("Api/Payment/Check")]
-        public async Task CheckPaymentAsync(string paymentId, double value, long telegramId)
+        public async Task<bool> CheckPaymentAsync(int orderId)
         {
-            await _payment.CheckPayment(paymentId, value, telegramId);
+            return await _payment.CheckPayment(orderId);
+        }
+
+        [HttpGet("Api/Payment/Status/Check")]
+        public async Task CheckPaymentStatusAsync(int orderId)
+        {
+            await _payment.CheckPaymentStatus(orderId);
         }
     }
 }
