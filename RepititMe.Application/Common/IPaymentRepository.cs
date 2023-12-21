@@ -9,8 +9,9 @@ namespace RepititMe.Application.Common
 {
     public interface IPaymentRepository
     {
-        Task ConfirmPayment(int orderId);
+        Task ConfirmPayment(int orderId, string paymentId);
         Task<bool> CheckPayment(int orderId);
+        Task DeletePayment(int orderId, string paymentId);
         Task<bool> Createpayment(int orderId, string paymentId, double value);
         Task<PaymentStatus> GetPaymentData(int orderId);
     }

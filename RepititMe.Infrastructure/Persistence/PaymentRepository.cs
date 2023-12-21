@@ -20,7 +20,7 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> CheckPayment(int orderId)
         {
-            var confPaymentOrder = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId);
+            var confPaymentOrder = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId && c.WaitingPayment);
             if (confPaymentOrder != null)
             {
                 return true;
@@ -28,9 +28,9 @@ namespace RepititMe.Infrastructure.Persistence
             return false;
         }
 
-        public async Task ConfirmPayment(int orderId)
+        public async Task ConfirmPayment(int orderId, string paymentId)
         {
-            var clearPay = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId);
+            var clearPay = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId && c.PaymentId == paymentId);
             if (clearPay != null)
             {
                 var order = await _botDbContext.Orders.FirstOrDefaultAsync(c => c.Id == orderId);
@@ -40,7 +40,9 @@ namespace RepititMe.Infrastructure.Persistence
                     await _botDbContext.SaveChangesAsync();
                 }
 
-                _botDbContext.PaymentStatuses.Remove(clearPay);
+                //_botDbContext.PaymentStatuses.Remove(clearPay);
+                clearPay.Paid = true;
+                clearPay.WaitingPayment = false;
                 await _botDbContext.SaveChangesAsync();
             }
         }
@@ -57,9 +59,19 @@ namespace RepititMe.Infrastructure.Persistence
             return await _botDbContext.SaveChangesAsync() > 0;
         }
 
+        public async Task DeletePayment(int orderId, string paymentId)
+        {
+            var confPaymentOrder = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId && c.PaymentId == paymentId);
+            if (confPaymentOrder != null)
+            {
+                confPaymentOrder.WaitingPayment = false;
+                await _botDbContext.SaveChangesAsync();
+            }
+        }
+
         public async Task<PaymentStatus> GetPaymentData(int orderId)
         {
-            return await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(u => u.OrderId == orderId);
+            return await _botDbContext.PaymentStatuses.Where(u => u.OrderId == orderId && u.WaitingPayment).OrderByDescending(c => c.Id).FirstOrDefaultAsync();
         }
     }
 }

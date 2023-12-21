@@ -12,5 +12,7 @@ namespace RepititMe.Domain.Entities.Data
         public int OrderId { get; set; }
         public string PaymentId { get; set; }
         public double Value { get; set; }
+        public bool WaitingPayment { get; set; } = true;
+        public bool Paid { get; set; } = false;
     }
 }

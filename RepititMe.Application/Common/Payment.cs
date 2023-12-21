@@ -30,58 +30,65 @@ namespace RepititMe.Application.Common
         public async Task CheckPaymentStatus(int orderId)
         {
             var dataPayment = await _repository.GetPaymentData(orderId);
-
-
-            string shopId = Environment.GetEnvironmentVariable("Shop_Id");
-            string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
-
-            string apiUrl = $"https://api.yookassa.ru/v3/payments/{dataPayment.PaymentId}";
-
-            using (HttpClient client = new HttpClient())
+            if (dataPayment != null)
             {
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
-                    "Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{shopId}:{secretKey}")));
+                string shopId = Environment.GetEnvironmentVariable("Shop_Id");
+                string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
 
+                string apiUrl = $"https://api.yookassa.ru/v3/payments/{dataPayment.PaymentId}";
 
-                await Task.Run(async () =>
+                using (HttpClient client = new HttpClient())
                 {
-                    int maxAttempts = 20;
-                    int currentAttempt = 0;
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{shopId}:{secretKey}")));
 
-                    while (currentAttempt < maxAttempts)
+
+                    await Task.Run(async () =>
                     {
-                        try
-                        {
-                            var response = await client.GetAsync(apiUrl);
+                        int maxAttempts = 20;
+                        int currentAttempt = 0;
 
-                            if (response.IsSuccessStatusCode)
+                        while (currentAttempt < maxAttempts)
+                        {
+                            try
                             {
-                                var paymentInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
-                                if (paymentInfo["paid"].ToObject<bool>())
+                                var response = await client.GetAsync(apiUrl);
+
+                                if (response.IsSuccessStatusCode)
                                 {
-                                    Console.WriteLine("Платеж оплачен успешно.");
-                                    await _repository.ConfirmPayment(orderId);
-                                    break;
+                                    var paymentInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(await response.Content.ReadAsStringAsync());
+                                    if (paymentInfo["paid"].ToObject<bool>())
+                                    {
+                                        Console.WriteLine("Платеж оплачен успешно.");
+                                        await _repository.ConfirmPayment(orderId, dataPayment.PaymentId);
+                                        break;
+                                    }
+                                    else
+                                        Console.WriteLine("Платеж еще не ордакв");
                                 }
                                 else
-                                    Console.WriteLine("Платеж еще не ордакв");
+                                {
+                                    Console.WriteLine($"Ошибка при проверке платежа. Код ошибки: {response.StatusCode}");
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                Console.WriteLine($"Ошибка при проверке платежа. Код ошибки: {response.StatusCode}");
+                                Console.WriteLine($"Error during payment status check: {ex.Message}");
                             }
+
+                            await Task.Delay(30000);
+                            currentAttempt++;
                         }
-                        catch (Exception ex)
+
+                        Console.WriteLine("Payment status checking completed.");
+
+                        if (currentAttempt >= maxAttempts)
                         {
-                            Console.WriteLine($"Error during payment status check: {ex.Message}");
+                            Console.WriteLine("Not paid");
+                            await _repository.DeletePayment(orderId, dataPayment.PaymentId);
                         }
-
-                        await Task.Delay(30000);
-                        currentAttempt++;
-                    }
-
-                    Console.WriteLine("Payment status checking completed.");
-                });
+                    });
+                }
             }
         }
 
