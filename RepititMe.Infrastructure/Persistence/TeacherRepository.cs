@@ -146,7 +146,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Student)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListFirst.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? s.RepitSurveyTeacher.Value.Date < DateTime.UtcNow.Date : !s.TeacherAnswer))
+                .Where(s => orderIdsListFirst.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? (s.RepitSurveyTeacher.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) : !s.TeacherAnswer))
                 .Select(s => new OrderSurveyDetailsTeacher
                 {
                     OrderId = s.OrderId,
@@ -159,7 +159,7 @@ namespace RepititMe.Infrastructure.Persistence
 
             List<int> orderIdsListSecond = await _botDbContext.Orders
                 .Where(t => t.TeacherId == teacherId)
-                .Where(o => o.DateTimeFirstLesson.HasValue && o.DateTimeFirstLesson.Value.Date < DateTime.UtcNow.Date)
+                .Where(o => o.DateTimeFirstLesson.HasValue && (o.DateTimeFirstLesson.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21))
                 .Select(o => o.Id)
                 .ToListAsync();
 
@@ -167,7 +167,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Student)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? (s.RepitSurveyTeacher.Value.Date < DateTime.UtcNow.Date && !s.TeacherAnswer) : (s.Order.DateTimeFirstLesson < DateTime.UtcNow.Date && !s.TeacherAnswer)))
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? ((s.RepitSurveyTeacher.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.TeacherAnswer) : ((s.Order.DateTimeFirstLesson == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.TeacherAnswer)))
                 .Select(s => new OrderSurveyDetailsTeacher
                 {
                     OrderId = s.OrderId,

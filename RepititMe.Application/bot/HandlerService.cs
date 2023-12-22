@@ -67,14 +67,6 @@ namespace RepititMe.Application.bot
             _logger.LogInformation($"The message was sent with id: {sentMessage.MessageId}");
         }
 
-
-        private Task UnknownUpdateHandlerAsync(Update update)
-        {
-            _logger.LogInformation("Unknown update type: {updateType}", update.Type);
-            return Task.CompletedTask;
-        }
-
-
         private async Task<Message> SendFirstMessage(Message message)
         {
             string usage = "Привет" + (message?.From?.FirstName != null ? ", " + message?.From?.FirstName + "! " : "! ") +
@@ -109,7 +101,11 @@ namespace RepititMe.Application.bot
 
 
 
-
+        private Task UnknownUpdateHandlerAsync(Update update)
+        {
+            _logger.LogInformation("Unknown update type: {updateType}", update.Type);
+            return Task.CompletedTask;
+        }
 
 
         public Task HandleErrorAsync(Exception exception)

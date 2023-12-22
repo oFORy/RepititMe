@@ -248,7 +248,7 @@ namespace RepititMe.Infrastructure.Persistence
 
             List<int> orderIdsListSecond = await _botDbContext.Orders
                 .Where(t => t.StudentId == studentId)
-                .Where(o => o.DateTimeFirstLesson.HasValue && o.DateTimeFirstLesson.Value.Date < DateTime.UtcNow.Date)
+                .Where(o => o.DateTimeFirstLesson.HasValue && (o.DateTimeFirstLesson.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21))
                 .Select(o => o.Id)
                 .ToListAsync();
 
@@ -257,7 +257,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Teacher)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyStudent != null ? (s.RepitSurveyStudent.Value.Date < DateTime.UtcNow.Date && !s.StudentAnswer) : (s.Order.DateTimeFirstLesson < DateTime.UtcNow.Date && !s.StudentAnswer)))
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyStudent != null ? ((s.RepitSurveyStudent.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.StudentAnswer) : ((s.Order.DateTimeFirstLesson == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.StudentAnswer)))
                 .Select(s => new OrderSurveyDetailsStudent
                 {
                     OrderId = s.OrderId,

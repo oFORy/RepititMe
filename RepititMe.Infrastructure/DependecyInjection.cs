@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RepititMe.Application.Common;
 using RepititMe.Application.Services.Admins.Common;
+using RepititMe.Application.Services.Notifications.Common;
 using RepititMe.Application.Services.Orders.Common;
 using RepititMe.Application.Services.Reports.Common;
 using RepititMe.Application.Services.Reviews.Common;
@@ -10,6 +11,7 @@ using RepititMe.Application.Services.Students.Common;
 using RepititMe.Application.Services.Surveis.Common;
 using RepititMe.Application.Services.Teachers.Common;
 using RepititMe.Application.Services.Users.Common;
+using RepititMe.Infrastructure.Notifications;
 using RepititMe.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -33,11 +35,12 @@ namespace RepititMe.Infrastructure
                 .AddScoped<IReportRepository, ReportRepository>()
                 .AddScoped<IAdminRepository, AdminRepository>()
                 .AddScoped<IPaymentRepository, PaymentRepository>()
+                .AddScoped<INotificationRepository, NotificationRepository>()
                 ;
 
 
             /*services
-                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                .AddDbContext<BotDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection1"),
                 b => b.MigrationsAssembly("RepititMe.Api")));*/
 
             services
