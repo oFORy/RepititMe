@@ -22,6 +22,7 @@ namespace RepititMe.Domain.Entities.Weights
         public bool RefusedStudent { get; set; }
         public bool RefusedTeacher { get; set; }
         public double Commission { get; set; }
+        public double PaidCommission { get; set; } = 0;
 
         public bool NotificationTimeAccept { get; set; } = false;
         public bool NotificationTimeFirstLesson { get; set; } = false;

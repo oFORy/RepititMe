@@ -36,11 +36,15 @@ namespace RepititMe.Infrastructure.Persistence
                 teacher.VideoPresentation = updateTeacherDataFolderObject?.VideoPresentation;
 
                 if (updateTeacherDataFolderObject?.Image != null)
-                    teacher.PaymentRating += 200;
+                    teacher.PaymentRatingFromProfile += 200;
                 if (updateTeacherDataFolderObject?.VideoPresentation != null)
-                    teacher.PaymentRating += 400;
+                    teacher.PaymentRatingFromProfile += 400;
                 if (updateTeacherDataFolderObject?.Certificates != null && updateTeacherDataFolderObject.Certificates.Any())
-                    teacher.PaymentRating += updateTeacherDataFolderObject.Certificates.Count * 50;
+                    teacher.PaymentRatingFromProfile += updateTeacherDataFolderObject.Certificates.Count * 50;
+
+
+                teacher.PaymentRating = teacher.PaymentRatingFromProfile + teacher.PaymentRatingFromCommission;
+                await _botDbContext.SaveChangesAsync();
                 return await _botDbContext.SaveChangesAsync() > 0;
             }
             else
@@ -70,7 +74,7 @@ namespace RepititMe.Infrastructure.Persistence
                     teacher.TeacherAgeCategories.Clear();
                     teacher.TeacherLessonTargets.Clear();
 
-                    teacher.PaymentRating = 0;
+                    teacher.PaymentRatingFromProfile = 0;
                     teacher.Image = updatedTeacher.Image;
                     teacher.StatusId = updatedTeacher.StatusId;
                     teacher.ScienceId = updatedTeacher.ScienceId;
@@ -83,7 +87,7 @@ namespace RepititMe.Infrastructure.Persistence
                     teacher.Certificates = updatedTeacher.Certificates;
 
                     if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.TeacherLessonTargets != null && updatedTeacher.TeacherAgeCategories != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
-                        teacher.PaymentRating += 300;
+                        teacher.PaymentRatingFromProfile += 300;
 
                     if (await _botDbContext.SaveChangesAsync() == 0)
                         return -1;

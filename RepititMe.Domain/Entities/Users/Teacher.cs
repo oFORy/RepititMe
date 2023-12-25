@@ -26,6 +26,8 @@ namespace RepititMe.Domain.Entities.Users
         public List<string>? Certificates { get; set; }
         public bool Visibility { get; set; }
         public double Rating { get; set; }
-        public double PaymentRating { get; set; }
+        public double PaymentRating { get; set; } = 0;
+        public double PaymentRatingFromCommission { get; set; } = 0;
+        public double PaymentRatingFromProfile { get; set; } = 0;
     }
 }

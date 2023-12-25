@@ -98,7 +98,7 @@ namespace RepititMe.Application.Common
             string secretKey = Environment.GetEnvironmentVariable("Secret_Key");
             string idempotenceKey = Guid.NewGuid().ToString();
 
-            string returnUrl = $"{Environment.GetEnvironmentVariable("ReturnUrl")}/orders/{orderId}?countLesson={countLesson}";
+            string returnUrl = $"{Environment.GetEnvironmentVariable("ReturnUrl")}";
 
             string currency = "RUB";
 

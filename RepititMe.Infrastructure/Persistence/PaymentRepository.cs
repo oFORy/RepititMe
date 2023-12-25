@@ -30,17 +30,42 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task ConfirmPayment(int orderId, string paymentId)
         {
-            var clearPay = await _botDbContext.PaymentStatuses.FirstOrDefaultAsync(c => c.OrderId == orderId && c.PaymentId == paymentId);
+            var clearPay = await _botDbContext.PaymentStatuses
+                .Where(c => c.OrderId == orderId && c.PaymentId == paymentId)
+                .FirstOrDefaultAsync();
+
             if (clearPay != null)
             {
-                var order = await _botDbContext.Orders.FirstOrDefaultAsync(c => c.Id == orderId);
+                var order = await _botDbContext.Orders
+                    .Include(t => t.Teacher)
+                    .FirstOrDefaultAsync(c => c.Id == orderId);
                 if (order != null)
                 {
                     order.Commission = Math.Round(order.Commission - clearPay.Value, 2);
+                    order.PaidCommission += clearPay.Value;
                     await _botDbContext.SaveChangesAsync();
+
+
+                    double sumOrders = await _botDbContext.Orders
+                        .SumAsync(o => o.PaidCommission);
+
+                    var countOrders = await _botDbContext.Orders
+                        .Where(t => t.TeacherId == order.TeacherId)
+                        .CountAsync();
+
+                    var newPaymentRating = sumOrders / countOrders;
+                    var teacherAddRating = await _botDbContext.Teachers.Where(t => t.Id == order.TeacherId).FirstOrDefaultAsync();
+                    if (teacherAddRating != null)
+                    {
+                        teacherAddRating.PaymentRatingFromCommission = newPaymentRating;
+                        await _botDbContext.SaveChangesAsync();
+
+                        teacherAddRating.PaymentRating = teacherAddRating.PaymentRatingFromProfile + teacherAddRating.PaymentRatingFromCommission;
+                        await _botDbContext.SaveChangesAsync();
+                    }
+
                 }
 
-                //_botDbContext.PaymentStatuses.Remove(clearPay);
                 clearPay.Paid = true;
                 clearPay.WaitingPayment = false;
                 await _botDbContext.SaveChangesAsync();
