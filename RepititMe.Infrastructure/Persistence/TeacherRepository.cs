@@ -132,6 +132,8 @@ namespace RepititMe.Infrastructure.Persistence
 
             DateTime twoHoursAgo = DateTime.UtcNow.AddHours(-2);
 
+            DateTime now = DateTime.UtcNow.AddHours(3);
+
             var teacherId = await _botDbContext.Teachers
                 .Include(u => u.User)
                 .Where(s => s.User.TelegramId == telegramId)
@@ -150,7 +152,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Student)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListFirst.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? (s.RepitSurveyTeacher.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) : !s.TeacherAnswer))
+                .Where(s => orderIdsListFirst.Contains(s.OrderId) && !s.TeacherAnswer) // (s.RepitSurveyTeacher != null ? (s.RepitSurveyTeacher.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) :
                 .Select(s => new OrderSurveyDetailsTeacher
                 {
                     OrderId = s.OrderId,
@@ -160,10 +162,9 @@ namespace RepititMe.Infrastructure.Persistence
                 .ToListAsync();
 
 
-
             List<int> orderIdsListSecond = await _botDbContext.Orders
                 .Where(t => t.TeacherId == teacherId)
-                .Where(o => o.DateTimeFirstLesson.HasValue && (o.DateTimeFirstLesson.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21))
+                .Where(o => o.DateTimeFirstLesson.HasValue && ((o.DateTimeFirstLesson.Value.Date == now.Date && now.Hour >= 21) || (o.DateTimeFirstLesson.Value.Date < now.Date)))
                 .Select(o => o.Id)
                 .ToListAsync();
 
@@ -171,7 +172,7 @@ namespace RepititMe.Infrastructure.Persistence
                 .Include(s => s.Order)
                     .ThenInclude(o => o.Student)
                     .ThenInclude(t => t.User)
-                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? ((s.RepitSurveyTeacher.Value.Date == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.TeacherAnswer) : ((s.Order.DateTimeFirstLesson == DateTime.UtcNow.Date && DateTime.UtcNow.Hour > 21) && !s.TeacherAnswer)))
+                .Where(s => orderIdsListSecond.Contains(s.OrderId) && (s.RepitSurveyTeacher != null ? (((s.RepitSurveyTeacher.Value.Date == now.Date && now.Hour >= 21) || (s.RepitSurveyTeacher.Value.Date < now.Date)) && !s.TeacherAnswer) : (((s.Order.DateTimeFirstLesson == now.Date && now.Hour >= 21) || (s.Order.DateTimeFirstLesson < now.Date)) && !s.TeacherAnswer)))
                 .Select(s => new OrderSurveyDetailsTeacher
                 {
                     OrderId = s.OrderId,
