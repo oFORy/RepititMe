@@ -78,9 +78,15 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> CancelOrder(int idOrder)
         {
-            var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == idOrder);
+            var order = await _botDbContext.Orders
+                .Include(o => o.Student).ThenInclude(s => s.User)
+                .FirstOrDefaultAsync(o => o.Id == idOrder);
+
             if (order != null)
             {
+                string messageStudent = $"К сожалению репетитор {order.Teacher.User.Name} {order.Teacher.User.TelegramName} сейчас не может взять вас на занятия, попробуйте подобрать другого преподавателя.";
+                await _telegramService.SendActionAsync(messageStudent, order.Student.User.TelegramId.ToString());
+
                 _botDbContext.Orders.Remove(order);
                 return await _botDbContext.SaveChangesAsync() > 0;
             }

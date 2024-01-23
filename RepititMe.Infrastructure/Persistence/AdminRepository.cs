@@ -36,7 +36,21 @@ namespace RepititMe.Infrastructure.Persistence
             {
                 return new ShowAllOrdersObjectAdmin() { Status = false };
             }
-            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = await _botDbContext.Orders.Include(t => t.Teacher).ThenInclude(u => u.User).Include(s => s.Student).ThenInclude(u => u.User).OrderByDescending(e => e.Id).ToListAsync() };
+            var orders = await _botDbContext.Orders
+                .Include(t => t.Teacher).ThenInclude(u => u.User)
+                .Include(s => s.Student).ThenInclude(u => u.User)
+                .OrderByDescending(e => e.Id).ToListAsync();
+
+            List<(int, int)> count = new List<(int, int)>();
+
+            foreach (var order in orders)
+            {
+                var countForOrder = _botDbContext.Reports.Where(x => x.OrderId == order.Id).Count();
+                count.Add((order.Id, countForOrder));
+            }
+
+
+            return new ShowAllOrdersObjectAdmin() { Status = true, Orders = orders, Count = count };
         }
 
         public async Task<bool> BlockingUser(BlockingUserObject blockingUserObject)

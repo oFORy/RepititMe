@@ -39,7 +39,7 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<List<BriefTeacherObject>> ResultSearchCategories(SearchCategoriesResultObject searchCategoriesResultObject)
         {
-            var topTeachers = await _botDbContext.Teachers
+            /*var topTeachers = await _botDbContext.Teachers
                 .Include(u => u.User)
                 .Include(u => u.Status)
                 .Include(u => u.Science)
@@ -72,6 +72,52 @@ namespace RepititMe.Infrastructure.Persistence
                     Rating = t.Rating
                 })
                 .ToListAsync();
+
+            return topTeachers;*/
+
+            var query = _botDbContext.Teachers
+                        .Include(u => u.User)
+                        .Include(u => u.Status)
+                        .Include(u => u.Science)
+                        .Include(u => u.TeacherLessonTargets)
+                            .ThenInclude(tlt => tlt.LessonTarget)
+                        .Include(u => u.TeacherAgeCategories)
+                            .ThenInclude(tac => tac.AgeCategory)
+                        .Where(t => t.Visibility != false
+                                    && !t.User.Block
+                                    && t.ScienceId == searchCategoriesResultObject.ScienceId
+                                    && t.TeacherLessonTargets.Any(lt => lt.LessonTargetId == searchCategoriesResultObject.LessonTargetId)
+                                    && t.TeacherAgeCategories.Any(ac => ac.AgeCategoryId == searchCategoriesResultObject.AgeCategoryId)
+                                    && searchCategoriesResultObject.StatusId.Contains((int)t.StatusId));
+
+            if (searchCategoriesResultObject.LowPrice.HasValue)
+            {
+                query = query.Where(t => t.Price >= searchCategoriesResultObject.LowPrice.Value);
+            }
+
+            if (searchCategoriesResultObject.HighPrice.HasValue)
+            {
+                query = query.Where(t => t.Price <= searchCategoriesResultObject.HighPrice.Value);
+            }
+
+            var topTeachers = await query
+                            .OrderByDescending(e => e.Rating)
+                            .ThenByDescending(e => e.PaymentRating)
+                            .Take(5)
+                            .Select(t => new BriefTeacherObject
+                            {
+                                User = t.User,
+                                Image = t.Image,
+                                Status = t.Status,
+                                Science = t.Science,
+                                LessonTarget = t.TeacherLessonTargets.Select(tlt => tlt.LessonTarget).ToList(),
+                                AgeCategory = t.TeacherAgeCategories.Select(tac => tac.AgeCategory).ToList(),
+                                Experience = t.Experience,
+                                AboutMe = t.AboutMe,
+                                Price = t.Price,
+                                Rating = t.Rating
+                            })
+                            .ToListAsync();
 
             return topTeachers;
         }

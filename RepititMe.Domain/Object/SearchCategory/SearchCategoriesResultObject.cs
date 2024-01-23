@@ -13,7 +13,7 @@ namespace RepititMe.Domain.Object.SearchCategory
         public int LessonTargetId { get; set; }
         public int AgeCategoryId { get; set; }
         public List<int> StatusId { get; set; }
-        public int LowPrice { get; set; }
-        public int HighPrice { get; set; }
+        public int? LowPrice { get; set; }
+        public int? HighPrice { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace RepititMe.Api.Controllers
 
         
         [HttpPost("Api/Payment/Create")]
-        public async Task<string> CreatePaymentAsync(double value, int orderId, int countLesson)
+        public async Task<string> CreatePaymentAsync(double value, int orderId, int countLesson, int cart)
         {
             string confirmationUrl = await _payment.CreatePayment(value, orderId, countLesson);
 

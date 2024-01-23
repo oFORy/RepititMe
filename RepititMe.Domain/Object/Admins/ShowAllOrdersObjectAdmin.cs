@@ -11,5 +11,6 @@ namespace RepititMe.Domain.Object.Admins
     {
         public bool Status { get; set; }
         public List<Order>? Orders { get; set; }
+        public List<(int, int)>? Count { get; set; }
     }
 }
