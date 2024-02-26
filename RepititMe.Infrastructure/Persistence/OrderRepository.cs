@@ -79,7 +79,10 @@ namespace RepititMe.Infrastructure.Persistence
         public async Task<bool> CancelOrder(int idOrder)
         {
             var order = await _botDbContext.Orders
-                .Include(o => o.Student).ThenInclude(s => s.User)
+                .Include(o => o.Student)
+                    .ThenInclude(s => s.User)
+                .Include(x => x.Teacher)
+                    .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(o => o.Id == idOrder);
 
             if (order != null)
@@ -96,7 +99,12 @@ namespace RepititMe.Infrastructure.Persistence
 
         public async Task<bool> RefuseOrder(RefuseOrederObject refuseOrederObject)
         {
-            var order = await _botDbContext.Orders.FirstOrDefaultAsync(o => o.Id == refuseOrederObject.IdOrder);
+            var order = await _botDbContext.Orders
+                .Include(x => x.Teacher)
+                    .ThenInclude(x => x.User)
+                 .Include(x => x.Student)
+                    .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(o => o.Id == refuseOrederObject.IdOrder);
             if (order != null)
             {
                 if (refuseOrederObject.User == 2)
@@ -112,7 +120,7 @@ namespace RepititMe.Infrastructure.Persistence
                         }
                     }
                     return await _botDbContext.SaveChangesAsync() > 0;
-                } 
+                }
                 else
                 {
                     order.RefusedStudent = true;

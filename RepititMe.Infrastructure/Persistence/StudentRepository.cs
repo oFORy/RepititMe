@@ -124,13 +124,14 @@ namespace RepititMe.Infrastructure.Persistence
 
 
 
-
+        
         public async Task<SearchCategoriesObject> SearchCategories()
         {
             var result = new SearchCategoriesObject()
             {
-                AgeCategories = await _botDbContext.AgeCategories.ToListAsync(),
+                AgeCategories = await _botDbContext.AgeCategories.OrderBy(x => x.Name).ToListAsync(),
                 Sciences = await _botDbContext.Sciences
+                    .OrderBy(x => x.Name)
                     .Include(s => s.ScienceLessonTargets)
                         .ThenInclude(slt => slt.LessonTarget)
                     .Select(s => new ScienceDto

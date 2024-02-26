@@ -89,6 +89,8 @@ namespace RepititMe.Infrastructure.Persistence
                     if (updatedTeacher.StatusId != null && updatedTeacher.ScienceId != null && updatedTeacher.TeacherLessonTargets != null && updatedTeacher.TeacherAgeCategories != null && updatedTeacher.Experience != null && updatedTeacher.AboutMe != null)
                         teacher.PaymentRatingFromProfile += 300;
 
+                    teacher.PaymentRating = teacher.PaymentRatingFromCommission + teacher.PaymentRatingFromProfile;
+
                     if (await _botDbContext.SaveChangesAsync() == 0)
                         return -1;
 

@@ -47,6 +47,7 @@ namespace RepititMe.Infrastructure.Persistence
 
 
                     double sumOrders = await _botDbContext.Orders
+                        .Where(t => t.TeacherId == order.TeacherId)
                         .SumAsync(o => o.PaidCommission);
 
                     var countOrders = await _botDbContext.Orders
